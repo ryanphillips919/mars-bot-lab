@@ -28,7 +28,7 @@ The browser viewer at **http://127.0.0.1:8766/** reads completed Mini Mars repla
 
 ## Experiment presets and evidence
 
-`--scenario` accepts five fixed presets on `match` and `tournament`; omitting it preserves the default rules. These are **invented practice variations**, not organizer rules.
+`--scenario` accepts ten fixed presets on `match` and `tournament`; omitting it preserves the default rules. These are **invented practice variations**, not organizer rules.
 
 | Preset | Change from default |
 | --- | --- |
@@ -37,6 +37,11 @@ The browser viewer at **http://127.0.0.1:8766/** reads completed Mini Mars repla
 | `scarce` | 5 gold and 3 iron pairs, with the same 5–12 units per deposit |
 | `obstacle-heavy` | 20 rock pairs; map generation still checks that open tiles are connected |
 | `short-horizon` | Same physical map as `default` for a seed, with 40 instead of 100 turns |
+| `abundant` | 18 gold pairs and 3 iron pairs |
+| `open` | No rock pairs |
+| `limited-vision` | Rover vision radius one |
+| `low-capacity` | Rover cargo capacity two |
+| `iron-rich` | 5 gold pairs and 15 iron pairs |
 
 Named scenarios, their complete configurations, Git revision and dirty state, and source hashes are saved in match/replay/tournament metadata. Explicit Python `Config` callers still work and are labeled `custom` when they do not match a preset. The map seed fixes symmetric terrain and deposits; a bot's RNG seed stays with its identity when tournament slots swap.
 
@@ -46,9 +51,12 @@ The issue #1 reports under `benchmarks/issue-1/` are historical results from the
 python3 -m mini_mars.runner.benchmark_v2 smoke
 python3 -m mini_mars.runner.benchmark_v2 validate
 python3 -m mini_mars.runner.reliability_benchmark --matches 20 --seed 50000
+python3 -m mini_mars.runner.research_loop comparison
+python3 -m mini_mars.runner.exploration_study comparison
+python3 -m mini_mars.runner.frontier_value_study comparison
 ```
 
-The strategy-v2 study uses 20 paired smoke seeds starting at 30000 and 100 disjoint validation seeds starting at 40000. The focused reliability study uses 20 paired seeds starting at 50000. Each pair has a normal and swapped game. Compact reports are under `mini_mars/docs/benchmarks/strategy-v2/` and `mini_mars/docs/benchmarks/reliability-v1/`; detailed outputs and score-checked example replays stay under ignored `mini_mars/results/`. The 95% paired bootstrap interval resamples whole map seeds (5000 deterministic resamples). Faulted games invalidate their seed pair for score analysis, while reliability counts all attempted games separately.
+The strategy-v2 study uses 20 paired smoke seeds starting at 30000 and 100 disjoint validation seeds starting at 40000. The focused reliability study uses 20 paired seeds starting at 50000. The [new research notebook](research-loop-notebook.md) explains the broader 64000-seed matrix and the resource-first repair on 66000-seed maps; the [playbook](lucid-strategy-playbook.md) gives the competition-morning recommendation. Each pair has a normal and swapped game. Compact reports are under `mini_mars/docs/benchmarks/`; detailed outputs and score-checked example replays stay under ignored `mini_mars/results/`. The 95% paired bootstrap interval resamples whole map seeds (5000 deterministic resamples). Faulted games invalidate their seed pair for score analysis, while reliability counts all attempted games separately.
 
 ## Complete game rules
 
@@ -81,7 +89,7 @@ The replay has frame 0 for the initial state and one frame after each resolved t
 
 ## Bot protocol
 
-The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, `greedy`, `greedy-no-cargo-guard` (a controlled unsafe baseline), `value`, `independent`, `coordinated`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-gold-only`, and `coordinated-payback-build`.
+The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, [`starter`](../bots/competition_starter.py), `greedy`, `greedy-no-cargo-guard` (a controlled unsafe baseline), `value`, `independent`, `coordinated`, `coordinated-harvest-first`, `coordinated-harvest-scored`, `coordinated-frontier-scored`, `coordinated-adaptive`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-no-explore`, `coordinated-gold-only`, and `coordinated-payback-build`.
 
 Example observation, abridged to two known cells and one rover:
 
@@ -103,7 +111,9 @@ Directions are uppercase `N`, `S`, `E`, `W`; action types are uppercase. `MINE`,
 
 - **Random:** A seeded Python RNG chooses among known legal moves, mine, deposit, build, and wait. It checks local legality but ignores long-term value. The RNG instance persists across turns, so fixed map and bot seeds reproduce its choices.
 - **Greedy miner:** Each rover independently computes BFS over explored traversable tiles, prefers a reachable gold deposit, mines until full, follows BFS to the nearest base, deposits, and explores a known frontier when no reachable deposit is known. Independent choices can duplicate effort on a small deposit.
+- **Competition starter (`starter`):** A short standalone JSON Lines bot with BFS, persistent gold/frontier targets, action validation, and a deadline-aware deposit guard. Its Mini Mars-specific fields and economy must be replaced with the organizer's official schema and rules.
 - **Coordinated greedy:** Computes deposit and frontier bids for all available rovers. A bid estimates useful units divided by travel, mining, and BFS return time, with a modest penalty if a visible opponent is closer. It assigns distinct targets, retaining a small preference for last turn's resource target. `coordinated` ranks frontiers by expected new tiles per travel turn; `coordinated-nearest` differs only in frontier destination ranking. Both share the same exploration trigger.
+- **Exploration repair controls:** `coordinated-harvest-first` ranks reachable, deadline-feasible gold above frontiers; `coordinated-frontier-scored` gives each frontier its own value; `coordinated-adaptive` adds a turn- and known-gold-dependent exploration multiplier. `coordinated-harvest-scored` combines gold priority with per-frontier values. See the [paired evidence](benchmarks/exploration-fix/comparison.json) and [frontier follow-up](benchmarks/frontier-value/validation.json); the historical `coordinated` often explored instead of scoring.
 - **Value greedy (`value`):** Keeps greedy's gold-first, iron-fallback and frontier behavior, but ranks known deposits by useful units divided by outbound BFS steps, mining turns, estimated return distance, and one deposit turn. It does not build bases.
 - **Independent bids (`independent`):** Uses the coordinated scorer, exploration, iron/build policy, and target persistence; each rover may choose the same highest-value task. Compare it with `coordinated` to isolate distinct-target allocation.
 - **No exploration bids (`coordinated-no-explore`):** Negative control only. Starting areas contain no deposits, so this bot can remain stationary throughout a fog match.
@@ -117,6 +127,6 @@ BFS is `O(V + E)` on known tiles (at most 225 here). Greedy runs one BFS per rov
 
 ## Read tournament results
 
-The tournament report records paired scores and intervals from clean, complete seed pairs. A separate reliability section counts every attempted game, faults, invalid actions, and exceptions, including games excluded from paired scoring. Match and tournament behavior sections distinguish submitted action types, normalized engine actions (including implicit waits), and actions that changed state. Successful mining, deposits, and builds come from engine events. An effect-free rover turn includes waits and accepted actions that did nothing; movement is counted separately and is not labeled economically productive. Exploration-intent turns are omitted because the bot protocol does not report intent. Decision latency includes subprocess and JSON overhead, not just algorithm time.
+The tournament report records paired scores and intervals from clean, complete seed pairs. A separate reliability section counts every attempted game, faults, invalid actions, bot-reported decision errors, and exceptions, including games excluded from paired scoring. Match and tournament behavior sections distinguish submitted action types, normalized engine actions (including implicit waits), and actions that changed state. Successful mining, deposits, and builds come from engine events. An effect-free rover turn includes waits and accepted actions that did nothing; movement is counted separately and is not labeled economically productive. Optional diagnostic targets let built-in bots distinguish moves toward known gold or bases from moves toward other targets while deliverable gold is known. Decision latency includes subprocess and JSON overhead, not just algorithm time.
 
 Future comparisons that fit this platform include BFS versus A* or cached paths, but pathfinder changes should be tested separately from the allocation and exploration experiments above. Weighted Dijkstra, min-cost flow, cross-language equivalents, and parallel candidate evaluation can follow only if these simpler comparisons show value.

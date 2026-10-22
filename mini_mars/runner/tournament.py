@@ -53,14 +53,17 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
     wins = {"a": 0, "b": 0, "ties": 0}
     totals = {"a": 0, "b": 0, "difference": 0, "latency_a": 0.0, "latency_b": 0.0,
               "decisions_a": 0, "decisions_b": 0, "invalid_a": 0, "invalid_b": 0,
-              "timeouts_a": 0, "timeouts_b": 0, "crashes_a": 0, "crashes_b": 0}
+              "timeouts_a": 0, "timeouts_b": 0, "crashes_a": 0, "crashes_b": 0,
+              "decision_errors_a": 0, "decision_errors_b": 0}
     failed = 0
     exception_matches = 0
     faulted_matches = 0
     reliability = {label: {"attempted_games": 0, "clean_games": 0, "faulted_games": 0,
                            "exception_games": 0, "invalid_actions": 0, "timeouts": 0,
-                           "crashes": 0, "protocol_fault_turns": 0} for label in ("a", "b")}
-    behavior_totals = {label: {"economy": Counter(), "exploration": Counter(),
+                           "crashes": 0, "decision_errors": 0,
+                           "protocol_fault_turns": 0} for label in ("a", "b")}
+    behavior_totals = {label: {"economy": Counter(), "economic_diagnostics": Counter(),
+                               "exploration": Counter(),
                                "construction_audit": Counter(), "site_audit_ignoring_iron": Counter(), "actions": {
                                    "submitted": Counter(), "normalized": Counter(), "effect": Counter()}}
                        for label in ("a", "b")}
@@ -94,6 +97,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
                 faults = {"invalid_actions": result.get("invalid_actions", [0, 0])[slot],
                           "timeouts": result.get("timeouts", [0, 0])[slot],
                           "crashes": result.get("crashes", [0, 0])[slot],
+                          "decision_errors": result.get("decision_errors", [0, 0])[slot],
                           "protocol_fault_turns": result.get("protocol_fault_turns", [0, 0])[slot]}
                 faults_by_label[label] = faults
                 for name, count in faults.items():
@@ -127,16 +131,17 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
             for label, slot in (("a", a_slot), ("b", b_slot)):
                 movement_totals[label].update(result.get("movement_warnings", [{}, {}])[slot])
                 if "behavior" in result:
-                    for section in ("economy", "exploration", "construction_audit",
+                    for section in ("economy", "economic_diagnostics", "exploration", "construction_audit",
                                     "site_audit_ignoring_iron"):
                         behavior_totals[label][section].update(result["behavior"][slot][section])
                     for layer in ("submitted", "normalized", "effect"):
                         behavior_totals[label]["actions"][layer].update(result["behavior"][slot]["actions"][layer])
                 totals[f"latency_{label}"] += result["decision_latency_sum_ms"][slot]
                 totals[f"decisions_{label}"] += result["decisions"][slot]
-                for name in ("invalid_actions", "timeouts", "crashes"):
-                    key = {"invalid_actions": "invalid", "timeouts": "timeouts", "crashes": "crashes"}[name]
-                    totals[f"{key}_{label}"] += result[name][slot]
+                for name in ("invalid_actions", "timeouts", "crashes", "decision_errors"):
+                    key = {"invalid_actions": "invalid", "timeouts": "timeouts",
+                           "crashes": "crashes", "decision_errors": "decision_errors"}[name]
+                    totals[f"{key}_{label}"] += result.get(name, [0, 0])[slot]
     played = len(paired_differences) * 2
     report = {
         "game": "mini-mars", "bot_a": bot_a, "bot_b": bot_b, "first_seed": seed,
@@ -174,6 +179,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
         "invalid_actions": {label: totals[f"invalid_{label}"] for label in ("a", "b")},
         "timeouts": {label: totals[f"timeouts_{label}"] for label in ("a", "b")},
         "bot_crashes": {label: totals[f"crashes_{label}"] for label in ("a", "b")},
+        "bot_decision_errors": {label: totals[f"decision_errors_{label}"] for label in ("a", "b")},
         "wall_time_ms": (time.perf_counter() - started) * 1000,
         "records": records, "output_dir": str(output_dir.resolve()),
     }

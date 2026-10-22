@@ -40,9 +40,9 @@ def main() -> None:
         print(f"Summary: {result['output_dir']}/summary.json")
         if result["replay"]:
             print(f"Replay: {result['replay']}")
-        if any(result["invalid_actions"] + result["timeouts"] + result["crashes"]):
+        if any(result["invalid_actions"] + result["timeouts"] + result["crashes"] + result["decision_errors"]):
             print(f"Diagnostics: invalid {result['invalid_actions']}, timeouts {result['timeouts']}, "
-                  f"bot faults {result['crashes']}")
+                  f"crashes {result['crashes']}, decision errors {result['decision_errors']}")
     elif args.command == "tournament":
         report = run_tournament(args.bot_a, args.bot_b, args.matches, args.seed,
                                 save_replays=args.save_replays, timeout_seconds=args.timeout,

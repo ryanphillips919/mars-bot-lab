@@ -7,15 +7,15 @@ Local experiments with autonomous agents for the upcoming Lucid Mars colony comp
 `mini_mars/` is a separate, lightweight simulator based on the few mechanics named in the hackathon description. Its rules are **invented for practice**, not Lucid rules. It uses a 15×15 seeded grid, two resources, rovers, bases, fog of war, and 100 simultaneous turns. The existing Halite and Lux workflows remain available.
 
 ```sh
-python3 -m mini_mars match --bot-a greedy --bot-b coordinated --seed 42
+python3 -m mini_mars match --bot-a greedy --bot-b coordinated-harvest-first --seed 42
 python3 -m mini_mars replay /path/printed/by/match/replay.json --turns 0,10,50,100 --view 0
-python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated --matches 10 --seed 42
+python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated-harvest-first --matches 10 --seed 42
 make view-mini-mars
 ```
 
 The match command prints the actual replay path; substitute it in the second command. Use `--step` to move through an ASCII replay interactively or `--view omniscient` to see the full map. For a quick browser demo, run `make demo-mini-mars` then `make view-mini-mars` and open **http://127.0.0.1:8766/**. The viewer loads completed matches with saved replays, lets you play or scrub turns, and switches the map between either player's fog of war and the full map. The score cards show replay-wide information in every map view. Run another match and click Refresh to load it; stop the viewer with Ctrl+C. The existing `make view` command remains the Halite viewer on port 8765. A tournament runs two games per seed with player slots swapped, then writes a JSON report under `mini_mars/results/tournaments/`. The bots run as persistent subprocesses using a [language-independent JSON Lines protocol](mini_mars/docs/README.md#bot-protocol); the [Mini Mars guide](mini_mars/docs/README.md) lists all Python reference bots and rules. Python 3.11+ and the standard library are sufficient.
 
-Mini Mars also has four [experiment scenarios and strategy variants](mini_mars/docs/README.md#experiment-presets-and-evidence). Run `python3 -m mini_mars.runner.benchmark smoke`, then `python3 -m mini_mars.runner.benchmark validate` for the fixed paired-seed study. Its compact reports and [Lucid strategy playbook](mini_mars/docs/lucid-strategy-playbook.md) distinguish transferable ideas from our invented rules.
+Mini Mars has ten [experiment scenarios and strategy variants](mini_mars/docs/README.md#experiment-presets-and-evidence). The [research notebook](mini_mars/docs/research-loop-notebook.md) explains why historical `coordinated` often explored instead of scoring and records the tested resource-first repair. The [standalone competition starter](mini_mars/bots/competition_starter.py) is a small JSON Lines scoring bot to adapt once Lucid publishes its API. The [Lucid strategy playbook](mini_mars/docs/lucid-strategy-playbook.md) distinguishes transferable ideas from our invented rules. Earlier paired-study commands and evidence remain in the Mini Mars guide.
 
 ## Competition signals
 

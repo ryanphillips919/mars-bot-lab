@@ -19,7 +19,9 @@ class MovementMonitor:
         self.warnings: list[dict] = []
 
     def record(self, game, observations: list[dict], responses: list[dict],
-               actions: dict[str, dict], events: list[dict], before: dict) -> None:
+               actions: dict[str, dict], events: list[dict], before: dict,
+               opportunities: dict[str, bool] | None = None) -> None:
+        opportunities = opportunities or {}
         event_rovers = {event["rover_id"] for event in events
                         if event["type"] in {"mine", "deposit"} and "rover_id" in event}
         event_rovers.update(rover_id for rover_id, action in actions.items()
@@ -48,7 +50,8 @@ class MovementMonitor:
                         (target is not None and target == prior_target and distance_after < distance_before))
             history.append({"turn": game.turn - 1, "before": before[rover_id], "position": pos,
                             "action": action["type"], "target": target, "progress": progress,
-                            "unreachable": target is not None and distance_after == inf})
+                            "unreachable": target is not None and distance_after == inf,
+                            "opportunity": opportunities.get(rover_id, False)})
             if len(history) < self.window or any(item["progress"] for item in history):
                 continue
             recent = list(history)
@@ -70,6 +73,12 @@ class MovementMonitor:
             if (target is not None and all(item["target"] == target and item["unreachable"] for item in recent[-4:])
                     and moves >= 4):
                 reasons.append("unreachable_target")
+            elif (target is not None and all(item["target"] == target for item in recent[-4:])
+                  and moves >= 6 and distance_after < inf):
+                reasons.append("stalled_target")
+            if (all(item["action"] == "WAIT" for item in recent) and
+                    sum(item["opportunity"] for item in recent) >= self.window - 1):
+                reasons.append("idle_with_work")
             for reason in reasons:
                 key = (rover_id, reason)
                 if game.turn - self.last_warning.get(key, -self.window) < self.window:
@@ -82,6 +91,22 @@ class MovementMonitor:
                                       [list(point) for point in positions],
                                       "recent_actions": [item["action"] for item in recent],
                                       "current_target": list(target) if target else None})
+
+    def finish(self, game) -> None:
+        """Flag cargo that the final state confirms was never deposited."""
+        for rover_id, rover in game.rovers.items():
+            if rover.gold <= 0:
+                continue
+            recent = list(self.history[rover_id])
+            self.counts[rover.player]["stranded_gold"] += 1
+            self.warnings.append({"player": rover.player, "rover_id": rover_id,
+                                  "turn_start": recent[0]["turn"] if recent else game.turn,
+                                  "turn_end": game.turn - 1, "reason": "stranded_gold",
+                                  "gold_units": rover.gold,
+                                  "recent_positions": ([list(recent[0]["before"])] +
+                                                       [list(item["position"]) for item in recent]) if recent else [],
+                                  "recent_actions": [item["action"] for item in recent],
+                                  "current_target": list(recent[-1]["target"]) if recent and recent[-1]["target"] else None})
 
     def report(self) -> list[dict[str, int]]:
         return [dict(sorted(counts.items())) for counts in self.counts]

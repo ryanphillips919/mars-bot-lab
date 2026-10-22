@@ -1,0 +1,190 @@
+{
+  "format": "mini-mars-score-checked-replays-v1",
+  "python_version": "3.12.3",
+  "source_revision": {
+    "git_head": "229b7251e74c2a408e813d6c986020cf9c969887",
+    "git_dirty": true
+  },
+  "source_sha256": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+    "mini_mars/bots/strategies.py": "f84b593912c2d4af6a98e7ef42241d8151dddb2e9a3fbff2338374c45cf642d3",
+    "mini_mars/bots/entry.py": "a73235a8610e87f548f68a94d0bd6847b7cf813f630ce047589c2ecf636cb39b",
+    "mini_mars/bots/competition_starter.py": "546278081e9a863d11badd52ea89067e72b6f962f90aef141f01ad48d57525b6",
+    "mini_mars/runner/match.py": "3cb771a879cd367f0edf02f97de1da7b4729c3b6e88b852e83443350e34f4e27",
+    "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+    "mini_mars/runner/metrics.py": "2192dad8c4b8bfc93dcb2efeb695f68dcbc73f3aa52d37c4d7d6e3cd3c80f79a",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+    "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+    "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+    "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+    "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+    "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+    "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+  },
+  "records": [
+    {
+      "name": "failure-50004",
+      "scenario": "short-horizon",
+      "seed": 50004,
+      "bots": [
+        "greedy",
+        "coordinated"
+      ],
+      "bot_seeds": [
+        50454036,
+        50454037
+      ],
+      "scores": [
+        12,
+        0
+      ],
+      "expected_scores": [
+        12,
+        0
+      ],
+      "scores_match": true,
+      "replay": "mini_mars/results/matches/research-evidence-failure-50004/replay.json",
+      "movement_warnings": [
+        {},
+        {}
+      ],
+      "decision_errors": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "repair-50004",
+      "scenario": "short-horizon",
+      "seed": 50004,
+      "bots": [
+        "greedy",
+        "coordinated-harvest-first"
+      ],
+      "bot_seeds": [
+        50454036,
+        50454037
+      ],
+      "scores": [
+        12,
+        16
+      ],
+      "expected_scores": [
+        12,
+        16
+      ],
+      "scores_match": true,
+      "replay": "mini_mars/results/matches/research-evidence-repair-50004/replay.json",
+      "movement_warnings": [
+        {},
+        {}
+      ],
+      "decision_errors": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "heldout-scarce-loop",
+      "scenario": "scarce",
+      "seed": 67049,
+      "bots": [
+        "greedy",
+        "coordinated-harvest-first"
+      ],
+      "bot_seeds": [
+        67652441,
+        67652442
+      ],
+      "scores": [
+        35,
+        37
+      ],
+      "expected_scores": [
+        35,
+        37
+      ],
+      "scores_match": true,
+      "replay": "mini_mars/results/matches/research-evidence-heldout-scarce-loop/replay.json",
+      "movement_warnings": [
+        {},
+        {
+          "back_and_forth": 1,
+          "goal_switching": 1,
+          "small_tile_cycle": 1
+        }
+      ],
+      "decision_errors": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "heldout-default-loss",
+      "scenario": "default",
+      "seed": 67009,
+      "bots": [
+        "greedy",
+        "coordinated-harvest-first"
+      ],
+      "bot_seeds": [
+        67612081,
+        67612082
+      ],
+      "scores": [
+        53,
+        43
+      ],
+      "expected_scores": [
+        53,
+        43
+      ],
+      "scores_match": true,
+      "replay": "mini_mars/results/matches/research-evidence-heldout-default-loss/replay.json",
+      "movement_warnings": [
+        {},
+        {}
+      ],
+      "decision_errors": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "heldout-frontier-loop",
+      "scenario": "scarce",
+      "seed": 69017,
+      "bots": [
+        "coordinated-harvest-first",
+        "coordinated-harvest-scored"
+      ],
+      "bot_seeds": [
+        69638153,
+        69638154
+      ],
+      "scores": [
+        49,
+        45
+      ],
+      "expected_scores": [
+        49,
+        45
+      ],
+      "scores_match": true,
+      "replay": "mini_mars/results/matches/research-evidence-heldout-frontier-loop/replay.json",
+      "movement_warnings": [
+        {},
+        {
+          "back_and_forth": 1,
+          "goal_switching": 1
+        }
+      ],
+      "decision_errors": [
+        0,
+        0
+      ]
+    }
+  ]
+}

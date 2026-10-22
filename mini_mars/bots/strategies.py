@@ -266,6 +266,9 @@ class StrategySettings:
     early_iron_weight: float = 0.65
     late_iron_weight: float = 0.05
     visible_enemy_penalty: float = 0.8
+    gold_priority: bool = False
+    frontier_value_mode: str = "shared-max"
+    adaptive_exploration: bool = False
 
 
 def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
@@ -308,6 +311,12 @@ def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
     # ordering of destinations changes, which isolates frontier selection.
     frontier_bid = max((settings.exploration_weight * unseen / (distance + 2)
                         for _, unseen, distance in reachable_frontiers), default=0)
+    gold_tasks = {point for _, kind, point, _, _ in candidates
+                  if kind == "resource" and cells[point]["resource"] == "gold"}
+    # This ratio is an interpretable opportunity-cost proxy, not a tuned weight:
+    # the exploration budget shrinks with time and with known deliverable gold.
+    explore_factor = (remaining_turns(observation) / observation["constants"]["turns"] /
+                      (1 + min(len(gold_tasks), len(observation["rovers"])))) if settings.adaptive_exploration else 1.0
     for point, unseen in frontiers:
         if point in distances and frontier_bid > 0:
             distance = distances[point]
@@ -315,7 +324,9 @@ def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
                 preference = (distance, -unseen, point)
             else:
                 preference = (-unseen / (distance + 1), distance, point)
-            candidates.append((frontier_bid, "explore", point, first_moves.get(point), preference))
+            bid = (frontier_bid if settings.frontier_value_mode == "shared-max" else
+                   settings.exploration_weight * unseen / (distance + 2))
+            candidates.append((bid * explore_factor, "explore", point, first_moves.get(point), preference))
     return candidates
 
 
@@ -418,10 +429,12 @@ class CoordinatedGreedy:
         for rover in free:
             for value, kind, point, first_move, preference in task_candidates(
                     observation, rover, cells, frontiers, self.targets.get(rover["id"]), self.settings):
-                bids.append((-value, rover["id"], kind, preference, point, first_move))
-        bids.sort(key=lambda bid: (bid[0], bid[1], bid[2], bid[3], bid[4]))
+                priority = (0 if self.settings.gold_priority and kind == "resource"
+                            and cells[point]["resource"] == "gold" else 1)
+                bids.append((priority, -value, rover["id"], kind, preference, point, first_move))
+        bids.sort(key=lambda bid: (bid[0], bid[1], bid[2], bid[3], bid[4], bid[5]))
         used_tasks: set[Point] = set()
-        for _, rover_id, kind, _, point, first_move in bids:
+        for _, _, rover_id, kind, _, point, first_move in bids:
             if rover_id in assigned or (self.settings.coordinate and point in used_tasks):
                 continue
             rover = free_by_id[rover_id]

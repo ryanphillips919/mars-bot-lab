@@ -7,9 +7,13 @@ import json
 import sys
 
 from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot, StrategySettings, ValueGreedy
+from .competition_starter import StarterBot
 
 
-BOT_NAMES = ("random", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
+BOT_NAMES = ("random", "starter", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
+             "coordinated-harvest-first",
+             "coordinated-harvest-scored",
+             "coordinated-frontier-scored", "coordinated-adaptive",
              "coordinated-nearest", "coordinated-no-endgame",
              "coordinated-payback-build",
              "coordinated-no-explore", "coordinated-gold-only")
@@ -22,11 +26,19 @@ def main() -> None:
     args = parser.parse_args()
     bots = {
         "random": lambda: RandomBot(args.seed),
+        "starter": StarterBot,
         "greedy": GreedyMiner,
         "greedy-no-cargo-guard": lambda: GreedyMiner(cargo_safety=False),
         "value": ValueGreedy,
         "independent": lambda: CoordinatedGreedy(StrategySettings(coordinate=False)),
         "coordinated": CoordinatedGreedy,
+        "coordinated-harvest-first": lambda: CoordinatedGreedy(StrategySettings(gold_priority=True)),
+        "coordinated-harvest-scored": lambda: CoordinatedGreedy(
+            StrategySettings(gold_priority=True, frontier_value_mode="individual")),
+        "coordinated-frontier-scored": lambda: CoordinatedGreedy(
+            StrategySettings(frontier_value_mode="individual")),
+        "coordinated-adaptive": lambda: CoordinatedGreedy(
+            StrategySettings(frontier_value_mode="individual", adaptive_exploration=True)),
         "coordinated-nearest": lambda: CoordinatedGreedy(StrategySettings(frontier_policy="nearest")),
         "coordinated-no-endgame": lambda: CoordinatedGreedy(StrategySettings(endgame_enabled=False)),
         "coordinated-payback-build": lambda: CoordinatedGreedy(StrategySettings(build_policy="payback")),
@@ -36,15 +48,19 @@ def main() -> None:
     }
     bot = bots[args.name]()
     for line in sys.stdin:
+        observation = None
         try:
             observation = json.loads(line)
             response = {"turn": observation["turn"], "actions": bot.decide(observation)}
             targets = getattr(bot, "diagnostic_targets", None)
             if targets:
                 response["targets"] = {key: list(point) for key, point in targets.items()}
-        except (KeyError, ValueError, TypeError) as error:
+        except Exception as error:
             print(f"bot input error: {error}", file=sys.stderr, flush=True)
-            response = {"turn": -1, "actions": []}
+            # Keep a valid turn when a supported observation triggered a bot
+            # error. The engine then treats omitted rover actions as WAIT.
+            turn = observation.get("turn", -1) if isinstance(observation, dict) else -1
+            response = {"turn": turn, "actions": [], "bot_error": type(error).__name__}
         print(json.dumps(response, separators=(",", ":")), flush=True)
 
 

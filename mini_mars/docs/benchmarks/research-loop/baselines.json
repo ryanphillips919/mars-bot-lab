@@ -1,0 +1,224 @@
+{
+  "format": "mini-mars-research-baselines-v1",
+  "notes": "Baselines measured before the new policy and starter were finished; raw tournaments remain ignored.",
+  "cases": {
+    "short": {
+      "command": "python3 -m mini_mars tournament --scenario short-horizon --bot-a greedy --bot-b coordinated --matches 20 --seed 62000",
+      "source_revision": {
+        "git_head": "229b7251e74c2a408e813d6c986020cf9c969887",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+        "mini_mars/scenarios.py": "935894004075672a3ee1f008636799bedca56a758e9fc294c947db464eee67c3",
+        "mini_mars/bots/strategies.py": "e112d4b6f46fcb1997cec9a2796b171777a8578e5650e5088cf3103fdbc74188",
+        "mini_mars/bots/entry.py": "8bc4dedd7efd3f05867aad47c2fc6263c352993a73cb60354aa8d4444bcf5ba6",
+        "mini_mars/runner/match.py": "d4ca17d9f13c70b7f4c3dc5ac137bdd9dff0861d156a40e24c7386145be93d48",
+        "mini_mars/runner/tournament.py": "2009d7b072a15efaacc33206751e2846cd78558a098d8fb7473ef0eb11e71746",
+        "mini_mars/runner/metrics.py": "5030283e07d019d991b214804604781f569fda4c5d49dffd78a4edad9a9263cb",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "fee12e552984b8a1f2f315ebb049d72712c196a2a10220c494939b4e598126d2",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c"
+      },
+      "config": {
+        "width": 15,
+        "height": 15,
+        "turns": 40,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "complete_pairs": 20,
+      "average_gold": {
+        "a": 23.5,
+        "b": 9.875
+      },
+      "wins": {
+        "a": 40,
+        "b": 0,
+        "ties": 0
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "movement_warnings": {
+        "a": {},
+        "b": {
+          "goal_switching": 1
+        }
+      }
+    },
+    "open": {
+      "command": "python3 -m mini_mars tournament --scenario open --bot-a greedy --bot-b greedy --matches 20 --seed 62000",
+      "source_revision": {
+        "git_head": "229b7251e74c2a408e813d6c986020cf9c969887",
+        "git_dirty": true
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+        "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+        "mini_mars/bots/strategies.py": "45abdcd96a35edbd6f8931d5ba003489e1a2d07ae381799630b9aeb6f9ca8747",
+        "mini_mars/bots/entry.py": "10d950dace6cd3eda05da406001f0b123cc193971fbcb156b75b3f0b24204749",
+        "mini_mars/runner/match.py": "f62cbe151e582686ebb8f5cf6a489c257ae90a320e60b72aac9f2333d756b0cb",
+        "mini_mars/runner/tournament.py": "2009d7b072a15efaacc33206751e2846cd78558a098d8fb7473ef0eb11e71746",
+        "mini_mars/runner/metrics.py": "1dcdbf887799891f0dc8fbf59b7e2f96d07ca28bd965f70a36ccdd0c8725ae3d",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "fee12e552984b8a1f2f315ebb049d72712c196a2a10220c494939b4e598126d2",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c"
+      },
+      "config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 0,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "complete_pairs": 20,
+      "average_gold": {
+        "a": 51.025,
+        "b": 51.025
+      },
+      "wins": {
+        "a": 13,
+        "b": 13,
+        "ties": 14
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "movement_warnings": {
+        "a": {},
+        "b": {}
+      }
+    },
+    "limited-vision": {
+      "command": "python3 -m mini_mars tournament --scenario limited-vision --bot-a greedy --bot-b greedy --matches 20 --seed 62000",
+      "source_revision": {
+        "git_head": "229b7251e74c2a408e813d6c986020cf9c969887",
+        "git_dirty": true
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+        "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+        "mini_mars/bots/strategies.py": "45abdcd96a35edbd6f8931d5ba003489e1a2d07ae381799630b9aeb6f9ca8747",
+        "mini_mars/bots/entry.py": "10d950dace6cd3eda05da406001f0b123cc193971fbcb156b75b3f0b24204749",
+        "mini_mars/runner/match.py": "f62cbe151e582686ebb8f5cf6a489c257ae90a320e60b72aac9f2333d756b0cb",
+        "mini_mars/runner/tournament.py": "2009d7b072a15efaacc33206751e2846cd78558a098d8fb7473ef0eb11e71746",
+        "mini_mars/runner/metrics.py": "1dcdbf887799891f0dc8fbf59b7e2f96d07ca28bd965f70a36ccdd0c8725ae3d",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "fee12e552984b8a1f2f315ebb049d72712c196a2a10220c494939b4e598126d2",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c"
+      },
+      "config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 1,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "complete_pairs": 20,
+      "average_gold": {
+        "a": 43.05,
+        "b": 43.05
+      },
+      "wins": {
+        "a": 14,
+        "b": 14,
+        "ties": 12
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "movement_warnings": {
+        "a": {},
+        "b": {}
+      }
+    }
+  }
+}

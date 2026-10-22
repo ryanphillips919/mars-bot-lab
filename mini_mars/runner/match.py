@@ -24,7 +24,10 @@ from .reliability import MovementMonitor
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "mini_mars" / "results"
-ALIASES = {"random", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
+ALIASES = {"random", "starter", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
+           "coordinated-harvest-first",
+           "coordinated-harvest-scored",
+           "coordinated-frontier-scored", "coordinated-adaptive",
            "coordinated-nearest", "coordinated-no-endgame",
            "coordinated-payback-build",
            "coordinated-no-explore", "coordinated-gold-only"}
@@ -33,10 +36,13 @@ MAX_LINE = 1_000_000
 
 def source_hashes() -> dict[str, str]:
     files = ("mini_mars/engine/game.py", "mini_mars/scenarios.py", "mini_mars/bots/strategies.py",
-             "mini_mars/bots/entry.py", "mini_mars/runner/match.py",
+             "mini_mars/bots/entry.py", "mini_mars/bots/competition_starter.py", "mini_mars/runner/match.py",
              "mini_mars/runner/tournament.py", "mini_mars/runner/metrics.py",
              "mini_mars/runner/benchmark.py", "mini_mars/runner/benchmark_v2.py",
-             "mini_mars/runner/reliability.py", "mini_mars/runner/reliability_benchmark.py")
+             "mini_mars/runner/reliability.py", "mini_mars/runner/reliability_benchmark.py",
+             "mini_mars/runner/research_loop.py", "mini_mars/runner/exploration_study.py",
+             "mini_mars/runner/frontier_value_study.py",
+             "mini_mars/__main__.py")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in files}
 
 
@@ -203,6 +209,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     invalid = [0, 0]
     timeouts = [0, 0]
     crashes = [0, 0]
+    decision_errors = [0, 0]
     protocol_fault_turns = [0, 0]
     latency_sum = [0.0, 0.0]
     decisions = [0, 0]
@@ -216,11 +223,15 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
         for _ in range(config.turns):
             observations = [observation(game, player) for player in (0, 1)]
             responses, latencies, faults = exchange(bots, observations, timeout_seconds)
+            for player, response in enumerate(responses):
+                if isinstance(response, dict) and isinstance(response.get("bot_error"), str):
+                    faults[player] = "bot reported decision error: " + response["bot_error"][:100]
             before = {identity: rover.position for identity, rover in game.rovers.items()}
             action_trace: dict[str, dict] = {}
             events, diagnostics = step(game, {player: responses[player] for player in (0, 1)}, action_trace)
             metrics.record(observations, responses, action_trace, events, before)
-            movement.record(game, observations, responses, action_trace, events, before)
+            movement.record(game, observations, responses, action_trace, events, before,
+                            metrics.last_opportunities)
             for diagnostic in diagnostics:
                 invalid[diagnostic["player"]] += 1
             for player in (0, 1):
@@ -230,7 +241,9 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
                 if faults[player]:
                     protocol_fault_turns[player] += 1
                     diagnostics.append({"player": player, "rover_id": None, "reason": faults[player]})
-                    if faults[player] != "invalid JSON response" and not process_fault_seen[player]:
+                    if faults[player].startswith("bot reported decision error:"):
+                        decision_errors[player] += 1
+                    elif faults[player] != "invalid JSON response" and not process_fault_seen[player]:
                         if "timed out" in faults[player]:
                             timeouts[player] += 1
                         else:
@@ -243,6 +256,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
             bot.stop()
 
     duration = (time.perf_counter() - started) * 1000
+    movement.finish(game)
     summary: dict[str, Any] = {
         "game": "mini-mars", "seed": seed, "scenario": scenario, "config": asdict(config),
         "python_version": sys.version.split()[0], "source_sha256": source_hashes(),
@@ -250,6 +264,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
         "bots": list(bot_specs), "commands": commands, "bot_seeds": list(bot_seeds),
         "turns": game.turn, **outcome(game), "invalid_actions": invalid,
         "timeouts": timeouts, "crashes": crashes,
+        "decision_errors": decision_errors,
         "protocol_fault_turns": protocol_fault_turns, "behavior": metrics.report(),
         "movement_warnings": movement.report(),
         "decision_latency_ms": [latency_sum[player] / decisions[player] if decisions[player] else 0

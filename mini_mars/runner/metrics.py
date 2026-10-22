@@ -5,7 +5,8 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any
 
-from mini_mars.bots.strategies import StrategySettings, construction_reason, known_cells
+from mini_mars.bots.strategies import (StrategySettings, bfs, construction_reason,
+                                      home_distances, known_cells)
 from mini_mars.engine.game import Game
 
 
@@ -17,6 +18,11 @@ class MatchMetrics:
         self.normalized = [Counter(), Counter()]
         self.effect = [Counter(), Counter()]
         self.economy = [Counter(), Counter()]
+        self.economic_diagnostics = [Counter(), Counter()]
+        self.milestones = [{"first_gold_discovery_turn": None, "first_gold_mine_turn": None,
+                            "first_gold_deposit_turn": None} for _ in (0, 1)]
+        self.ever_deliverable_gold_known = [False, False]
+        self.last_opportunities: dict[str, bool] = {}
         self.build_audit = [Counter(), Counter()]
         self.site_audit = [Counter(), Counter()]
         self.discovered = [set(), set()]
@@ -26,9 +32,13 @@ class MatchMetrics:
         for player, colony in enumerate(self.game.colonies):
             self.discovered[player].update(point for point, cell in colony.known.items()
                                            if cell["resource"] in ("gold", "iron"))
+            if self.milestones[player]["first_gold_discovery_turn"] is None and any(
+                    cell["resource"] == "gold" for cell in colony.known.values()):
+                self.milestones[player]["first_gold_discovery_turn"] = self.game.turn
 
     def record(self, observations: list[dict], responses: list[Any], actions: dict[str, dict],
                events: list[dict], before: dict[str, tuple[int, int]]) -> None:
+        self.last_opportunities = {}
         for player, response in enumerate(responses):
             if isinstance(response, dict) and isinstance(response.get("actions"), list):
                 for action in response["actions"]:
@@ -36,6 +46,9 @@ class MatchMetrics:
                     self.submitted[player][kind if isinstance(kind, str) else "<malformed>"] += 1
             spec = self.bot_specs[player]
             if spec in {"coordinated", "independent", "coordinated-nearest",
+                        "coordinated-harvest-first",
+                        "coordinated-harvest-scored",
+                        "coordinated-frontier-scored", "coordinated-adaptive",
                         "coordinated-no-endgame", "coordinated-no-explore",
                         "coordinated-payback-build"}:
                 settings = StrategySettings(endgame_enabled=spec != "coordinated-no-endgame",
@@ -50,6 +63,50 @@ class MatchMetrics:
                     self.site_audit[player][site] += 1
                     if reason == "eligible" and actions[rover["id"]]["type"] != "BUILD":
                         self.build_audit[player]["eligible_not_submitted"] += 1
+
+            obs = observations[player]
+            cells = known_cells(obs)
+            home = home_distances(obs["bases"], cells)
+            new_tiles = self.game.colonies[player].known.keys() - cells.keys()
+            new_gold = {point for point in new_tiles
+                        if self.game.colonies[player].known[point]["resource"] == "gold"}
+            targets = response.get("targets", {}) if isinstance(response, dict) else {}
+            if not isinstance(targets, dict):
+                targets = {}
+            bases = {(base["x"], base["y"]) for base in obs["bases"]}
+            for rover in obs["rovers"]:
+                rid = rover["id"]
+                start = before[rid]
+                end = self.game.rovers[rid].position
+                distance, _ = bfs(start, cells)
+                free = obs["constants"]["cargo_capacity"] - sum(rover["cargo"].values())
+                left = obs["constants"]["turns"] - obs["turn"]
+                deliverable = free > 0 and any(
+                    cell["terrain"] == "plain" and cell["resource"] == "gold" and cell["quantity"] > 0
+                    and point in distance and distance[point] + home.get(point, float("inf")) + 2 <= left
+                    for point, cell in cells.items())
+                self.last_opportunities[rid] = deliverable
+                if deliverable:
+                    self.ever_deliverable_gold_known[player] = True
+                    self.economic_diagnostics[player]["rover_turns_with_deliverable_gold_known"] += 1
+                if actions[rid]["type"] != "MOVE" or start == end:
+                    continue
+                radius = obs["constants"]["vision_radius"]
+                if any(abs(point[0] - end[0]) + abs(point[1] - end[1]) <= radius for point in new_tiles):
+                    self.economic_diagnostics[player]["moves_revealing_new_tiles"] += 1
+                if any(abs(point[0] - end[0]) + abs(point[1] - end[1]) <= radius for point in new_gold):
+                    self.economic_diagnostics[player]["moves_revealing_new_gold"] += 1
+                raw_target = targets.get(rid)
+                target = tuple(raw_target) if isinstance(raw_target, list) and len(raw_target) == 2 and all(
+                    isinstance(value, int) for value in raw_target) else None
+                if target in bases and home.get(end, float("inf")) < home.get(start, float("inf")):
+                    self.economic_diagnostics[player]["moves_toward_base"] += 1
+                elif target in cells and cells[target]["resource"] == "gold" and target in distance:
+                    after_distance = bfs(end, cells)[0].get(target, float("inf"))
+                    if after_distance < distance[target]:
+                        self.economic_diagnostics[player]["moves_toward_known_gold"] += 1
+                elif target is not None and deliverable:
+                    self.economic_diagnostics[player]["exploration_moves_with_deliverable_gold_known"] += 1
 
         effected: set[str] = set()
         for rover_id, action in actions.items():
@@ -77,9 +134,13 @@ class MatchMetrics:
                         effected.add(builder)
                 if kind == "mine":
                     self.economy[player][f'{event["resource"]}_mined'] += event["quantity"]
+                    if event["resource"] == "gold" and self.milestones[player]["first_gold_mine_turn"] is None:
+                        self.milestones[player]["first_gold_mine_turn"] = observations[player]["turn"]
                 elif kind == "deposit":
                     for resource in ("gold", "iron"):
                         self.economy[player][f"{resource}_deposited"] += event[resource]
+                    if event["gold"] and self.milestones[player]["first_gold_deposit_turn"] is None:
+                        self.milestones[player]["first_gold_deposit_turn"] = observations[player]["turn"]
                 else:
                     self.economy[player]["iron_spent_on_bases"] += self.game.config.base_cost_iron
                     self.economy[player]["bases_built"] += 1
@@ -98,8 +159,20 @@ class MatchMetrics:
                 "iron_spent_on_bases", "bases_built", "no_effect_rover_turns")}
             economy["gold_in_cargo_at_end"] = cargo["gold"]
             economy["iron_in_cargo_at_end"] = cargo["iron"]
+            diagnostics = {name: self.economic_diagnostics[player][name] for name in (
+                "rover_turns_with_deliverable_gold_known", "moves_revealing_new_tiles",
+                "moves_revealing_new_gold", "moves_toward_known_gold", "moves_toward_base",
+                "exploration_moves_with_deliverable_gold_known")}
+            actions_total = sum(self.normalized[player].values())
+            diagnostics["mine_or_deposit_action_percent"] = (100 * (
+                self.normalized[player]["MINE"] + self.normalized[player]["DEPOSIT"]) /
+                actions_total if actions_total else 0)
+            diagnostics["zero_score_after_deliverable_gold_known"] = int(
+                colony.gold == 0 and self.ever_deliverable_gold_known[player])
             results.append({
                 "economy": economy,
+                "economic_diagnostics": diagnostics,
+                "milestones": self.milestones[player],
                 "actions": {
                     "submitted": dict(sorted(self.submitted[player].items())),
                     "normalized": dict(sorted(self.normalized[player].items())),

@@ -1,6 +1,6 @@
 # Competition starter: first valid Mars bot in 45 minutes
 
-Lucid has named rovers, gold, iron, bases, and exploration, but has not published its rules or bot API. This is a **portable plan**, not a ready-to-submit Lucid program. Use the official sample bot's parser and action schema on event day. Mini Mars assumes banked gold scores, one action per rover per turn, known plain tiles for movement, and a separate deposit action; verify each assumption before using the policy.
+Lucid has named rovers, gold, iron, bases, and exploration, but has not published its rules or bot API. This is a **portable plan**, not a ready-to-submit Lucid program. A [working Mini Mars implementation](../bots/competition_starter.py) follows this small scoring loop; use the official sample bot's parser and action schema on event day. Mini Mars assumes banked gold scores, one action per rover per turn, known plain tiles for movement, and a separate deposit action; verify each assumption before using the policy.
 
 ## Four time boxes
 
@@ -87,7 +87,7 @@ for line in sys.stdin:
     print(json.dumps(response, separators=(",", ":")), flush=True)
 ```
 
-The named helpers are deliberately placeholders for the organizers' schema. The tested Mini Mars BFS implementation is [`bots/strategies.py`](../bots/strategies.py); its bot protocol is in [`bots/entry.py`](../bots/entry.py). The fallback must know enough of the real protocol to return a valid turn and legal wait actions; test it against malformed and partial inputs. Keep stderr for diagnostics and stdout for responses only.
+The named helpers are deliberately placeholders for the organizers' schema. The [tested standalone starter](../bots/competition_starter.py) implements Mini Mars BFS and JSON Lines directly; [shared strategies](../bots/strategies.py) and the [bot launcher](../bots/entry.py) provide other practice variants. The fallback must know enough of the real protocol to return a valid turn and legal wait actions; test it against malformed and partial inputs. Keep stderr for diagnostics and stdout for responses only.
 
 ## Prevent oscillation with minimal state
 
@@ -102,6 +102,7 @@ Retain the parser, legal-action validator, safe fallback, output flush, and full
 ```sh
 make test
 python3 -m mini_mars match --scenario short-horizon --bot-a greedy --bot-b coordinated --seed 42
+python3 -m mini_mars match --scenario short-horizon --bot-a greedy --bot-b starter --seed 42
 python3 -m mini_mars replay mini_mars/results/matches/REPLAY_PATH/replay.json --turns 0,20,40
 python3 -m mini_mars.runner.reliability_benchmark --matches 20 --seed 50000
 ```

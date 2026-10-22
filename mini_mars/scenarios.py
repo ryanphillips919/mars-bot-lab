@@ -13,6 +13,11 @@ SCENARIOS: dict[str, Config] = {
     "scarce": replace(Config(), gold_pairs=5, iron_pairs=3),
     "obstacle-heavy": replace(Config(), rock_pairs=20),
     "short-horizon": replace(Config(), turns=40),
+    "abundant": replace(Config(), gold_pairs=18, iron_pairs=3),
+    "open": replace(Config(), rock_pairs=0),
+    "limited-vision": replace(Config(), vision_radius=1),
+    "low-capacity": replace(Config(), cargo_capacity=2),
+    "iron-rich": replace(Config(), gold_pairs=5, iron_pairs=15),
 }
 
 
