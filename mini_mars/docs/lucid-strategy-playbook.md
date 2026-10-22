@@ -2,19 +2,40 @@
 
 Mini Mars is an **unofficial** practice game. Lucid's announcement names rovers, iron, gold, bases, exploration, and competing colonies, but does not define scoring or the bot API. The measured results below test our invented rules, not Lucid's game.
 
-## Quick reference for competition morning
+## Survive the First Match
 
-1. **First, get a valid bot and a complete match.** Identify scoring, visibility, action timing, match length, and compute limits. Log seeds, scores, faults, and decision latency. Spend the first part of the three-hour contest on correctness.
-2. **Plan delivery before mining.** If only deposited cargo scores, reserve the BFS route to a base plus one deposit action. The [40-turn validation](benchmarks/strategy-v2/validate.json) shows why mined gold and scored gold differ.
-3. **Assign distinct tasks to rovers.** If deposits can deplete or be contested, avoid sending all workers to the same target. Test this with the same scorer and routes on both sides, as in the [allocation comparisons](benchmarks/strategy-v2/validate.json).
-4. **Explore only if information is useful.** Under fog, try nearest frontier first, then expected newly revealed tiles per travel turn. With a known map, exploration for visibility is wasted; see the [full-info control](benchmarks/strategy-v2/smoke.json).
-5. **Diagnose a loss before adding features.** Check faults, then gold mined versus deposited, final cargo, known deposits, movement and waits, iron spending, and whether bases were built. Read a replay when behavior is surprising.
+The schedule allows approximately **45 minutes before qualifying**. Follow the [small competition starter](competition-starter.md): inspect the real API, get valid output, add one safe scoring loop, then finish and inspect a complete match. Use the organizer's rules in place of every Mini Mars assumption below.
 
-**Three most useful transferable lessons for Saturday:** bank scored value before the deadline; coordinate shared workers; condition exploration on hidden information. Their measured sizes are Mini Mars-specific.
+| Catastrophic failure | Prevention before qualifying |
+| --- | --- |
+| Parser or response failure | Start from the organizer's sample bot. Validate essential fields, emit one schema-correct response per turn, flush stdout, log to stderr, and test malformed/missing input. Mini Mars turns malformed, missing, and late responses into waits and records the faults. |
+| Invalid or impossible actions | Check actions against the current observation and any official legal-action list. Include a safe wait fallback; test bounds, obstacles, depleted resources, base occupancy, and simultaneous conflicts. |
+| Valuable cargo never scores | Verify whether cargo must be delivered. If it does, reserve BFS travel plus the separate deposit action. Recheck the **selected next action**, including its post-move position, before sending it. A deterministic Mini Mars regression now covers five actions left, a base three moves away, and a tempting wrong-way exploration move. |
+| Rover cycling or stalled targeting | Keep a target until it is exhausted or truly unreachable; track recent positions, actions, progress, and map discoveries. Inspect [replay warnings](benchmarks/reliability-v1/smoke.json) before adding any automatic recovery. A long route and deliberate waiting are not themselves loops. |
+| Running out of time without a complete match | Reserve the final ten minutes for a full match, faults, score versus cargo, and a replay. Keep the last working bot. Add allocation, exploration tuning, and construction only after this baseline works. |
+
+**Transferable priorities:** valid protocol, legal actions, safe scoring before a deadline, reachable routes, and visible reliability metrics. Their exact thresholds and rewards depend on Lucid's unpublished rules. The measured Mini Mars smoke study is [here](benchmarks/reliability-v1/smoke.json); controlled algorithm comparisons remain below.
 
 ### Adapt to the real rules
 
 Ask: What scores, and does carried cargo count? Are terrain or resources hidden? What are movement costs? Can rovers share tiles or collide? Can rovers be manufactured? Can bases be built, and at what cost? What ends the game? Are actions simultaneous? What are the runtime limits? Is the remaining horizon observable? Use the answers to choose which practice algorithms apply.
+
+## Reliability smoke: simple first, sophisticated later
+
+The new [reliability report](benchmarks/reliability-v1/smoke.json) uses seeds **50000–50019** in both player slots for each comparison, 20 complete pairs / 40 clean games per row. There were **zero invalid actions, crashes, timeouts, protocol faults, or movement warnings** across its 160 games. Candidate score differences below are candidate minus baseline banked gold per seed, averaged across slots; intervals resample whole seeds. These are head-to-head packages on invented rules, not isolated claims about coordination.
+
+| Mini Mars scenario | Baseline → candidate | Candidate win rate | Mean scored gold, baseline → candidate | Paired difference [95% interval] |
+| --- | --- | ---: | ---: | ---: |
+| [Default](benchmarks/reliability-v1/smoke.json) | greedy → coordinated | 27.5% | 50.05 → 45.18 | −4.88 [−7.63, −2.07] |
+| [Obstacle heavy](benchmarks/reliability-v1/smoke.json) | greedy → coordinated | 20.0% | 48.10 → 42.48 | −5.63 [−8.10, −2.90] |
+| [40 turns](benchmarks/reliability-v1/smoke.json) | greedy → coordinated | 1.25% | 22.20 → 8.68 | −13.53 [−15.70, −11.10] |
+| [40 turns](benchmarks/reliability-v1/smoke.json) | greedy without next-action guard → guarded greedy | 50.0% | 22.20 → 22.20 | 0.00 [0.00, 0.00] |
+
+**Easy and reliable for the first qualifier:** a legal, BFS-based mining and delivery loop like `greedy` is the practice starting point. **Mathematically more involved:** coordinated bids, frontier value, and construction model more interactions, but this smoke comparison did not improve scores. **Previously measured in controlled comparisons:** distinct-target allocation and information-gain frontier ordering did improve over their own ablated baselines below. Those controlled gains do not imply the entire coordinated package beats simple greedy. No Mini Mars policy is an overall Lucid winner.
+
+The [score-checked 40-turn replay for seed 50004](../results/matches/reliability-short-horizon-greedy-coordinated-50004-normal/replay.json) ended **12–0**. Coordinated player 1 submitted **120 moves**, all accepted and all changing position, revealed **218 tiles**, discovered **29 resource deposits**, and **never mined or deposited**. From the source bid rules and this action trace, exploration bids apparently beat resource bids even after deposits were known; the replay does not log every rejected bid. The movement monitor correctly emitted no cycling warning, and `no_effect_rover_turns` was zero; a move can change state without earning value. This is a remaining economic-policy risk, especially under a short deadline. It is a reason to prefer the smaller scoring loop initially, not evidence that routing or allocation is useless. There were no other zero-score games or warnings in this matrix.
+
+The cargo guard compares each selected action's resulting position with BFS distance to a friendly base plus the separate deposit turn. A [deterministic regression](../tests/test_reliability.py) shows that an unsafe exploration move is replaced when five actions remain and the base is three moves away. The guard produced no score change against the old Greedy decision branch in this 20-seed smoke; Greedy's existing choices already returned safely on these maps. `ValueGreedy` also now uses BFS rather than Manhattan distance for return-value estimates; this targeted correctness fix was not benchmarked for score gain. The warning detector is conservative: it can miss a costly route that keeps revealing tiles or never revisits a tile, and goal-change warnings need optional target metadata. It does not repair a bot automatically.
 
 ## Experimental findings
 
@@ -60,8 +81,11 @@ python3 -m mini_mars tournament --scenario default --bot-a coordinated-nearest -
 python3 -m mini_mars.runner.benchmark_v2 smoke
 python3 -m mini_mars.runner.benchmark_v2 validate
 make view-mini-mars
+python3 -m unittest mini_mars.tests.test_reliability -v
+python3 -m mini_mars.runner.reliability_benchmark --matches 20 --seed 50000
+python3 -m mini_mars match --scenario short-horizon --bot-a greedy --bot-b coordinated --seed 50004
 ```
 
-The benchmark commands save compact reports under `mini_mars/docs/benchmarks/strategy-v2/` and detailed outputs under ignored `mini_mars/results/`. Every case records its standalone tournament command. Both reports record Git HEAD **`221d61a37422e4762bc1d57586ee01959748dc5b`**, `git_dirty=true` during implementation, and matching SHA-256 hashes of the relevant Mini Mars sources. Smoke seeds are **30000–30019**, validation seeds **40000–40099**, each in both player slots. Intervals use **5000** deterministic bootstrap resamples of complete pairs (RNG seed **20261021**). Decision latency includes process scheduling and JSON overhead.
+The historical strategy commands save compact reports under `mini_mars/docs/benchmarks/strategy-v2/`; the new smoke report is separate under `mini_mars/docs/benchmarks/reliability-v1/`. Detailed outputs stay under ignored `mini_mars/results/`. Every case records its standalone tournament command. Historical strategy reports record Git HEAD **`221d61a37422e4762bc1d57586ee01959748dc5b`**; the new reliability report records **`b3a3bd99350e610c70a38811c33e27732dc734fd`**, `git_dirty=true` during implementation, plus source SHA-256 hashes. The earlier smoke and validation seeds are **30000–30019** and **40000–40099**; reliability smoke seeds are **50000–50019**, each in both player slots. Intervals use **5000** deterministic bootstrap resamples of complete pairs (RNG seed **20261021**). Decision latency includes process scheduling and JSON overhead.
 
 The symmetric map is 15×15. Only banked gold scores; bases cost eight banked iron; rovers may stack; there is no rover production, collision penalty, or combat. Those invented rules, fixed heuristic weights, and exploratory multiple comparisons limit transfer. Do not name an overall winner for Lucid's unpublished game.

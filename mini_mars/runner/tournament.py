@@ -64,6 +64,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
                                "construction_audit": Counter(), "site_audit_ignoring_iron": Counter(), "actions": {
                                    "submitted": Counter(), "normalized": Counter(), "effect": Counter()}}
                        for label in ("a", "b")}
+    movement_totals = {"a": Counter(), "b": Counter()}
     paired_differences: list[float] = []
     started = time.perf_counter()
     for map_seed in range(seed, seed + matches):
@@ -124,6 +125,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
             totals["b"] += record["score_b"]
             totals["difference"] += record["score_a"] - record["score_b"]
             for label, slot in (("a", a_slot), ("b", b_slot)):
+                movement_totals[label].update(result.get("movement_warnings", [{}, {}])[slot])
                 if "behavior" in result:
                     for section in ("economy", "exploration", "construction_audit",
                                     "site_audit_ignoring_iron"):
@@ -145,6 +147,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
         "faulted_matches": faulted_matches,
         "complete_pairs": len(paired_differences), "failed_pairs": matches - len(paired_differences),
         "reliability": reliability,
+        "movement_warnings": {label: dict(sorted(counts.items())) for label, counts in movement_totals.items()},
         "behavior_totals": {label: {section: (dict(values) if section != "actions" else
                                     {layer: dict(counts) for layer, counts in values.items()})
                                     for section, values in behavior_totals[label].items()}

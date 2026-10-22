@@ -19,11 +19,12 @@ from typing import Any
 from mini_mars.engine.game import Config, initial_map, make_game, observation, outcome, snapshot, step
 from mini_mars.scenarios import resolve_config
 from .metrics import MatchMetrics
+from .reliability import MovementMonitor
 
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "mini_mars" / "results"
-ALIASES = {"random", "greedy", "value", "independent", "coordinated",
+ALIASES = {"random", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
            "coordinated-nearest", "coordinated-no-endgame",
            "coordinated-payback-build",
            "coordinated-no-explore", "coordinated-gold-only"}
@@ -34,7 +35,8 @@ def source_hashes() -> dict[str, str]:
     files = ("mini_mars/engine/game.py", "mini_mars/scenarios.py", "mini_mars/bots/strategies.py",
              "mini_mars/bots/entry.py", "mini_mars/runner/match.py",
              "mini_mars/runner/tournament.py", "mini_mars/runner/metrics.py",
-             "mini_mars/runner/benchmark.py", "mini_mars/runner/benchmark_v2.py")
+             "mini_mars/runner/benchmark.py", "mini_mars/runner/benchmark_v2.py",
+             "mini_mars/runner/reliability.py", "mini_mars/runner/reliability_benchmark.py")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in files}
 
 
@@ -206,6 +208,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     decisions = [0, 0]
     process_fault_seen = [False, False]
     metrics = MatchMetrics(game, bot_specs)
+    movement = MovementMonitor()
     started = time.perf_counter()
     try:
         for player in (0, 1):
@@ -217,6 +220,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
             action_trace: dict[str, dict] = {}
             events, diagnostics = step(game, {player: responses[player] for player in (0, 1)}, action_trace)
             metrics.record(observations, responses, action_trace, events, before)
+            movement.record(game, observations, responses, action_trace, events, before)
             for diagnostic in diagnostics:
                 invalid[diagnostic["player"]] += 1
             for player in (0, 1):
@@ -247,6 +251,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
         "turns": game.turn, **outcome(game), "invalid_actions": invalid,
         "timeouts": timeouts, "crashes": crashes,
         "protocol_fault_turns": protocol_fault_turns, "behavior": metrics.report(),
+        "movement_warnings": movement.report(),
         "decision_latency_ms": [latency_sum[player] / decisions[player] if decisions[player] else 0
                                 for player in (0, 1)],
         "decision_latency_sum_ms": latency_sum, "decisions": decisions,
@@ -257,6 +262,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     if save_replay:
         replay["result"] = outcome(game)
         replay["behavior"] = summary["behavior"]
+        replay["movement_warnings"] = movement.warnings
         (output_dir / "replay.json").write_text(json.dumps(replay, separators=(",", ":")), encoding="utf-8")
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     return summary

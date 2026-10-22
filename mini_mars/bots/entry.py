@@ -9,7 +9,7 @@ import sys
 from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot, StrategySettings, ValueGreedy
 
 
-BOT_NAMES = ("random", "greedy", "value", "independent", "coordinated",
+BOT_NAMES = ("random", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
              "coordinated-nearest", "coordinated-no-endgame",
              "coordinated-payback-build",
              "coordinated-no-explore", "coordinated-gold-only")
@@ -23,6 +23,7 @@ def main() -> None:
     bots = {
         "random": lambda: RandomBot(args.seed),
         "greedy": GreedyMiner,
+        "greedy-no-cargo-guard": lambda: GreedyMiner(cargo_safety=False),
         "value": ValueGreedy,
         "independent": lambda: CoordinatedGreedy(StrategySettings(coordinate=False)),
         "coordinated": CoordinatedGreedy,
@@ -38,6 +39,9 @@ def main() -> None:
         try:
             observation = json.loads(line)
             response = {"turn": observation["turn"], "actions": bot.decide(observation)}
+            targets = getattr(bot, "diagnostic_targets", None)
+            if targets:
+                response["targets"] = {key: list(point) for key, point in targets.items()}
         except (KeyError, ValueError, TypeError) as error:
             print(f"bot input error: {error}", file=sys.stderr, flush=True)
             response = {"turn": -1, "actions": []}

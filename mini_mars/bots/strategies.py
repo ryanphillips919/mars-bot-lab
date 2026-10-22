@@ -103,6 +103,28 @@ def simple(rover_id: str, kind: str) -> dict:
     return {"rover_id": rover_id, "type": kind}
 
 
+def protect_scored_cargo(observation: dict, rover: dict, action: dict,
+                         cells: dict[Point, dict], bases: list[dict]) -> tuple[dict, Point | None]:
+    """Keep a feasible gold delivery feasible after this action, including DEPOSIT."""
+    if not rover["cargo"]["gold"] or action["type"] == "DEPOSIT":
+        return action, None
+    base, distance, direction = shortest_base(rover, bases, cells)
+    left = remaining_turns(observation)
+    if distance + 1 > left:  # No feasible delivery can be rescued here.
+        return action, None
+    next_point = (rover["x"], rover["y"])
+    if action["type"] == "MOVE":
+        delta = next(((dx, dy) for name, dx, dy in DIRECTIONS
+                      if name == action.get("direction")), None)
+        if delta is not None:
+            next_point = (next_point[0] + delta[0], next_point[1] + delta[1])
+    # A MOVE, MINE, BUILD, or WAIT all consume one action. A base needs one
+    # additional DEPOSIT action, including when the rover is already there.
+    if base_distance(next_point, bases, cells) + 1 > left - 1:
+        return move(rover["id"], direction), base
+    return action, None
+
+
 def unknown_near(point: Point, cells: dict[Point, dict], width: int, height: int, radius: int) -> int:
     x, y = point
     return sum((nx, ny) not in cells for dx in range(-radius, radius + 1)
@@ -152,11 +174,14 @@ class RandomBot:
 class GreedyMiner:
     """Each rover independently chooses a nearby gold deposit, then returns."""
 
-    def __init__(self, endgame: bool = True) -> None:
+    def __init__(self, endgame: bool = True, cargo_safety: bool = True) -> None:
         self.endgame = endgame
+        self.cargo_safety = cargo_safety
+        self.diagnostic_targets: dict[str, Point] = {}
 
     def deposit_rank(self, point: Point, cell: dict, distance: int,
-                     rover: dict, bases: list[dict], capacity: int) -> tuple:
+                     rover: dict, bases: list[dict], capacity: int,
+                     home: dict[Point, int]) -> tuple:
         return (0 if cell["resource"] == "gold" else 1, distance, point)
 
     def decide(self, observation: dict) -> list[dict]:
@@ -168,6 +193,8 @@ class GreedyMiner:
         bases = observation["bases"]
         home = home_distances(bases, cells)
         actions = []
+        targets: dict[str, Point] = {}
+        self.diagnostic_targets = {}
         for rover in observation["rovers"]:
             rover_id = rover["id"]
             cargo = sum(rover["cargo"].values())
@@ -182,22 +209,33 @@ class GreedyMiner:
             if cargo >= capacity or (self.endgame and rover["cargo"]["gold"] and
                                      home_distance + 1 >= remaining_turns(observation)):
                 actions.append(move(rover_id, base_move))
+                targets[rover_id] = base
                 continue
             distances, first_moves = bfs(start, cells)
-            reachable = [(self.deposit_rank(point, cell, distances[point], rover, bases, capacity), point)
+            reachable = [(self.deposit_rank(point, cell, distances[point], rover, bases, capacity, home), point)
                          for point, cell in deposits if point in distances and
                          feasible_mining_units(observation, rover, point, cell, distances[point], cells,
                                                self.endgame, home) > 0]
             if reachable:
                 _, target = min(reachable)
+                targets[rover_id] = target
                 actions.append(simple(rover_id, "MINE") if target == start
                                else move(rover_id, first_moves[target]))
             elif cargo:
                 actions.append(move(rover_id, base_move))
+                targets[rover_id] = base
             else:
-                targets = [(distances[point], -unseen, point) for point, unseen in frontiers if point in distances]
-                target = min(targets)[2] if targets else None
+                frontier_options = [(distances[point], -unseen, point) for point, unseen in frontiers if point in distances]
+                target = min(frontier_options)[2] if frontier_options else None
                 actions.append(move(rover_id, first_moves.get(target)))
+                if target is not None:
+                    targets[rover_id] = target
+        self.diagnostic_targets.update(targets)
+        if self.endgame and self.cargo_safety:
+            for index, rover in enumerate(observation["rovers"]):
+                actions[index], override = protect_scored_cargo(observation, rover, actions[index], cells, bases)
+                if override is not None:
+                    self.diagnostic_targets[rover["id"]] = override
         return actions
 
 
@@ -205,10 +243,10 @@ class ValueGreedy(GreedyMiner):
     """Keep greedy's choices, but rank same-resource deposits by useful units per turn."""
 
     def deposit_rank(self, point: Point, cell: dict, distance: int,
-                     rover: dict, bases: list[dict], capacity: int) -> tuple:
+                     rover: dict, bases: list[dict], capacity: int,
+                     home: dict[Point, int]) -> tuple:
         units = min(cell["quantity"], capacity - sum(rover["cargo"].values()))
-        return_distance = min(abs(point[0] - base["x"]) + abs(point[1] - base["y"])
-                              for base in bases)
+        return_distance = home.get(point, inf)
         value = units / (distance + units + return_distance + 1)
         return (0 if cell["resource"] == "gold" else 1, -value, point)
 
@@ -340,11 +378,13 @@ class CoordinatedGreedy:
     def __init__(self, settings: StrategySettings | None = None) -> None:
         self.settings = settings or StrategySettings()
         self.targets: dict[str, Point] = {}
+        self.diagnostic_targets: dict[str, Point] = {}
 
     def _should_build(self, observation: dict, rover: dict, cells: dict[Point, dict]) -> bool:
         return construction_reason(observation, rover, cells, self.settings) == "eligible"
 
     def decide(self, observation: dict) -> list[dict]:
+        self.diagnostic_targets = {}
         cells = known_cells(observation)
         frontiers = exploration_targets(observation, cells)
         capacity = observation["constants"]["cargo_capacity"]
@@ -364,6 +404,7 @@ class CoordinatedGreedy:
             elif cargo >= capacity or (self.settings.endgame_enabled and rover["cargo"]["gold"] and
                                        home_distance + 1 >= remaining_turns(observation)):
                 assigned[rover_id] = move(rover_id, base_move)
+                self.diagnostic_targets[rover_id] = base
             elif (self.settings.build_enabled and build_budget >= observation["constants"]["base_cost_iron"] and
                   point not in claimed_bases and self._should_build(observation, rover, cells)):
                 assigned[rover_id] = simple(rover_id, "BUILD")
@@ -388,6 +429,7 @@ class CoordinatedGreedy:
                                   (rover["x"], rover["y"]) == point
                                   else move(rover_id, first_move))
             self.targets[rover_id] = point
+            self.diagnostic_targets[rover_id] = point
             if self.settings.coordinate:
                 used_tasks.add(point)
         for rover in free:
@@ -395,4 +437,11 @@ class CoordinatedGreedy:
                 _, _, base_move = shortest_base(rover, observation["bases"], cells)
                 assigned[rover["id"]] = move(rover["id"], base_move) if sum(rover["cargo"].values()) else simple(rover["id"], "WAIT")
                 self.targets.pop(rover["id"], None)
-        return [assigned[rover["id"]] for rover in observation["rovers"]]
+        actions = [assigned[rover["id"]] for rover in observation["rovers"]]
+        if self.settings.endgame_enabled:
+            for index, rover in enumerate(observation["rovers"]):
+                actions[index], override = protect_scored_cargo(
+                    observation, rover, actions[index], cells, observation["bases"])
+                if override is not None:
+                    self.diagnostic_targets[rover["id"]] = override
+        return actions

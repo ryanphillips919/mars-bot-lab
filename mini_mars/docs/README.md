@@ -2,6 +2,8 @@
 
 Mini Mars is a deliberately small, **unofficial** game for comparing bot algorithms. The Lucid competition description names rovers, iron, gold, bases, and exploration; it does not supply rules or an API. Every rule below is a Mini Mars design choice. The Halite III integration in the repository is independent.
 
+For the 45-minute event window, start with the [competition starter](competition-starter.md) and the [strategy playbook](lucid-strategy-playbook.md).
+
 ## Run it
 
 From the repository root in Linux or WSL, with Python 3.11 or newer:
@@ -19,6 +21,8 @@ make test
 For a quick saved match, use `make demo-mini-mars` before starting the browser viewer.
 
 The match command saves `summary.json`, `replay.json` by default, and one stderr log per bot in a unique ignored `mini_mars/results/matches/` directory. `--no-replay` skips the replay. Summaries record the seed, bot commands and seeds, Python version, and hashes of the local engine and reference bot source. For custom bots, also retain the bot's own executable or source version. A tournament's `--matches` is the number of **map seeds**; each seed runs twice with the bots in opposite player slots. Its report and individual match summaries are under `mini_mars/results/tournaments/`. Add `--save-replays` to retain every tournament replay. No installed frontend package is needed.
+
+The runner counts suspicious movement patterns per bot. Saved replay JSON includes `movement_warnings` with rover ID, turn range, recent positions/actions, and an optional current target. The monitor reports possible stalls; it does not change bot actions. Built-in bots may add an optional `targets` field to help diagnosis. Custom bots can omit it; required JSON Lines fields stay the same.
 
 The browser viewer at **http://127.0.0.1:8766/** reads completed Mini Mars replays from `mini_mars/results/matches/`. Select a match, play or scrub, inspect a cell by hovering, and switch the map between player 0, player 1, and full visibility. Player views hide unexplored terrain and enemies outside current vision; remembered deposits are dimmed and may have stale quantities. The score cards and event log show complete replay information in all map views. The viewer does not run bots or show a match live. Run a new match in another terminal and click Refresh. The Halite browser viewer is separate (`make view`, port 8765).
 
@@ -41,9 +45,10 @@ The issue #1 reports under `benchmarks/issue-1/` are historical results from the
 ```sh
 python3 -m mini_mars.runner.benchmark_v2 smoke
 python3 -m mini_mars.runner.benchmark_v2 validate
+python3 -m mini_mars.runner.reliability_benchmark --matches 20 --seed 50000
 ```
 
-The current study uses 20 paired smoke seeds starting at 30000 and 100 disjoint validation seeds starting at 40000. Each pair has a normal and swapped game. Compact reports are under `mini_mars/docs/benchmarks/strategy-v2/`; detailed outputs and score-checked example replays stay under ignored `mini_mars/results/`. The 95% paired bootstrap interval resamples whole map seeds (5000 deterministic resamples). Faulted games invalidate their seed pair for score analysis, while reliability counts all attempted games separately.
+The strategy-v2 study uses 20 paired smoke seeds starting at 30000 and 100 disjoint validation seeds starting at 40000. The focused reliability study uses 20 paired seeds starting at 50000. Each pair has a normal and swapped game. Compact reports are under `mini_mars/docs/benchmarks/strategy-v2/` and `mini_mars/docs/benchmarks/reliability-v1/`; detailed outputs and score-checked example replays stay under ignored `mini_mars/results/`. The 95% paired bootstrap interval resamples whole map seeds (5000 deterministic resamples). Faulted games invalidate their seed pair for score analysis, while reliability counts all attempted games separately.
 
 ## Complete game rules
 
@@ -76,7 +81,7 @@ The replay has frame 0 for the initial state and one frame after each resolved t
 
 ## Bot protocol
 
-The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, `greedy`, `value`, `independent`, `coordinated`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-gold-only`, and `coordinated-payback-build`.
+The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, `greedy`, `greedy-no-cargo-guard` (a controlled unsafe baseline), `value`, `independent`, `coordinated`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-gold-only`, and `coordinated-payback-build`.
 
 Example observation, abridged to two known cells and one rover:
 
