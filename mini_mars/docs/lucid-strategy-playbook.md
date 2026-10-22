@@ -1,73 +1,67 @@
-# Lucid competition strategy playbook — Mini Mars practice evidence
+# Lucid strategy playbook — Mini Mars practice evidence
 
-Mini Mars is an **unofficial** practice game. Lucid has described rovers, iron, gold, bases, exploration, and competing colonies, but has not published scoring, visibility, action rules, or a bot API. The measured results below apply to our invented Mini Mars economy. Treat the practical ideas as hypotheses to test once Lucid publishes its real rules.
+Mini Mars is an **unofficial** practice game. Lucid's announcement names rovers, iron, gold, bases, exploration, and competing colonies, but does not define scoring or the bot API. The measured results below test our invented rules, not Lucid's game.
 
-## Competition morning: what to do first
+## Quick reference for competition morning
 
-1. **Transferable idea:** Read the actual scoring and action rules before optimizing. Write down what earns points, when carried resources count, how bases pay back, and whether the map is hidden. Mini Mars awards only **banked gold**, gives a base an **8 banked iron** cost, and uses **100 turns**; those are **Mini Mars-dependent** details.
-2. **Transferable idea:** Get one valid, deterministic bot and one complete local match working. Log seeds, version, bot faults, final scores, and action timing. A clever policy that times out or emits an invalid action is not a useful competition baseline.
-3. **Transferable idea:** Assign multiple rovers to complementary targets when deposits can be depleted or contested. Compare distinct-target assignment with independent decisions using the **same** scorer and pathfinder; the Mini Mars paired evidence below tests exactly that change.
-4. **Transferable idea:** If terrain or resources are hidden, spend some rover time revealing valuable unknown areas. If the official map is fully visible, that scouting incentive may be useless. The default versus full-info Mini Mars contrast below tests this boundary.
-5. **Transferable idea:** Price mining and construction in expected *scored value per remaining turn*. Keep ore collection, return travel, cargo capacity, and the game horizon in the estimate. **Mini Mars-dependent:** iron itself scores zero, and its only planned use is a base; the results below do not establish the value of Lucid's iron.
-6. **Transferable idea:** Evaluate on paired map seeds with player slots swapped, then validate on different seeds. Read win rate and paired score difference together. A short smoke run is for finding defects and leads, not declaring a champion.
+1. **First, get a valid bot and a complete match.** Identify scoring, visibility, action timing, match length, and compute limits. Log seeds, scores, faults, and decision latency. Spend the first part of the three-hour contest on correctness.
+2. **Plan delivery before mining.** If only deposited cargo scores, reserve the BFS route to a base plus one deposit action. The [40-turn validation](benchmarks/strategy-v2/validate.json) shows why mined gold and scored gold differ.
+3. **Assign distinct tasks to rovers.** If deposits can deplete or be contested, avoid sending all workers to the same target. Test this with the same scorer and routes on both sides, as in the [allocation comparisons](benchmarks/strategy-v2/validate.json).
+4. **Explore only if information is useful.** Under fog, try nearest frontier first, then expected newly revealed tiles per travel turn. With a known map, exploration for visibility is wasted; see the [full-info control](benchmarks/strategy-v2/smoke.json).
+5. **Diagnose a loss before adding features.** Check faults, then gold mined versus deposited, final cargo, known deposits, movement and waits, iron spending, and whether bases were built. Read a replay when behavior is surprising.
 
-## Strategies tested
+**Three most useful transferable lessons for Saturday:** bank scored value before the deadline; coordinate shared workers; condition exploration on hidden information. Their measured sizes are Mini Mars-specific.
 
-| Bot | What it does | Controlled question |
-| --- | --- | --- |
-| `greedy` | Independent nearest known gold, iron fallback, BFS routes, frontier exploration; no construction | Existing baseline |
-| `value` | Same policy, but ranks deposits by useful units per estimated outbound, mining, return, and deposit turns | Does value per turn improve target choice? |
-| `independent` | Same bids, persistence, iron policy, and building as `coordinated`, but rovers may duplicate targets | Does distinct-target allocation help? |
-| `coordinated` | Shared bids, distinct targets, frontier scoring, iron and optional base building | Reference coordinated policy |
-| `coordinated-no-explore` | Same as `coordinated` with frontier bid weight zero | Does active exploration help? |
-| `coordinated-gold-only` | Same as `coordinated` with iron bids and building disabled | Does iron/base investment pay back? |
+### Adapt to the real rules
 
-All variants use BFS over known traversable cells. The coordinated family uses an outbound BFS distance, a Manhattan return-distance estimate, exploration weight `0.24`, prior-target multiplier `1.2`, early/late iron weights `0.65`/`0.05`, and visible-opponent multiplier `0.8`. These fixed numbers are practice heuristics, not Lucid recommendations.
+Ask: What scores, and does carried cargo count? Are terrain or resources hidden? What are movement costs? Can rovers share tiles or collide? Can rovers be manufactured? Can bases be built, and at what cost? What ends the game? Are actions simultaneous? What are the runtime limits? Is the remaining horizon observable? Use the answers to choose which practice algorithms apply.
 
-## Results and evidence quality
+## Experimental findings
 
-The table uses **candidate minus baseline banked gold per swapped seed pair**. Positive favors the candidate. Brackets are paired-bootstrap 95% intervals in gold units. Every smoke cell uses **20 pairs / 40 games** from the committed [smoke report](benchmarks/issue-1/smoke.json); every validation cell uses **100 disjoint pairs / 200 games** from the committed [validation report](benchmarks/issue-1/validation.json). “Smoke only” means the result has weaker evidence and was not promoted to the larger set.
+Values are **candidate minus baseline banked gold per map seed**, averaged across both player slots. Brackets are deterministic seed-pair bootstrap 95% intervals; win rates count ties as half a win. Every validation row uses **100 complete pairs / 200 clean games** on seeds 40000–40099. The linked [validation](benchmarks/strategy-v2/validate.json) and [smoke](benchmarks/strategy-v2/smoke.json) reports contain configs, source hashes, exact commands, behavior, latency, and reliability.
 
-| Scenario | Baseline → candidate | Smoke: gold difference [95% interval] | Validation: gold difference [95% interval]; candidate win rate |
+| Scenario | Baseline → candidate; change tested | Gold difference [95% interval] | Candidate win rate |
 | --- | --- | ---: | ---: |
-| Default | `greedy → value` | −0.40 [−1.73, +0.93] | Smoke only |
-| Default | `independent → coordinated` | +23.45 [+20.38, +26.38] | **+22.30 [+20.89, +23.68]; 100%** |
-| Default | `coordinated-no-explore → coordinated` | +43.65 [+42.00, +45.27] | **+42.83 [+41.72, +43.95]; 100%** |
-| Default | `coordinated-gold-only → coordinated` | −1.25 [−2.33, −0.38] | Smoke only |
-| Full info | `greedy → value` | +0.40 [−1.35, +2.12] | Smoke only |
-| Full info | `independent → coordinated` | +9.00 [+6.55, +11.57] | **+8.55 [+7.06, +10.07]; 85.5%** |
-| Full info | `coordinated-no-explore → coordinated` | 0.00 [0.00, 0.00] | Smoke only; visibility control |
-| Scarce | `greedy → value` | −0.12 [−0.60, +0.40] | **+0.03 [−0.57, +0.64]; 51.5%** |
-| Scarce | `coordinated-gold-only → coordinated` | −1.32 [−2.60, −0.33] | **−0.64 [−1.10, −0.18]; 44.0%** |
-| Obstacle heavy | `independent → coordinated` | +27.62 [+23.93, +31.33] | Smoke only |
-| Obstacle heavy | `coordinated-no-explore → coordinated` | +41.92 [+38.87, +44.67] | **+39.90 [+38.92, +40.84]; 100%** |
+| [Default fog](benchmarks/strategy-v2/validate.json) | nearest frontier → information gain | +1.660 [+0.795, +2.525] | 59.0% |
+| [Obstacle heavy](benchmarks/strategy-v2/validate.json) | nearest frontier → information gain | +2.095 [+1.295, +2.890] | 61.8% |
+| [Default fog](benchmarks/strategy-v2/validate.json) | no endgame → endgame planning | +1.695 [+1.390, +2.015] | 65.0% |
+| [40-turn horizon](benchmarks/strategy-v2/validate.json) | no endgame → endgame planning | +1.470 [+1.145, +1.800] | 64.7% |
+| [Scarce](benchmarks/strategy-v2/validate.json) | no endgame → endgame planning | +1.425 [+1.075, +1.775] | 61.5% |
+| [Default fog](benchmarks/strategy-v2/validate.json) | independent → distinct-target allocation | +21.910 [+20.495, +23.300] | 100.0% |
+| [Full info](benchmarks/strategy-v2/validate.json) | independent → distinct-target allocation | +6.780 [+5.650, +7.915] | 91.2% |
+| [Scarce](benchmarks/strategy-v2/validate.json) | gold-only → existing iron/build package | −1.125 [−1.520, −0.765] | 40.7% |
+| [Scarce](benchmarks/strategy-v2/validate.json) | existing builder → payback builder; same iron bids | +0.205 [+0.070, +0.380] | 52.0% |
+| [Scarce](benchmarks/strategy-v2/validate.json) | gold-only → iron plus payback builder | −0.905 [−1.280, −0.545] | 42.5% |
 
-The win rates count each game, with ties worth half a win; the score intervals resample whole **seed pairs**. All **440 smoke games** and **1,200 validation games** finished with zero invalid actions, timeouts, crashes, or incomplete pairs. Validation decision latency averaged about **1.8–6.6 ms** per response across these bots, including process and JSON overhead; it is not pure algorithm time.
+The [20-pair / 40-game smoke report](benchmarks/strategy-v2/smoke.json) adds two useful controls: full-info nearest versus information gain tied exactly because no cells were unknown; scarce exploration gained +1.125 [−0.076, +2.450]. The default payback builder gained only +0.100 [0.000, +0.300] over the old builder, and the default iron/build package lost −0.975 [−1.775, −0.250] to gold-only. Smoke estimates are leads, not validation. The issue #1 [smoke](benchmarks/issue-1/smoke.json) and [validation](benchmarks/issue-1/validation.json) remain historical evidence from earlier code. Its no-exploration bot is a **negative control**: starting areas contain no resources, so it can remain stationary under fog.
 
-### Lessons to carry forward
+### What the behavior metrics suggest
 
-- **Transferable idea — coordinated allocation:** With identical bids and routes, reserving distinct targets beat independent assignment by **22.30 gold per pair** in default Mini Mars and **8.55** with full information on disjoint validation seeds. The obstacle-heavy smoke result also favored coordination, but lacks 100-seed validation. Start with a clear assignment policy when several rovers can duplicate or exhaust the same work.
-- **Transferable idea, conditional on hidden information — explore deliberately:** Frontier bids beat no frontier bids by **42.83 gold** in default and **39.90** with heavy obstacles. In the full-info control, both policies had exactly the same paired mean score. **Mini Mars-dependent:** the size of this effect comes from our radius-two fog, map size, deposit layout, and 100-turn horizon. Check Lucid's actual visibility rule before allocating scouting effort.
-- **Mini Mars-dependent — iron/base investment:** In scarce maps, the combined iron-and-base policy scored **0.64 less gold per pair** than gold-only, with a validation interval below zero. The default 20-pair smoke test pointed the same way. This tests a *package* of iron targeting and base building; it does not isolate whether mining iron, where bases were built, or the eight-iron cost caused the shortfall. Do not translate it into a claim about Lucid's iron.
-- **Transferable idea — estimate delivered value per turn, then test it:** The `value` variant changes only greedy's deposit ranking. On scarce validation seeds its difference was **+0.03 gold per pair**, with an interval spanning zero; default and full-info smoke results also span zero. This implementation has no demonstrated advantage here. Allocation and information gathering mattered more in this fixed simulator; a different scoring economy may change that.
-- **Transferable idea — keep pathfinding comparisons separate:** All tested policies use the same BFS. These reports say nothing about A*, Dijkstra, caching, collision avoidance, or language performance. Change one of those separately after Lucid's map and action rules are known.
+- **Endgame — transferable if cargo must be deposited.** On [40-turn maps](benchmarks/strategy-v2/validate.json), the planned bot mined **9.15** gold per game versus **14.49** without planning, yet deposited **5.08** versus **3.61** and ended with **4.07** versus **10.88** in cargo. The policy uses BFS route lengths, includes the deposit turn, and suppresses trips and iron investment that cannot plausibly score. The 40-turn preset changes only the turn limit; its physical map is identical to default for a seed.
+- **Allocation — transferable when tasks can duplicate.** In [default validation](benchmarks/strategy-v2/validate.json), coordination deposited **45.55** gold per game versus **23.64** for independent assignment. Both variants share bids, exploration, endgame, and routes; only target reservation changes. Independent rovers also mined less, consistent with duplicated targeting. Task intent is not logged, so duplicated choices were not directly counted.
+- **Exploration — conditional on fog.** Both policies use the same resource-versus-explore trigger. Information gain ranks frontiers by unseen tiles divided by BFS travel turns plus one; nearest ranks by distance. [Default and obstacle-heavy validation](benchmarks/strategy-v2/validate.json) favored information gain, although it revealed slightly **fewer** total tiles by game end. Better discovery timing or location is plausible, but total coverage alone does not explain the gain. Full-info reveals enemies as well as terrain, so it is not a terrain-only causal test.
+- **Construction — dependent on the invented economy.** In [scarce validation](benchmarks/strategy-v2/validate.json), the existing iron/build bot mined **419 iron** but built only **one base across 200 games** against gold-only. Insufficient banked iron blocked **58,926 of 60,000 rover-turn checks**. Ignoring iron counterfactually, **5,695 visited positions** passed its site heuristic; when iron was available, gold thresholds, proximity, occupied tiles, and the turn cutoff also blocked builds. This audit checks visited locations, not all future sites. Neither policy deliberately navigates to a construction site. A deterministic funded, remote-gold test confirms that construction can happen; rare builds do not prove bases lack value.
+- **Payback builder — a small controlled gain.** With identical iron bids, the [scarce validation](benchmarks/strategy-v2/validate.json) payback policy built **12** bases versus **one** for the existing builder across 200 games and gained **0.205** gold per pair. It counts one deliverable trip per known gold deposit and asks for at least nine saved one-way delivery turns, approximating eight iron mining actions plus one build. It omits much iron travel and assumes known deposits can be used. The full iron/payback policy still lost **0.905** gold per pair against gold-only. That combined comparison cannot isolate iron targeting from construction, and none of these results establish Lucid's iron value.
 
-## How the evidence was made
+One surprising [obstacle-heavy replay, seed 40042](../results/matches/strategy-v2-candidate-loss-obstacle-heavy-seed-40042-normal/replay.json), shows nearest frontier winning **66–30** despite information gain revealing **216** tiles by turn 40 versus **166** for nearest. Nearest built a base on turn 53 and ultimately banked 66 gold; information gain built none and banked 30. One replay cannot explain the average result. The validation report lists a [candidate win, seed 40019](benchmarks/strategy-v2/validate.json), and a [tie, seed 40011](benchmarks/strategy-v2/validate.json); each saved replay was rerun and score-checked against its tournament record.
 
-The smoke matrix used **20 seeds, 10000–10019**, in both player slots for each of 11 focused comparisons across default, full-info, scarce-resource, and obstacle-heavy scenarios. The disjoint validation set uses **100 seeds, 20000–20099**, in both slots for four primary comparisons plus up to two chosen by a fixed smoke-result rule: closest paired score difference and largest positive candidate gain. The full-info exploration control is excluded from promotion. A game failure invalidates its whole seed pair. Each reported 95% interval uses **5000 deterministic bootstrap resamples of seed pairs**, not individual games. Bot decision latency includes process and JSON overhead.
+## Evidence, reliability, and reproduction
 
-For the same seed, `default` and `full-info` have the identical physical map and starting positions. Full-info updates all cells and enemy positions each turn. Scarce has **5 gold and 3 iron pairs** instead of 9 and 6. Obstacle-heavy has **20 rock pairs** instead of 8 while retaining connected open terrain. Each scenario is symmetric between starting players; symmetry does not model whatever fairness Lucid may choose.
+All **560 smoke games** and **2,000 validation games** completed in clean pairs, with **zero** invalid actions, timeouts, crashes, or protocol faults for the compared built-in bots. Score differences here were not improved by excluding failures. Future tournament reports keep reliability separate: score and win summaries use clean complete pairs, while attempted, clean, faulted, and exception game counts include every attempted game. An unreliable bot should not be presented as strong based only on its surviving games.
 
-Run the saved protocol and matrix again from the repository root:
+Match and tournament behavior sections distinguish **submitted** action types, **normalized** engine actions (including implicit waits), and actions with an actual **state effect**. Successful mine, deposit, and build activity comes from engine events; successful moves come from changed positions. `no_effect_rover_turns` includes waits and accepted actions that did nothing; it does not claim all transit moves were economically useful. Revealed tiles and deposits come from observed map state. Exploration-*task* turns are omitted because the unchanged JSON Lines protocol does not expose intent.
+
+Run from the repository root on **Python 3.12.3**:
 
 ```sh
 make test
-python3 -m mini_mars match --scenario default --bot-a greedy --bot-b coordinated --seed 42
-python3 -m mini_mars tournament --scenario default --bot-a independent --bot-b coordinated --matches 20 --seed 10000
-python3 -m mini_mars.runner.benchmark smoke
-python3 -m mini_mars.runner.benchmark validate
+python3 -m mini_mars match --scenario short-horizon --bot-a coordinated-no-endgame --bot-b coordinated --seed 42
+python3 -m mini_mars tournament --scenario default --bot-a coordinated-nearest --bot-b coordinated --matches 20 --seed 30000
+python3 -m mini_mars.runner.benchmark_v2 smoke
+python3 -m mini_mars.runner.benchmark_v2 validate
+make view-mini-mars
 ```
 
-The matrix commands save detailed tournament outputs and representative replays under ignored `mini_mars/results/`. The compact [smoke](benchmarks/issue-1/smoke.json) and [validation](benchmarks/issue-1/validation.json) JSON files are versioned evidence. Each case records its exact standalone tournament command, scenario config, source hashes, paired counts, scores, uncertainty, faults, and latency. Reproduce a case from its recorded command; `--save-replays` retains every tournament replay if needed, while the matrix normally saves only a few verified examples.
+The benchmark commands save compact reports under `mini_mars/docs/benchmarks/strategy-v2/` and detailed outputs under ignored `mini_mars/results/`. Every case records its standalone tournament command. Both reports record Git HEAD **`221d61a37422e4762bc1d57586ee01959748dc5b`**, `git_dirty=true` during implementation, and matching SHA-256 hashes of the relevant Mini Mars sources. Smoke seeds are **30000–30019**, validation seeds **40000–40099**, each in both player slots. Intervals use **5000** deterministic bootstrap resamples of complete pairs (RNG seed **20261021**). Decision latency includes process scheduling and JSON overhead.
 
-The recorded environment was **Python 3.12.3**, source Git HEAD **`4232e2ca903ab82d6092549bf7a5aaaca0c23022`**, with `git_dirty=true` while the implementation was being prepared. The reports contain SHA-256 hashes of every relevant Mini Mars source file, so the exact measured code can be identified despite the dirty working tree. The validation report records three locally saved, score-checked replay examples: a candidate win (default seed 20014), a candidate loss (scarce seed 20046), and a tie (full-info seed 20000, swapped). Those large replay files remain ignored; their seed and player-slot details are in the JSON for recreation.
+The symmetric map is 15×15. Only banked gold scores; bases cost eight banked iron; rovers may stack; there is no rover production, collision penalty, or combat. Those invented rules, fixed heuristic weights, and exploratory multiple comparisons limit transfer. Do not name an overall winner for Lucid's unpublished game.

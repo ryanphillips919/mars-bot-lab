@@ -12,6 +12,7 @@ SCENARIOS: dict[str, Config] = {
     "full-info": replace(Config(), full_information=True),
     "scarce": replace(Config(), gold_pairs=5, iron_pairs=3),
     "obstacle-heavy": replace(Config(), rock_pairs=20),
+    "short-horizon": replace(Config(), turns=40),
 }
 
 

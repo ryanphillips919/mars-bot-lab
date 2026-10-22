@@ -18,11 +18,14 @@ from typing import Any
 
 from mini_mars.engine.game import Config, initial_map, make_game, observation, outcome, snapshot, step
 from mini_mars.scenarios import resolve_config
+from .metrics import MatchMetrics
 
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "mini_mars" / "results"
 ALIASES = {"random", "greedy", "value", "independent", "coordinated",
+           "coordinated-nearest", "coordinated-no-endgame",
+           "coordinated-payback-build",
            "coordinated-no-explore", "coordinated-gold-only"}
 MAX_LINE = 1_000_000
 
@@ -30,7 +33,8 @@ MAX_LINE = 1_000_000
 def source_hashes() -> dict[str, str]:
     files = ("mini_mars/engine/game.py", "mini_mars/scenarios.py", "mini_mars/bots/strategies.py",
              "mini_mars/bots/entry.py", "mini_mars/runner/match.py",
-             "mini_mars/runner/tournament.py", "mini_mars/runner/benchmark.py")
+             "mini_mars/runner/tournament.py", "mini_mars/runner/metrics.py",
+             "mini_mars/runner/benchmark.py", "mini_mars/runner/benchmark_v2.py")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in files}
 
 
@@ -197,9 +201,11 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     invalid = [0, 0]
     timeouts = [0, 0]
     crashes = [0, 0]
+    protocol_fault_turns = [0, 0]
     latency_sum = [0.0, 0.0]
     decisions = [0, 0]
     process_fault_seen = [False, False]
+    metrics = MatchMetrics(game, bot_specs)
     started = time.perf_counter()
     try:
         for player in (0, 1):
@@ -207,7 +213,10 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
         for _ in range(config.turns):
             observations = [observation(game, player) for player in (0, 1)]
             responses, latencies, faults = exchange(bots, observations, timeout_seconds)
-            events, diagnostics = step(game, {player: responses[player] for player in (0, 1)})
+            before = {identity: rover.position for identity, rover in game.rovers.items()}
+            action_trace: dict[str, dict] = {}
+            events, diagnostics = step(game, {player: responses[player] for player in (0, 1)}, action_trace)
+            metrics.record(observations, responses, action_trace, events, before)
             for diagnostic in diagnostics:
                 invalid[diagnostic["player"]] += 1
             for player in (0, 1):
@@ -215,6 +224,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
                     decisions[player] += 1
                     latency_sum[player] += latencies[player]
                 if faults[player]:
+                    protocol_fault_turns[player] += 1
                     diagnostics.append({"player": player, "rover_id": None, "reason": faults[player]})
                     if faults[player] != "invalid JSON response" and not process_fault_seen[player]:
                         if "timed out" in faults[player]:
@@ -236,6 +246,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
         "bots": list(bot_specs), "commands": commands, "bot_seeds": list(bot_seeds),
         "turns": game.turn, **outcome(game), "invalid_actions": invalid,
         "timeouts": timeouts, "crashes": crashes,
+        "protocol_fault_turns": protocol_fault_turns, "behavior": metrics.report(),
         "decision_latency_ms": [latency_sum[player] / decisions[player] if decisions[player] else 0
                                 for player in (0, 1)],
         "decision_latency_sum_ms": latency_sum, "decisions": decisions,
@@ -245,6 +256,7 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     }
     if save_replay:
         replay["result"] = outcome(game)
+        replay["behavior"] = summary["behavior"]
         (output_dir / "replay.json").write_text(json.dumps(replay, separators=(",", ":")), encoding="utf-8")
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     return summary

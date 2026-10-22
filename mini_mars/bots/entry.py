@@ -10,6 +10,8 @@ from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot, StrategySetti
 
 
 BOT_NAMES = ("random", "greedy", "value", "independent", "coordinated",
+             "coordinated-nearest", "coordinated-no-endgame",
+             "coordinated-payback-build",
              "coordinated-no-explore", "coordinated-gold-only")
 
 
@@ -24,6 +26,9 @@ def main() -> None:
         "value": ValueGreedy,
         "independent": lambda: CoordinatedGreedy(StrategySettings(coordinate=False)),
         "coordinated": CoordinatedGreedy,
+        "coordinated-nearest": lambda: CoordinatedGreedy(StrategySettings(frontier_policy="nearest")),
+        "coordinated-no-endgame": lambda: CoordinatedGreedy(StrategySettings(endgame_enabled=False)),
+        "coordinated-payback-build": lambda: CoordinatedGreedy(StrategySettings(build_policy="payback")),
         "coordinated-no-explore": lambda: CoordinatedGreedy(StrategySettings(exploration_weight=0)),
         "coordinated-gold-only": lambda: CoordinatedGreedy(StrategySettings(iron_enabled=False,
                                                                             build_enabled=False)),

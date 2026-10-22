@@ -1,0 +1,3927 @@
+{
+  "format": "mini-mars-strategy-v2",
+  "stage": "smoke",
+  "source_revision": {
+    "git_head": "221d61a37422e4762bc1d57586ee01959748dc5b",
+    "git_dirty": true
+  },
+  "source_sha256": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "935894004075672a3ee1f008636799bedca56a758e9fc294c947db464eee67c3",
+    "mini_mars/bots/strategies.py": "04600a695cba682360c9ca61728a9734eebb01a26383aeec8c28efefed7b8c2c",
+    "mini_mars/bots/entry.py": "0bdf33fa0a0707988ab0c5cf0c14d426900ca11c6c38ff6d24fec6bc47ebd38a",
+    "mini_mars/runner/match.py": "4889fa90f62c471b17f06c3354784cbb489a5c3d5521b743507a78417afbc400",
+    "mini_mars/runner/tournament.py": "96f72a29f985e959015d9f604e3dea56ca245ece3c407e45243f552bb922a51f",
+    "mini_mars/runner/metrics.py": "5030283e07d019d991b214804604781f569fda4c5d49dffd78a4edad9a9263cb",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd"
+  },
+  "python_version": "3.12.3",
+  "seed_start": 30000,
+  "paired_seeds_per_case": 20,
+  "bootstrap": "5000 percentile resamples of complete seed pairs; RNG seed 20261021",
+  "cases": [
+    {
+      "case": [
+        "default",
+        "coordinated-nearest",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 12,
+        "b": 24,
+        "ties": 4
+      },
+      "win_rate_b_on_clean_pairs": 0.65,
+      "paired_mean_b_minus_a": 1.925,
+      "paired_ci95_b_minus_a": [
+        0.425,
+        3.4
+      ],
+      "average_gold": {
+        "a": 44.375,
+        "b": 46.3
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 45.125,
+            "gold_deposited": 44.375,
+            "iron_mined": 1.675,
+            "iron_deposited": 1.675,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 5.725,
+            "gold_in_cargo_at_end": 0.75,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.85,
+            "map_explored_percent": 99.48888888888892,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {
+            "insufficient_iron": 295.5,
+            "turn_cutoff": 4.5
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 66.0,
+            "heuristic_gold_threshold": 78.775,
+            "occupied_tile": 11.475,
+            "site_too_close": 41.75,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.7,
+              "MINE": 46.8,
+              "MOVE": 237.775,
+              "WAIT": 5.725
+            },
+            "normalized": {
+              "DEPOSIT": 9.7,
+              "MINE": 46.8,
+              "MOVE": 237.775,
+              "WAIT": 5.725
+            },
+            "effect": {
+              "DEPOSIT": 9.7,
+              "MINE": 46.8,
+              "MOVE": 237.775
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 47.0,
+            "gold_deposited": 46.3,
+            "iron_mined": 1.15,
+            "iron_deposited": 1.075,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 3.85,
+            "gold_in_cargo_at_end": 0.7,
+            "iron_in_cargo_at_end": 0.075
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.025,
+            "map_explored_percent": 99.12222222222223,
+            "resource_deposits_discovered": 29.925
+          },
+          "construction_audit": {
+            "insufficient_iron": 300.0
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 67.7,
+            "heuristic_gold_threshold": 75.6,
+            "occupied_tile": 11.925,
+            "site_too_close": 42.775,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.15,
+              "MOVE": 238.1,
+              "WAIT": 3.85
+            },
+            "normalized": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.15,
+              "MOVE": 238.1,
+              "WAIT": 3.85
+            },
+            "effect": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.15,
+              "MOVE": 238.1
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1805,
+            "gold_deposited": 1775,
+            "iron_mined": 67,
+            "iron_deposited": 67,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 229,
+            "gold_in_cargo_at_end": 30,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8954,
+            "map_explored_percent": 3979.555555555557,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {
+            "insufficient_iron": 11820,
+            "turn_cutoff": 180
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2640,
+            "heuristic_gold_threshold": 3151,
+            "occupied_tile": 459,
+            "site_too_close": 1670,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 388,
+              "MINE": 1872,
+              "MOVE": 9511,
+              "WAIT": 229
+            },
+            "normalized": {
+              "DEPOSIT": 388,
+              "MINE": 1872,
+              "MOVE": 9511,
+              "WAIT": 229
+            },
+            "effect": {
+              "DEPOSIT": 388,
+              "MINE": 1872,
+              "MOVE": 9511
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1880,
+            "gold_deposited": 1852,
+            "iron_mined": 46,
+            "iron_deposited": 43,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 154,
+            "gold_in_cargo_at_end": 28,
+            "iron_in_cargo_at_end": 3
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8921,
+            "map_explored_percent": 3964.8888888888896,
+            "resource_deposits_discovered": 1197
+          },
+          "construction_audit": {
+            "insufficient_iron": 12000
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2708,
+            "heuristic_gold_threshold": 3024,
+            "occupied_tile": 477,
+            "site_too_close": 1711,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 396,
+              "MINE": 1926,
+              "MOVE": 9524,
+              "WAIT": 154
+            },
+            "normalized": {
+              "DEPOSIT": 396,
+              "MINE": 1926,
+              "MOVE": 9524,
+              "WAIT": 154
+            },
+            "effect": {
+              "DEPOSIT": 396,
+              "MINE": 1926,
+              "MOVE": 9524
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.519362905426533,
+        "b": 2.5433678717308794
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a coordinated-nearest --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "full-info",
+        "coordinated-nearest",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 13,
+        "b": 13,
+        "ties": 14
+      },
+      "win_rate_b_on_clean_pairs": 0.5,
+      "paired_mean_b_minus_a": -0.0,
+      "paired_ci95_b_minus_a": [
+        -0.0,
+        -0.0
+      ],
+      "average_gold": {
+        "a": 63.2,
+        "b": 63.2
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 63.2,
+            "gold_deposited": 63.2,
+            "iron_mined": 5.775,
+            "iron_deposited": 5.775,
+            "iron_spent_on_bases": 1.8,
+            "bases_built": 0.225,
+            "no_effect_rover_turns": 15.175,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 225.0,
+            "map_explored_percent": 100.0,
+            "resource_deposits_discovered": 30.0
+          },
+          "construction_audit": {
+            "insufficient_iron": 271.95,
+            "turn_cutoff": 24.825,
+            "eligible": 0.325,
+            "eligible_not_submitted": 0.1,
+            "heuristic_gold_threshold": 0.825,
+            "occupied_tile": 0.625,
+            "site_too_close": 1.45
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 36.375,
+            "heuristic_gold_threshold": 67.525,
+            "occupied_tile": 21.1,
+            "site_too_close": 73.0,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 14.525,
+              "MINE": 69.0,
+              "MOVE": 201.1,
+              "WAIT": 15.15,
+              "BUILD": 0.225
+            },
+            "normalized": {
+              "DEPOSIT": 14.525,
+              "MINE": 69.0,
+              "MOVE": 201.1,
+              "WAIT": 15.15,
+              "BUILD": 0.225
+            },
+            "effect": {
+              "DEPOSIT": 14.525,
+              "MINE": 68.975,
+              "MOVE": 201.1,
+              "BUILD": 0.225
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 63.2,
+            "gold_deposited": 63.2,
+            "iron_mined": 5.775,
+            "iron_deposited": 5.775,
+            "iron_spent_on_bases": 1.8,
+            "bases_built": 0.225,
+            "no_effect_rover_turns": 15.175,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 225.0,
+            "map_explored_percent": 100.0,
+            "resource_deposits_discovered": 30.0
+          },
+          "construction_audit": {
+            "insufficient_iron": 271.95,
+            "turn_cutoff": 24.825,
+            "eligible": 0.325,
+            "eligible_not_submitted": 0.1,
+            "heuristic_gold_threshold": 0.825,
+            "occupied_tile": 0.625,
+            "site_too_close": 1.45
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 36.375,
+            "heuristic_gold_threshold": 67.525,
+            "occupied_tile": 21.1,
+            "site_too_close": 73.0,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 14.525,
+              "MINE": 69.0,
+              "MOVE": 201.1,
+              "WAIT": 15.15,
+              "BUILD": 0.225
+            },
+            "normalized": {
+              "DEPOSIT": 14.525,
+              "MINE": 69.0,
+              "MOVE": 201.1,
+              "WAIT": 15.15,
+              "BUILD": 0.225
+            },
+            "effect": {
+              "DEPOSIT": 14.525,
+              "MINE": 68.975,
+              "MOVE": 201.1,
+              "BUILD": 0.225
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 2528,
+            "gold_deposited": 2528,
+            "iron_mined": 231,
+            "iron_deposited": 231,
+            "iron_spent_on_bases": 72,
+            "bases_built": 9,
+            "no_effect_rover_turns": 607,
+            "gold_in_cargo_at_end": 0,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 9000,
+            "map_explored_percent": 4000.0,
+            "resource_deposits_discovered": 1200
+          },
+          "construction_audit": {
+            "insufficient_iron": 10878,
+            "turn_cutoff": 993,
+            "eligible": 13,
+            "eligible_not_submitted": 4,
+            "heuristic_gold_threshold": 33,
+            "occupied_tile": 25,
+            "site_too_close": 58
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1455,
+            "heuristic_gold_threshold": 2701,
+            "occupied_tile": 844,
+            "site_too_close": 2920,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 581,
+              "MINE": 2760,
+              "MOVE": 8044,
+              "WAIT": 606,
+              "BUILD": 9
+            },
+            "normalized": {
+              "DEPOSIT": 581,
+              "MINE": 2760,
+              "MOVE": 8044,
+              "WAIT": 606,
+              "BUILD": 9
+            },
+            "effect": {
+              "DEPOSIT": 581,
+              "MINE": 2759,
+              "MOVE": 8044,
+              "BUILD": 9
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 2528,
+            "gold_deposited": 2528,
+            "iron_mined": 231,
+            "iron_deposited": 231,
+            "iron_spent_on_bases": 72,
+            "bases_built": 9,
+            "no_effect_rover_turns": 607,
+            "gold_in_cargo_at_end": 0,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 9000,
+            "map_explored_percent": 4000.0,
+            "resource_deposits_discovered": 1200
+          },
+          "construction_audit": {
+            "insufficient_iron": 10878,
+            "turn_cutoff": 993,
+            "eligible": 13,
+            "eligible_not_submitted": 4,
+            "heuristic_gold_threshold": 33,
+            "occupied_tile": 25,
+            "site_too_close": 58
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1455,
+            "heuristic_gold_threshold": 2701,
+            "occupied_tile": 844,
+            "site_too_close": 2920,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 581,
+              "MINE": 2760,
+              "MOVE": 8044,
+              "WAIT": 606,
+              "BUILD": 9
+            },
+            "normalized": {
+              "DEPOSIT": 581,
+              "MINE": 2760,
+              "MOVE": 8044,
+              "WAIT": 606,
+              "BUILD": 9
+            },
+            "effect": {
+              "DEPOSIT": 581,
+              "MINE": 2759,
+              "MOVE": 8044,
+              "BUILD": 9
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.8487084194784984,
+        "b": 2.8545241483006976
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "command": "python3 -m mini_mars tournament --scenario full-info --bot-a coordinated-nearest --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated-nearest",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 13,
+        "b": 20,
+        "ties": 7
+      },
+      "win_rate_b_on_clean_pairs": 0.5875,
+      "paired_mean_b_minus_a": 1.125,
+      "paired_ci95_b_minus_a": [
+        -0.0756249999999909,
+        2.45
+      ],
+      "average_gold": {
+        "a": 34.9,
+        "b": 36.025
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 35.85,
+            "gold_deposited": 34.9,
+            "iron_mined": 1.725,
+            "iron_deposited": 1.725,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 13.875,
+            "gold_in_cargo_at_end": 0.95,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 224.275,
+            "map_explored_percent": 99.6777777777778,
+            "resource_deposits_discovered": 16.0
+          },
+          "construction_audit": {
+            "insufficient_iron": 290.625,
+            "turn_cutoff": 9.225,
+            "heuristic_gold_threshold": 0.05,
+            "occupied_tile": 0.05,
+            "site_too_close": 0.05
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 29.45,
+            "heuristic_gold_threshold": 121.525,
+            "occupied_tile": 10.825,
+            "site_too_close": 36.2,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 7.875,
+              "MINE": 37.6,
+              "MOVE": 240.675,
+              "WAIT": 13.85
+            },
+            "normalized": {
+              "DEPOSIT": 7.875,
+              "MINE": 37.6,
+              "MOVE": 240.675,
+              "WAIT": 13.85
+            },
+            "effect": {
+              "DEPOSIT": 7.875,
+              "MINE": 37.575,
+              "MOVE": 240.675
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 37.075,
+            "gold_deposited": 36.025,
+            "iron_mined": 1.7,
+            "iron_deposited": 1.7,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 6.275,
+            "gold_in_cargo_at_end": 1.05,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.375,
+            "map_explored_percent": 99.27777777777781,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 291.6,
+            "turn_cutoff": 8.4
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 34.7,
+            "heuristic_gold_threshold": 116.875,
+            "occupied_tile": 10.925,
+            "site_too_close": 35.5,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.1,
+              "MINE": 38.8,
+              "MOVE": 246.85,
+              "WAIT": 6.25
+            },
+            "normalized": {
+              "DEPOSIT": 8.1,
+              "MINE": 38.8,
+              "MOVE": 246.85,
+              "WAIT": 6.25
+            },
+            "effect": {
+              "DEPOSIT": 8.1,
+              "MINE": 38.775,
+              "MOVE": 246.85
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1434,
+            "gold_deposited": 1396,
+            "iron_mined": 69,
+            "iron_deposited": 69,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 555,
+            "gold_in_cargo_at_end": 38,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8971,
+            "map_explored_percent": 3987.111111111112,
+            "resource_deposits_discovered": 640
+          },
+          "construction_audit": {
+            "insufficient_iron": 11625,
+            "turn_cutoff": 369,
+            "heuristic_gold_threshold": 2,
+            "occupied_tile": 2,
+            "site_too_close": 2
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1178,
+            "heuristic_gold_threshold": 4861,
+            "occupied_tile": 433,
+            "site_too_close": 1448,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 315,
+              "MINE": 1504,
+              "MOVE": 9627,
+              "WAIT": 554
+            },
+            "normalized": {
+              "DEPOSIT": 315,
+              "MINE": 1504,
+              "MOVE": 9627,
+              "WAIT": 554
+            },
+            "effect": {
+              "DEPOSIT": 315,
+              "MINE": 1503,
+              "MOVE": 9627
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1483,
+            "gold_deposited": 1441,
+            "iron_mined": 68,
+            "iron_deposited": 68,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 251,
+            "gold_in_cargo_at_end": 42,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8935,
+            "map_explored_percent": 3971.1111111111127,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11664,
+            "turn_cutoff": 336
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1388,
+            "heuristic_gold_threshold": 4675,
+            "occupied_tile": 437,
+            "site_too_close": 1420,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 324,
+              "MINE": 1552,
+              "MOVE": 9874,
+              "WAIT": 250
+            },
+            "normalized": {
+              "DEPOSIT": 324,
+              "MINE": 1552,
+              "MOVE": 9874,
+              "WAIT": 250
+            },
+            "effect": {
+              "DEPOSIT": 324,
+              "MINE": 1551,
+              "MOVE": 9874
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.4944936047904775,
+        "b": 2.5280488725184114
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-nearest --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "obstacle-heavy",
+        "coordinated-nearest",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 12,
+        "b": 24,
+        "ties": 4
+      },
+      "win_rate_b_on_clean_pairs": 0.65,
+      "paired_mean_b_minus_a": 1.25,
+      "paired_ci95_b_minus_a": [
+        -0.175,
+        2.675
+      ],
+      "average_gold": {
+        "a": 36.975,
+        "b": 38.225
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 37.425,
+            "gold_deposited": 36.975,
+            "iron_mined": 2.675,
+            "iron_deposited": 2.6,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 11.15,
+            "gold_in_cargo_at_end": 0.45,
+            "iron_in_cargo_at_end": 0.075
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.8,
+            "map_explored_percent": 99.46666666666668,
+            "resource_deposits_discovered": 29.75
+          },
+          "construction_audit": {
+            "insufficient_iron": 295.5,
+            "turn_cutoff": 4.5
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 63.15,
+            "heuristic_gold_threshold": 89.45,
+            "occupied_tile": 9.9,
+            "site_too_close": 35.5,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.275,
+              "MINE": 40.1,
+              "MOVE": 240.475,
+              "WAIT": 11.15
+            },
+            "normalized": {
+              "DEPOSIT": 8.275,
+              "MINE": 40.1,
+              "MOVE": 240.475,
+              "WAIT": 11.15
+            },
+            "effect": {
+              "DEPOSIT": 8.275,
+              "MINE": 40.1,
+              "MOVE": 240.475
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 39.275,
+            "gold_deposited": 38.225,
+            "iron_mined": 3.125,
+            "iron_deposited": 3.1,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 5.3,
+            "gold_in_cargo_at_end": 1.05,
+            "iron_in_cargo_at_end": 0.025
+          },
+          "exploration": {
+            "unique_tiles_revealed": 222.9,
+            "map_explored_percent": 99.06666666666669,
+            "resource_deposits_discovered": 29.65
+          },
+          "construction_audit": {
+            "insufficient_iron": 293.925,
+            "turn_cutoff": 6.0,
+            "eligible": 0.025,
+            "heuristic_gold_threshold": 0.025,
+            "occupied_tile": 0.025
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 64.75,
+            "heuristic_gold_threshold": 84.375,
+            "occupied_tile": 11.1,
+            "site_too_close": 37.775,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.775,
+              "MINE": 42.4,
+              "MOVE": 243.5,
+              "WAIT": 5.3,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 8.775,
+              "MINE": 42.4,
+              "MOVE": 243.5,
+              "WAIT": 5.3,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 8.775,
+              "MINE": 42.4,
+              "MOVE": 243.5,
+              "BUILD": 0.025
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1497,
+            "gold_deposited": 1479,
+            "iron_mined": 107,
+            "iron_deposited": 104,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 446,
+            "gold_in_cargo_at_end": 18,
+            "iron_in_cargo_at_end": 3
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8952,
+            "map_explored_percent": 3978.6666666666674,
+            "resource_deposits_discovered": 1190
+          },
+          "construction_audit": {
+            "insufficient_iron": 11820,
+            "turn_cutoff": 180
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2526,
+            "heuristic_gold_threshold": 3578,
+            "occupied_tile": 396,
+            "site_too_close": 1420,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 331,
+              "MINE": 1604,
+              "MOVE": 9619,
+              "WAIT": 446
+            },
+            "normalized": {
+              "DEPOSIT": 331,
+              "MINE": 1604,
+              "MOVE": 9619,
+              "WAIT": 446
+            },
+            "effect": {
+              "DEPOSIT": 331,
+              "MINE": 1604,
+              "MOVE": 9619
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1571,
+            "gold_deposited": 1529,
+            "iron_mined": 125,
+            "iron_deposited": 124,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 212,
+            "gold_in_cargo_at_end": 42,
+            "iron_in_cargo_at_end": 1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8916,
+            "map_explored_percent": 3962.666666666668,
+            "resource_deposits_discovered": 1186
+          },
+          "construction_audit": {
+            "insufficient_iron": 11757,
+            "turn_cutoff": 240,
+            "eligible": 1,
+            "heuristic_gold_threshold": 1,
+            "occupied_tile": 1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2590,
+            "heuristic_gold_threshold": 3375,
+            "occupied_tile": 444,
+            "site_too_close": 1511,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 351,
+              "MINE": 1696,
+              "MOVE": 9740,
+              "WAIT": 212,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 351,
+              "MINE": 1696,
+              "MOVE": 9740,
+              "WAIT": 212,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 351,
+              "MINE": 1696,
+              "MOVE": 9740,
+              "BUILD": 1
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.360117376789276,
+        "b": 2.3726577484994777
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 20,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario obstacle-heavy --bot-a coordinated-nearest --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "default",
+        "coordinated-no-endgame",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 14,
+        "b": 24,
+        "ties": 2
+      },
+      "win_rate_b_on_clean_pairs": 0.625,
+      "paired_mean_b_minus_a": 2.1,
+      "paired_ci95_b_minus_a": [
+        1.125,
+        2.925
+      ],
+      "average_gold": {
+        "a": 43.45,
+        "b": 45.55
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 51.5,
+            "gold_deposited": 43.45,
+            "iron_mined": 1.4,
+            "iron_deposited": 1.4,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 8.05,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 222.7,
+            "map_explored_percent": 98.97777777777779,
+            "resource_deposits_discovered": 29.825
+          },
+          "construction_audit": {
+            "insufficient_iron": 299.925,
+            "eligible": 0.025,
+            "heuristic_gold_threshold": 0.025,
+            "occupied_tile": 0.025
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 66.275,
+            "heuristic_gold_threshold": 76.075,
+            "occupied_tile": 12.15,
+            "site_too_close": 43.5,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.0,
+              "MINE": 52.9,
+              "MOVE": 238.075,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 9.0,
+              "MINE": 52.9,
+              "MOVE": 238.075,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 9.0,
+              "MINE": 52.9,
+              "MOVE": 238.075,
+              "BUILD": 0.025
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 46.45,
+            "gold_deposited": 45.55,
+            "iron_mined": 1.575,
+            "iron_deposited": 1.375,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 4.1,
+            "gold_in_cargo_at_end": 0.9,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.1,
+            "map_explored_percent": 99.15555555555558,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {
+            "insufficient_iron": 298.05,
+            "turn_cutoff": 1.95
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 66.425,
+            "heuristic_gold_threshold": 76.1,
+            "occupied_tile": 12.075,
+            "site_too_close": 43.4,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0,
+              "WAIT": 4.1
+            },
+            "normalized": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0,
+              "WAIT": 4.1
+            },
+            "effect": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 2060,
+            "gold_deposited": 1738,
+            "iron_mined": 56,
+            "iron_deposited": 56,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 0,
+            "gold_in_cargo_at_end": 322,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8908,
+            "map_explored_percent": 3959.1111111111118,
+            "resource_deposits_discovered": 1193
+          },
+          "construction_audit": {
+            "insufficient_iron": 11997,
+            "eligible": 1,
+            "heuristic_gold_threshold": 1,
+            "occupied_tile": 1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2651,
+            "heuristic_gold_threshold": 3043,
+            "occupied_tile": 486,
+            "site_too_close": 1740,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 360,
+              "MINE": 2116,
+              "MOVE": 9523,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 360,
+              "MINE": 2116,
+              "MOVE": 9523,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 360,
+              "MINE": 2116,
+              "MOVE": 9523,
+              "BUILD": 1
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1858,
+            "gold_deposited": 1822,
+            "iron_mined": 63,
+            "iron_deposited": 55,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 164,
+            "gold_in_cargo_at_end": 36,
+            "iron_in_cargo_at_end": 8
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8924,
+            "map_explored_percent": 3966.222222222223,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {
+            "insufficient_iron": 11922,
+            "turn_cutoff": 78
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2657,
+            "heuristic_gold_threshold": 3044,
+            "occupied_tile": 483,
+            "site_too_close": 1736,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520,
+              "WAIT": 164
+            },
+            "normalized": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520,
+              "WAIT": 164
+            },
+            "effect": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.5330764279860887,
+        "b": 2.5571792112314142
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a coordinated-no-endgame --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "short-horizon",
+        "coordinated-no-endgame",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 9,
+        "b": 18,
+        "ties": 13
+      },
+      "win_rate_b_on_clean_pairs": 0.6125,
+      "paired_mean_b_minus_a": 1.225,
+      "paired_ci95_b_minus_a": [
+        0.425,
+        2.075
+      ],
+      "average_gold": {
+        "a": 3.025,
+        "b": 4.25
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 14.25,
+            "gold_deposited": 3.025,
+            "iron_mined": 0.4,
+            "iron_deposited": 0.1,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 11.225,
+            "iron_in_cargo_at_end": 0.3
+          },
+          "exploration": {
+            "unique_tiles_revealed": 221.325,
+            "map_explored_percent": 98.36666666666665,
+            "resource_deposits_discovered": 29.675
+          },
+          "construction_audit": {
+            "insufficient_iron": 120.0
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 46.9,
+            "heuristic_gold_threshold": 51.925,
+            "occupied_tile": 4.3,
+            "site_too_close": 16.875
+          },
+          "actions": {
+            "submitted": {
+              "MINE": 14.65,
+              "MOVE": 104.725,
+              "DEPOSIT": 0.625
+            },
+            "normalized": {
+              "MINE": 14.65,
+              "MOVE": 104.725,
+              "DEPOSIT": 0.625
+            },
+            "effect": {
+              "MINE": 14.65,
+              "MOVE": 104.725,
+              "DEPOSIT": 0.625
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 7.875,
+            "gold_deposited": 4.25,
+            "iron_mined": 0.375,
+            "iron_deposited": 0.1,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 16.65,
+            "gold_in_cargo_at_end": 3.625,
+            "iron_in_cargo_at_end": 0.275
+          },
+          "exploration": {
+            "unique_tiles_revealed": 211.1,
+            "map_explored_percent": 93.82222222222222,
+            "resource_deposits_discovered": 28.3
+          },
+          "construction_audit": {
+            "insufficient_iron": 120.0
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 38.825,
+            "heuristic_gold_threshold": 51.925,
+            "horizon_rejected": 6.775,
+            "occupied_tile": 4.9,
+            "site_too_close": 17.575
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 1.1,
+              "MINE": 8.25,
+              "MOVE": 94.0,
+              "WAIT": 16.65
+            },
+            "normalized": {
+              "DEPOSIT": 1.1,
+              "MINE": 8.25,
+              "MOVE": 94.0,
+              "WAIT": 16.65
+            },
+            "effect": {
+              "DEPOSIT": 1.1,
+              "MINE": 8.25,
+              "MOVE": 94.0
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 570,
+            "gold_deposited": 121,
+            "iron_mined": 16,
+            "iron_deposited": 4,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 0,
+            "gold_in_cargo_at_end": 449,
+            "iron_in_cargo_at_end": 12
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8853,
+            "map_explored_percent": 3934.666666666666,
+            "resource_deposits_discovered": 1187
+          },
+          "construction_audit": {
+            "insufficient_iron": 4800
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1876,
+            "heuristic_gold_threshold": 2077,
+            "occupied_tile": 172,
+            "site_too_close": 675
+          },
+          "actions": {
+            "submitted": {
+              "MINE": 586,
+              "MOVE": 4189,
+              "DEPOSIT": 25
+            },
+            "normalized": {
+              "MINE": 586,
+              "MOVE": 4189,
+              "DEPOSIT": 25
+            },
+            "effect": {
+              "MINE": 586,
+              "MOVE": 4189,
+              "DEPOSIT": 25
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 315,
+            "gold_deposited": 170,
+            "iron_mined": 15,
+            "iron_deposited": 4,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 666,
+            "gold_in_cargo_at_end": 145,
+            "iron_in_cargo_at_end": 11
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8444,
+            "map_explored_percent": 3752.888888888889,
+            "resource_deposits_discovered": 1132
+          },
+          "construction_audit": {
+            "insufficient_iron": 4800
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1553,
+            "heuristic_gold_threshold": 2077,
+            "horizon_rejected": 271,
+            "occupied_tile": 196,
+            "site_too_close": 703
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 44,
+              "MINE": 330,
+              "MOVE": 3760,
+              "WAIT": 666
+            },
+            "normalized": {
+              "DEPOSIT": 44,
+              "MINE": 330,
+              "MOVE": 3760,
+              "WAIT": 666
+            },
+            "effect": {
+              "DEPOSIT": 44,
+              "MINE": 330,
+              "MOVE": 3760
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.7634008000859467,
+        "b": 2.575673647424992
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 40,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario short-horizon --bot-a coordinated-no-endgame --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated-no-endgame",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 12,
+        "b": 27,
+        "ties": 1
+      },
+      "win_rate_b_on_clean_pairs": 0.6875,
+      "paired_mean_b_minus_a": 1.9,
+      "paired_ci95_b_minus_a": [
+        1.25,
+        2.55
+      ],
+      "average_gold": {
+        "a": 34.2,
+        "b": 36.1
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 40.05,
+            "gold_deposited": 34.2,
+            "iron_mined": 1.9,
+            "iron_deposited": 1.825,
+            "iron_spent_on_bases": 0.4,
+            "bases_built": 0.05,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 5.85,
+            "iron_in_cargo_at_end": 0.075
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.125,
+            "map_explored_percent": 99.1666666666667,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 293.85,
+            "eligible": 0.05,
+            "heuristic_gold_threshold": 0.425,
+            "occupied_tile": 0.2,
+            "site_too_close": 0.375,
+            "turn_cutoff": 5.1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 33.475,
+            "heuristic_gold_threshold": 116.8,
+            "occupied_tile": 11.1,
+            "site_too_close": 36.625,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 7.325,
+              "MINE": 41.95,
+              "MOVE": 250.675,
+              "BUILD": 0.05
+            },
+            "normalized": {
+              "DEPOSIT": 7.325,
+              "MINE": 41.95,
+              "MOVE": 250.675,
+              "BUILD": 0.05
+            },
+            "effect": {
+              "DEPOSIT": 7.325,
+              "MINE": 41.95,
+              "MOVE": 250.675,
+              "BUILD": 0.05
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 37.3,
+            "gold_deposited": 36.1,
+            "iron_mined": 1.8,
+            "iron_deposited": 1.7,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 7.675,
+            "gold_in_cargo_at_end": 1.2,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.475,
+            "map_explored_percent": 99.32222222222228,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 292.8,
+            "turn_cutoff": 6.75,
+            "heuristic_gold_threshold": 0.225,
+            "occupied_tile": 0.05,
+            "site_too_close": 0.15,
+            "eligible": 0.025
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 33.55,
+            "heuristic_gold_threshold": 117.05,
+            "occupied_tile": 11.0,
+            "site_too_close": 36.4,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.975,
+              "WAIT": 7.675,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.975,
+              "WAIT": 7.675,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.975,
+              "BUILD": 0.025
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1602,
+            "gold_deposited": 1368,
+            "iron_mined": 76,
+            "iron_deposited": 73,
+            "iron_spent_on_bases": 16,
+            "bases_built": 2,
+            "no_effect_rover_turns": 0,
+            "gold_in_cargo_at_end": 234,
+            "iron_in_cargo_at_end": 3
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8925,
+            "map_explored_percent": 3966.666666666668,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11754,
+            "eligible": 2,
+            "heuristic_gold_threshold": 17,
+            "occupied_tile": 8,
+            "site_too_close": 15,
+            "turn_cutoff": 204
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1339,
+            "heuristic_gold_threshold": 4672,
+            "occupied_tile": 444,
+            "site_too_close": 1465,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 293,
+              "MINE": 1678,
+              "MOVE": 10027,
+              "BUILD": 2
+            },
+            "normalized": {
+              "DEPOSIT": 293,
+              "MINE": 1678,
+              "MOVE": 10027,
+              "BUILD": 2
+            },
+            "effect": {
+              "DEPOSIT": 293,
+              "MINE": 1678,
+              "MOVE": 10027,
+              "BUILD": 2
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1492,
+            "gold_deposited": 1444,
+            "iron_mined": 72,
+            "iron_deposited": 68,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 307,
+            "gold_in_cargo_at_end": 48,
+            "iron_in_cargo_at_end": 4
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8939,
+            "map_explored_percent": 3972.888888888891,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11712,
+            "turn_cutoff": 270,
+            "heuristic_gold_threshold": 9,
+            "occupied_tile": 2,
+            "site_too_close": 6,
+            "eligible": 1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1342,
+            "heuristic_gold_threshold": 4682,
+            "occupied_tile": 440,
+            "site_too_close": 1456,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9799,
+              "WAIT": 307,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9799,
+              "WAIT": 307,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9799,
+              "BUILD": 1
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.5235444314748747,
+        "b": 2.5241078686885885
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-no-endgame --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "default",
+        "independent",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 0,
+        "b": 40,
+        "ties": 0
+      },
+      "win_rate_b_on_clean_pairs": 1.0,
+      "paired_mean_b_minus_a": 20.8,
+      "paired_ci95_b_minus_a": [
+        17.8,
+        24.175625
+      ],
+      "average_gold": {
+        "a": 25.7,
+        "b": 46.5
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 27.55,
+            "gold_deposited": 25.7,
+            "iron_mined": 0.475,
+            "iron_deposited": 0.475,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 7.425,
+            "gold_in_cargo_at_end": 1.85,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 216.925,
+            "map_explored_percent": 96.41111111111113,
+            "resource_deposits_discovered": 29.275
+          },
+          "construction_audit": {
+            "insufficient_iron": 299.475,
+            "eligible": 0.075,
+            "eligible_not_submitted": 0.05,
+            "heuristic_gold_threshold": 0.15,
+            "occupied_tile": 0.075,
+            "site_too_close": 0.225
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 69.675,
+            "heuristic_gold_threshold": 102.65,
+            "occupied_tile": 5.6,
+            "site_too_close": 20.075,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 5.7,
+              "MINE": 29.35,
+              "MOVE": 258.825,
+              "WAIT": 6.1,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 5.7,
+              "MINE": 29.35,
+              "MOVE": 258.825,
+              "WAIT": 6.1,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 5.7,
+              "MINE": 28.025,
+              "MOVE": 258.825,
+              "BUILD": 0.025
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 47.05,
+            "gold_deposited": 46.5,
+            "iron_mined": 1.3,
+            "iron_deposited": 1.225,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 3.475,
+            "gold_in_cargo_at_end": 0.55,
+            "iron_in_cargo_at_end": 0.075
+          },
+          "exploration": {
+            "unique_tiles_revealed": 222.95,
+            "map_explored_percent": 99.08888888888889,
+            "resource_deposits_discovered": 29.85
+          },
+          "construction_audit": {
+            "insufficient_iron": 298.05,
+            "turn_cutoff": 1.95
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 67.675,
+            "heuristic_gold_threshold": 74.875,
+            "occupied_tile": 11.95,
+            "site_too_close": 43.5,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 10.0,
+              "MINE": 48.35,
+              "MOVE": 238.175,
+              "WAIT": 3.475
+            },
+            "normalized": {
+              "DEPOSIT": 10.0,
+              "MINE": 48.35,
+              "MOVE": 238.175,
+              "WAIT": 3.475
+            },
+            "effect": {
+              "DEPOSIT": 10.0,
+              "MINE": 48.35,
+              "MOVE": 238.175
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1102,
+            "gold_deposited": 1028,
+            "iron_mined": 19,
+            "iron_deposited": 19,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 297,
+            "gold_in_cargo_at_end": 74,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8677,
+            "map_explored_percent": 3856.444444444445,
+            "resource_deposits_discovered": 1171
+          },
+          "construction_audit": {
+            "insufficient_iron": 11979,
+            "eligible": 3,
+            "eligible_not_submitted": 2,
+            "heuristic_gold_threshold": 6,
+            "occupied_tile": 3,
+            "site_too_close": 9
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2787,
+            "heuristic_gold_threshold": 4106,
+            "occupied_tile": 224,
+            "site_too_close": 803,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 228,
+              "MINE": 1174,
+              "MOVE": 10353,
+              "WAIT": 244,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 228,
+              "MINE": 1174,
+              "MOVE": 10353,
+              "WAIT": 244,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 228,
+              "MINE": 1121,
+              "MOVE": 10353,
+              "BUILD": 1
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1882,
+            "gold_deposited": 1860,
+            "iron_mined": 52,
+            "iron_deposited": 49,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 139,
+            "gold_in_cargo_at_end": 22,
+            "iron_in_cargo_at_end": 3
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8918,
+            "map_explored_percent": 3963.5555555555557,
+            "resource_deposits_discovered": 1194
+          },
+          "construction_audit": {
+            "insufficient_iron": 11922,
+            "turn_cutoff": 78
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2707,
+            "heuristic_gold_threshold": 2995,
+            "occupied_tile": 478,
+            "site_too_close": 1740,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 400,
+              "MINE": 1934,
+              "MOVE": 9527,
+              "WAIT": 139
+            },
+            "normalized": {
+              "DEPOSIT": 400,
+              "MINE": 1934,
+              "MOVE": 9527,
+              "WAIT": 139
+            },
+            "effect": {
+              "DEPOSIT": 400,
+              "MINE": 1934,
+              "MOVE": 9527
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.3561199938412756,
+        "b": 2.5535564347010222
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a independent --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "full-info",
+        "independent",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 2,
+        "b": 38,
+        "ties": 0
+      },
+      "win_rate_b_on_clean_pairs": 0.95,
+      "paired_mean_b_minus_a": 6.8,
+      "paired_ci95_b_minus_a": [
+        4.75,
+        9.0
+      ],
+      "average_gold": {
+        "a": 56.9,
+        "b": 63.7
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 56.9,
+            "gold_deposited": 56.9,
+            "iron_mined": 3.25,
+            "iron_deposited": 3.25,
+            "iron_spent_on_bases": 0.6,
+            "bases_built": 0.075,
+            "no_effect_rover_turns": 25.7,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 225.0,
+            "map_explored_percent": 100.0,
+            "resource_deposits_discovered": 30.0
+          },
+          "construction_audit": {
+            "insufficient_iron": 284.175,
+            "turn_cutoff": 13.5,
+            "eligible": 0.125,
+            "eligible_not_submitted": 0.05,
+            "heuristic_gold_threshold": 1.5,
+            "occupied_tile": 0.175,
+            "site_too_close": 0.525
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 40.55,
+            "heuristic_gold_threshold": 69.375,
+            "occupied_tile": 19.2,
+            "site_too_close": 68.875,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 12.525,
+              "MINE": 62.75,
+              "MOVE": 201.55,
+              "WAIT": 23.1,
+              "BUILD": 0.075
+            },
+            "normalized": {
+              "DEPOSIT": 12.525,
+              "MINE": 62.75,
+              "MOVE": 201.55,
+              "WAIT": 23.1,
+              "BUILD": 0.075
+            },
+            "effect": {
+              "DEPOSIT": 12.525,
+              "MINE": 60.15,
+              "MOVE": 201.55,
+              "BUILD": 0.075
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 63.7,
+            "gold_deposited": 63.7,
+            "iron_mined": 6.0,
+            "iron_deposited": 6.0,
+            "iron_spent_on_bases": 2.2,
+            "bases_built": 0.275,
+            "no_effect_rover_turns": 14.475,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 225.0,
+            "map_explored_percent": 100.0,
+            "resource_deposits_discovered": 30.0
+          },
+          "construction_audit": {
+            "insufficient_iron": 273.075,
+            "turn_cutoff": 23.025,
+            "eligible": 0.375,
+            "eligible_not_submitted": 0.1,
+            "heuristic_gold_threshold": 1.225,
+            "occupied_tile": 0.675,
+            "site_too_close": 1.625
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 35.75,
+            "heuristic_gold_threshold": 65.925,
+            "occupied_tile": 21.75,
+            "site_too_close": 74.575,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 14.9,
+              "MINE": 69.7,
+              "MOVE": 200.65,
+              "WAIT": 14.475,
+              "BUILD": 0.275
+            },
+            "normalized": {
+              "DEPOSIT": 14.9,
+              "MINE": 69.7,
+              "MOVE": 200.65,
+              "WAIT": 14.475,
+              "BUILD": 0.275
+            },
+            "effect": {
+              "DEPOSIT": 14.9,
+              "MINE": 69.7,
+              "MOVE": 200.65,
+              "BUILD": 0.275
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 2276,
+            "gold_deposited": 2276,
+            "iron_mined": 130,
+            "iron_deposited": 130,
+            "iron_spent_on_bases": 24,
+            "bases_built": 3,
+            "no_effect_rover_turns": 1028,
+            "gold_in_cargo_at_end": 0,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 9000,
+            "map_explored_percent": 4000.0,
+            "resource_deposits_discovered": 1200
+          },
+          "construction_audit": {
+            "insufficient_iron": 11367,
+            "turn_cutoff": 540,
+            "eligible": 5,
+            "eligible_not_submitted": 2,
+            "heuristic_gold_threshold": 60,
+            "occupied_tile": 7,
+            "site_too_close": 21
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1622,
+            "heuristic_gold_threshold": 2775,
+            "occupied_tile": 768,
+            "site_too_close": 2755,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 501,
+              "MINE": 2510,
+              "MOVE": 8062,
+              "WAIT": 924,
+              "BUILD": 3
+            },
+            "normalized": {
+              "DEPOSIT": 501,
+              "MINE": 2510,
+              "MOVE": 8062,
+              "WAIT": 924,
+              "BUILD": 3
+            },
+            "effect": {
+              "DEPOSIT": 501,
+              "MINE": 2406,
+              "MOVE": 8062,
+              "BUILD": 3
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 2548,
+            "gold_deposited": 2548,
+            "iron_mined": 240,
+            "iron_deposited": 240,
+            "iron_spent_on_bases": 88,
+            "bases_built": 11,
+            "no_effect_rover_turns": 579,
+            "gold_in_cargo_at_end": 0,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 9000,
+            "map_explored_percent": 4000.0,
+            "resource_deposits_discovered": 1200
+          },
+          "construction_audit": {
+            "insufficient_iron": 10923,
+            "turn_cutoff": 921,
+            "eligible": 15,
+            "eligible_not_submitted": 4,
+            "heuristic_gold_threshold": 49,
+            "occupied_tile": 27,
+            "site_too_close": 65
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1430,
+            "heuristic_gold_threshold": 2637,
+            "occupied_tile": 870,
+            "site_too_close": 2983,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 596,
+              "MINE": 2788,
+              "MOVE": 8026,
+              "WAIT": 579,
+              "BUILD": 11
+            },
+            "normalized": {
+              "DEPOSIT": 596,
+              "MINE": 2788,
+              "MOVE": 8026,
+              "WAIT": 579,
+              "BUILD": 11
+            },
+            "effect": {
+              "DEPOSIT": 596,
+              "MINE": 2788,
+              "MOVE": 8026,
+              "BUILD": 11
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.860014697020233,
+        "b": 2.823169381925254
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "command": "python3 -m mini_mars tournament --scenario full-info --bot-a independent --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "default",
+        "coordinated-gold-only",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 22,
+        "b": 16,
+        "ties": 2
+      },
+      "win_rate_b_on_clean_pairs": 0.425,
+      "paired_mean_b_minus_a": -0.975,
+      "paired_ci95_b_minus_a": [
+        -1.775,
+        -0.25
+      ],
+      "average_gold": {
+        "a": 46.675,
+        "b": 45.7
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 47.525,
+            "gold_deposited": 46.675,
+            "iron_mined": 0.0,
+            "iron_deposited": 0.0,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 3.875,
+            "gold_in_cargo_at_end": 0.85,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.1,
+            "map_explored_percent": 99.15555555555555,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.875,
+              "MINE": 47.525,
+              "MOVE": 238.725,
+              "WAIT": 3.875
+            },
+            "normalized": {
+              "DEPOSIT": 9.875,
+              "MINE": 47.525,
+              "MOVE": 238.725,
+              "WAIT": 3.875
+            },
+            "effect": {
+              "DEPOSIT": 9.875,
+              "MINE": 47.525,
+              "MOVE": 238.725
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 46.6,
+            "gold_deposited": 45.7,
+            "iron_mined": 1.4,
+            "iron_deposited": 1.2,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 4.175,
+            "gold_in_cargo_at_end": 0.9,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.075,
+            "map_explored_percent": 99.14444444444446,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {
+            "insufficient_iron": 298.05,
+            "turn_cutoff": 1.95
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 66.9,
+            "heuristic_gold_threshold": 75.775,
+            "occupied_tile": 12.025,
+            "site_too_close": 43.3,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.0,
+              "MOVE": 237.925,
+              "WAIT": 4.175
+            },
+            "normalized": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.0,
+              "MOVE": 237.925,
+              "WAIT": 4.175
+            },
+            "effect": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.0,
+              "MOVE": 237.925
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1901,
+            "gold_deposited": 1867,
+            "iron_mined": 0,
+            "iron_deposited": 0,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 155,
+            "gold_in_cargo_at_end": 34,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8924,
+            "map_explored_percent": 3966.222222222222,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 395,
+              "MINE": 1901,
+              "MOVE": 9549,
+              "WAIT": 155
+            },
+            "normalized": {
+              "DEPOSIT": 395,
+              "MINE": 1901,
+              "MOVE": 9549,
+              "WAIT": 155
+            },
+            "effect": {
+              "DEPOSIT": 395,
+              "MINE": 1901,
+              "MOVE": 9549
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1864,
+            "gold_deposited": 1828,
+            "iron_mined": 56,
+            "iron_deposited": 48,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 167,
+            "gold_in_cargo_at_end": 36,
+            "iron_in_cargo_at_end": 8
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8923,
+            "map_explored_percent": 3965.7777777777783,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {
+            "insufficient_iron": 11922,
+            "turn_cutoff": 78
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2676,
+            "heuristic_gold_threshold": 3031,
+            "occupied_tile": 481,
+            "site_too_close": 1732,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 396,
+              "MINE": 1920,
+              "MOVE": 9517,
+              "WAIT": 167
+            },
+            "normalized": {
+              "DEPOSIT": 396,
+              "MINE": 1920,
+              "MOVE": 9517,
+              "WAIT": 167
+            },
+            "effect": {
+              "DEPOSIT": 396,
+              "MINE": 1920,
+              "MOVE": 9517
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.5087922367893043,
+        "b": 2.538667718763463
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a coordinated-gold-only --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated-gold-only",
+        "coordinated"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 19,
+        "b": 15,
+        "ties": 6
+      },
+      "win_rate_b_on_clean_pairs": 0.45,
+      "paired_mean_b_minus_a": -1.075,
+      "paired_ci95_b_minus_a": [
+        -2.225,
+        -0.15
+      ],
+      "average_gold": {
+        "a": 36.7,
+        "b": 35.625
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 37.8,
+            "gold_deposited": 36.7,
+            "iron_mined": 0.0,
+            "iron_deposited": 0.0,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 6.925,
+            "gold_in_cargo_at_end": 1.1,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.45,
+            "map_explored_percent": 99.31111111111116,
+            "resource_deposits_discovered": 15.975
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.0,
+              "MINE": 37.8,
+              "MOVE": 247.275,
+              "WAIT": 6.925
+            },
+            "normalized": {
+              "DEPOSIT": 8.0,
+              "MINE": 37.8,
+              "MOVE": 247.275,
+              "WAIT": 6.925
+            },
+            "effect": {
+              "DEPOSIT": 8.0,
+              "MINE": 37.8,
+              "MOVE": 247.275
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 36.925,
+            "gold_deposited": 35.625,
+            "iron_mined": 1.9,
+            "iron_deposited": 1.8,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 8.475,
+            "gold_in_cargo_at_end": 1.3,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.475,
+            "map_explored_percent": 99.32222222222227,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 292.8,
+            "turn_cutoff": 6.75,
+            "heuristic_gold_threshold": 0.225,
+            "occupied_tile": 0.05,
+            "site_too_close": 0.15,
+            "eligible": 0.025
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 33.175,
+            "heuristic_gold_threshold": 117.4,
+            "occupied_tile": 11.05,
+            "site_too_close": 36.375,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.15,
+              "MINE": 38.85,
+              "MOVE": 244.525,
+              "WAIT": 8.45,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 8.15,
+              "MINE": 38.85,
+              "MOVE": 244.525,
+              "WAIT": 8.45,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 8.15,
+              "MINE": 38.825,
+              "MOVE": 244.525,
+              "BUILD": 0.025
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1512,
+            "gold_deposited": 1468,
+            "iron_mined": 0,
+            "iron_deposited": 0,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 277,
+            "gold_in_cargo_at_end": 44,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8938,
+            "map_explored_percent": 3972.4444444444466,
+            "resource_deposits_discovered": 639
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 320,
+              "MINE": 1512,
+              "MOVE": 9891,
+              "WAIT": 277
+            },
+            "normalized": {
+              "DEPOSIT": 320,
+              "MINE": 1512,
+              "MOVE": 9891,
+              "WAIT": 277
+            },
+            "effect": {
+              "DEPOSIT": 320,
+              "MINE": 1512,
+              "MOVE": 9891
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1477,
+            "gold_deposited": 1425,
+            "iron_mined": 76,
+            "iron_deposited": 72,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 339,
+            "gold_in_cargo_at_end": 52,
+            "iron_in_cargo_at_end": 4
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8939,
+            "map_explored_percent": 3972.8888888888905,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11712,
+            "turn_cutoff": 270,
+            "heuristic_gold_threshold": 9,
+            "occupied_tile": 2,
+            "site_too_close": 6,
+            "eligible": 1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1327,
+            "heuristic_gold_threshold": 4696,
+            "occupied_tile": 442,
+            "site_too_close": 1455,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 326,
+              "MINE": 1554,
+              "MOVE": 9781,
+              "WAIT": 338,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 326,
+              "MINE": 1554,
+              "MOVE": 9781,
+              "WAIT": 338,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 326,
+              "MINE": 1553,
+              "MOVE": 9781,
+              "BUILD": 1
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.526113141917449,
+        "b": 2.5380050151143223
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-gold-only --bot-b coordinated --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "default",
+        "coordinated",
+        "coordinated-payback-build"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 20,
+        "b": 20,
+        "ties": 0
+      },
+      "win_rate_b_on_clean_pairs": 0.5,
+      "paired_mean_b_minus_a": 0.1,
+      "paired_ci95_b_minus_a": [
+        -0.0,
+        0.3
+      ],
+      "average_gold": {
+        "a": 45.55,
+        "b": 45.65
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 46.45,
+            "gold_deposited": 45.55,
+            "iron_mined": 1.575,
+            "iron_deposited": 1.375,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 4.1,
+            "gold_in_cargo_at_end": 0.9,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.1,
+            "map_explored_percent": 99.15555555555558,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {
+            "insufficient_iron": 298.05,
+            "turn_cutoff": 1.95
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 66.425,
+            "heuristic_gold_threshold": 76.1,
+            "occupied_tile": 12.075,
+            "site_too_close": 43.4,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0,
+              "WAIT": 4.1
+            },
+            "normalized": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0,
+              "WAIT": 4.1
+            },
+            "effect": {
+              "DEPOSIT": 9.875,
+              "MINE": 48.025,
+              "MOVE": 238.0
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 46.55,
+            "gold_deposited": 45.65,
+            "iron_mined": 1.575,
+            "iron_deposited": 1.375,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 4.1,
+            "gold_in_cargo_at_end": 0.9,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.125,
+            "map_explored_percent": 99.1666666666667,
+            "resource_deposits_discovered": 29.875
+          },
+          "construction_audit": {
+            "insufficient_iron": 299.925,
+            "eligible": 0.025,
+            "occupied_tile": 0.025,
+            "payback_rejected": 0.025
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 202.125,
+            "horizon_rejected": 28.4,
+            "occupied_tile": 23.1,
+            "payback_rejected": 46.375
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.125,
+              "MOVE": 237.85,
+              "WAIT": 4.1,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.125,
+              "MOVE": 237.85,
+              "WAIT": 4.1,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 9.9,
+              "MINE": 48.125,
+              "MOVE": 237.85,
+              "BUILD": 0.025
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1858,
+            "gold_deposited": 1822,
+            "iron_mined": 63,
+            "iron_deposited": 55,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 164,
+            "gold_in_cargo_at_end": 36,
+            "iron_in_cargo_at_end": 8
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8924,
+            "map_explored_percent": 3966.222222222223,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {
+            "insufficient_iron": 11922,
+            "turn_cutoff": 78
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 2657,
+            "heuristic_gold_threshold": 3044,
+            "occupied_tile": 483,
+            "site_too_close": 1736,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520,
+              "WAIT": 164
+            },
+            "normalized": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520,
+              "WAIT": 164
+            },
+            "effect": {
+              "DEPOSIT": 395,
+              "MINE": 1921,
+              "MOVE": 9520
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1862,
+            "gold_deposited": 1826,
+            "iron_mined": 63,
+            "iron_deposited": 55,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 164,
+            "gold_in_cargo_at_end": 36,
+            "iron_in_cargo_at_end": 8
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8925,
+            "map_explored_percent": 3966.666666666668,
+            "resource_deposits_discovered": 1195
+          },
+          "construction_audit": {
+            "insufficient_iron": 11997,
+            "eligible": 1,
+            "occupied_tile": 1,
+            "payback_rejected": 1
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 8085,
+            "horizon_rejected": 1136,
+            "occupied_tile": 924,
+            "payback_rejected": 1855
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 396,
+              "MINE": 1925,
+              "MOVE": 9514,
+              "WAIT": 164,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 396,
+              "MINE": 1925,
+              "MOVE": 9514,
+              "WAIT": 164,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 396,
+              "MINE": 1925,
+              "MOVE": 9514,
+              "BUILD": 1
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.5758267718483694,
+        "b": 2.5687165466006263
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a coordinated --bot-b coordinated-payback-build --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated",
+        "coordinated-payback-build"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 19,
+        "b": 18,
+        "ties": 3
+      },
+      "win_rate_b_on_clean_pairs": 0.4875,
+      "paired_mean_b_minus_a": -0.05,
+      "paired_ci95_b_minus_a": [
+        -0.3,
+        0.15
+      ],
+      "average_gold": {
+        "a": 36.05,
+        "b": 36.0
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 37.3,
+            "gold_deposited": 36.05,
+            "iron_mined": 1.8,
+            "iron_deposited": 1.7,
+            "iron_spent_on_bases": 0.2,
+            "bases_built": 0.025,
+            "no_effect_rover_turns": 7.975,
+            "gold_in_cargo_at_end": 1.25,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.425,
+            "map_explored_percent": 99.30000000000005,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 292.8,
+            "turn_cutoff": 6.75,
+            "eligible": 0.025,
+            "heuristic_gold_threshold": 0.225,
+            "occupied_tile": 0.05,
+            "site_too_close": 0.15
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 33.55,
+            "heuristic_gold_threshold": 117.05,
+            "occupied_tile": 11.0,
+            "site_too_close": 36.4,
+            "turn_cutoff": 102.0
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.675,
+              "WAIT": 7.975,
+              "BUILD": 0.025
+            },
+            "normalized": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.675,
+              "WAIT": 7.975,
+              "BUILD": 0.025
+            },
+            "effect": {
+              "DEPOSIT": 8.225,
+              "MINE": 39.1,
+              "MOVE": 244.675,
+              "BUILD": 0.025
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 37.25,
+            "gold_deposited": 36.0,
+            "iron_mined": 1.8,
+            "iron_deposited": 1.7,
+            "iron_spent_on_bases": 0.8,
+            "bases_built": 0.1,
+            "no_effect_rover_turns": 8.175,
+            "gold_in_cargo_at_end": 1.25,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.45,
+            "map_explored_percent": 99.31111111111116,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 299.325,
+            "eligible": 0.225,
+            "eligible_not_submitted": 0.125,
+            "horizon_rejected": 0.05,
+            "occupied_tile": 0.15,
+            "payback_rejected": 0.25
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 182.85,
+            "horizon_rejected": 41.075,
+            "occupied_tile": 20.95,
+            "payback_rejected": 55.125
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.275,
+              "MINE": 39.05,
+              "MOVE": 244.4,
+              "WAIT": 8.175,
+              "BUILD": 0.1
+            },
+            "normalized": {
+              "DEPOSIT": 8.275,
+              "MINE": 39.05,
+              "MOVE": 244.4,
+              "WAIT": 8.175,
+              "BUILD": 0.1
+            },
+            "effect": {
+              "DEPOSIT": 8.275,
+              "MINE": 39.05,
+              "MOVE": 244.4,
+              "BUILD": 0.1
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1492,
+            "gold_deposited": 1442,
+            "iron_mined": 72,
+            "iron_deposited": 68,
+            "iron_spent_on_bases": 8,
+            "bases_built": 1,
+            "no_effect_rover_turns": 319,
+            "gold_in_cargo_at_end": 50,
+            "iron_in_cargo_at_end": 4
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8937,
+            "map_explored_percent": 3972.0000000000023,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11712,
+            "turn_cutoff": 270,
+            "eligible": 1,
+            "heuristic_gold_threshold": 9,
+            "occupied_tile": 2,
+            "site_too_close": 6
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 1342,
+            "heuristic_gold_threshold": 4682,
+            "occupied_tile": 440,
+            "site_too_close": 1456,
+            "turn_cutoff": 4080
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9787,
+              "WAIT": 319,
+              "BUILD": 1
+            },
+            "normalized": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9787,
+              "WAIT": 319,
+              "BUILD": 1
+            },
+            "effect": {
+              "DEPOSIT": 329,
+              "MINE": 1564,
+              "MOVE": 9787,
+              "BUILD": 1
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1490,
+            "gold_deposited": 1440,
+            "iron_mined": 72,
+            "iron_deposited": 68,
+            "iron_spent_on_bases": 32,
+            "bases_built": 4,
+            "no_effect_rover_turns": 327,
+            "gold_in_cargo_at_end": 50,
+            "iron_in_cargo_at_end": 4
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8938,
+            "map_explored_percent": 3972.444444444446,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11973,
+            "eligible": 9,
+            "eligible_not_submitted": 5,
+            "horizon_rejected": 2,
+            "occupied_tile": 6,
+            "payback_rejected": 10
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 7314,
+            "horizon_rejected": 1643,
+            "occupied_tile": 838,
+            "payback_rejected": 2205
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 331,
+              "MINE": 1562,
+              "MOVE": 9776,
+              "WAIT": 327,
+              "BUILD": 4
+            },
+            "normalized": {
+              "DEPOSIT": 331,
+              "MINE": 1562,
+              "MOVE": 9776,
+              "WAIT": 327,
+              "BUILD": 4
+            },
+            "effect": {
+              "DEPOSIT": 331,
+              "MINE": 1562,
+              "MOVE": 9776,
+              "BUILD": 4
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.56466858501517,
+        "b": 2.5587912293922273
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated --bot-b coordinated-payback-build --matches 20 --seed 30000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated-gold-only",
+        "coordinated-payback-build"
+      ],
+      "seed_start": 30000,
+      "paired_seeds_requested": 20,
+      "complete_pairs": 20,
+      "failed_pairs": 0,
+      "attempted_games": 40,
+      "games_played": 40,
+      "wins": {
+        "a": 20,
+        "b": 16,
+        "ties": 4
+      },
+      "win_rate_b_on_clean_pairs": 0.45,
+      "paired_mean_b_minus_a": -1.05,
+      "paired_ci95_b_minus_a": [
+        -2.2,
+        -0.1
+      ],
+      "average_gold": {
+        "a": 36.775,
+        "b": 35.725
+      },
+      "reliability": {
+        "a": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        },
+        "b": {
+          "attempted_games": 40,
+          "clean_games": 40,
+          "faulted_games": 0,
+          "exception_games": 0,
+          "invalid_actions": 0,
+          "timeouts": 0,
+          "crashes": 0,
+          "protocol_fault_turns": 0
+        }
+      },
+      "failed_matches": 0,
+      "exception_matches": 0,
+      "faulted_matches": 0,
+      "behavior_per_clean_game": {
+        "a": {
+          "economy": {
+            "gold_mined": 37.825,
+            "gold_deposited": 36.775,
+            "iron_mined": 0.0,
+            "iron_deposited": 0.0,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "no_effect_rover_turns": 6.575,
+            "gold_in_cargo_at_end": 1.05,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.45,
+            "map_explored_percent": 99.31111111111116,
+            "resource_deposits_discovered": 15.975
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.025,
+              "MINE": 37.825,
+              "MOVE": 247.575,
+              "WAIT": 6.575
+            },
+            "normalized": {
+              "DEPOSIT": 8.025,
+              "MINE": 37.825,
+              "MOVE": 247.575,
+              "WAIT": 6.575
+            },
+            "effect": {
+              "DEPOSIT": 8.025,
+              "MINE": 37.825,
+              "MOVE": 247.575
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 37.025,
+            "gold_deposited": 35.725,
+            "iron_mined": 1.9,
+            "iron_deposited": 1.8,
+            "iron_spent_on_bases": 0.8,
+            "bases_built": 0.1,
+            "no_effect_rover_turns": 8.425,
+            "gold_in_cargo_at_end": 1.3,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "exploration": {
+            "unique_tiles_revealed": 223.425,
+            "map_explored_percent": 99.30000000000004,
+            "resource_deposits_discovered": 15.95
+          },
+          "construction_audit": {
+            "insufficient_iron": 299.325,
+            "eligible": 0.225,
+            "eligible_not_submitted": 0.125,
+            "horizon_rejected": 0.05,
+            "occupied_tile": 0.15,
+            "payback_rejected": 0.25
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 182.65,
+            "horizon_rejected": 40.9,
+            "occupied_tile": 20.875,
+            "payback_rejected": 55.575
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 8.25,
+              "MINE": 38.925,
+              "MOVE": 244.3,
+              "WAIT": 8.425,
+              "BUILD": 0.1
+            },
+            "normalized": {
+              "DEPOSIT": 8.25,
+              "MINE": 38.925,
+              "MOVE": 244.3,
+              "WAIT": 8.425,
+              "BUILD": 0.1
+            },
+            "effect": {
+              "DEPOSIT": 8.25,
+              "MINE": 38.925,
+              "MOVE": 244.3,
+              "BUILD": 0.1
+            }
+          }
+        }
+      },
+      "behavior_totals_on_clean_pairs": {
+        "a": {
+          "economy": {
+            "gold_mined": 1513,
+            "gold_deposited": 1471,
+            "iron_mined": 0,
+            "iron_deposited": 0,
+            "iron_spent_on_bases": 0,
+            "bases_built": 0,
+            "no_effect_rover_turns": 263,
+            "gold_in_cargo_at_end": 42,
+            "iron_in_cargo_at_end": 0
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8938,
+            "map_explored_percent": 3972.4444444444466,
+            "resource_deposits_discovered": 639
+          },
+          "construction_audit": {},
+          "site_audit_ignoring_iron": {},
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 321,
+              "MINE": 1513,
+              "MOVE": 9903,
+              "WAIT": 263
+            },
+            "normalized": {
+              "DEPOSIT": 321,
+              "MINE": 1513,
+              "MOVE": 9903,
+              "WAIT": 263
+            },
+            "effect": {
+              "DEPOSIT": 321,
+              "MINE": 1513,
+              "MOVE": 9903
+            }
+          }
+        },
+        "b": {
+          "economy": {
+            "gold_mined": 1481,
+            "gold_deposited": 1429,
+            "iron_mined": 76,
+            "iron_deposited": 72,
+            "iron_spent_on_bases": 32,
+            "bases_built": 4,
+            "no_effect_rover_turns": 337,
+            "gold_in_cargo_at_end": 52,
+            "iron_in_cargo_at_end": 4
+          },
+          "exploration": {
+            "unique_tiles_revealed": 8937,
+            "map_explored_percent": 3972.000000000002,
+            "resource_deposits_discovered": 638
+          },
+          "construction_audit": {
+            "insufficient_iron": 11973,
+            "eligible": 9,
+            "eligible_not_submitted": 5,
+            "horizon_rejected": 2,
+            "occupied_tile": 6,
+            "payback_rejected": 10
+          },
+          "site_audit_ignoring_iron": {
+            "eligible": 7306,
+            "horizon_rejected": 1636,
+            "occupied_tile": 835,
+            "payback_rejected": 2223
+          },
+          "actions": {
+            "submitted": {
+              "DEPOSIT": 330,
+              "MINE": 1557,
+              "MOVE": 9772,
+              "WAIT": 337,
+              "BUILD": 4
+            },
+            "normalized": {
+              "DEPOSIT": 330,
+              "MINE": 1557,
+              "MOVE": 9772,
+              "WAIT": 337,
+              "BUILD": 4
+            },
+            "effect": {
+              "DEPOSIT": 330,
+              "MINE": 1557,
+              "MOVE": 9772,
+              "BUILD": 4
+            }
+          }
+        }
+      },
+      "average_decision_latency_ms": {
+        "a": 2.5903332615926047,
+        "b": 2.6061641685446375
+      },
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-gold-only --bot-b coordinated-payback-build --matches 20 --seed 30000"
+    }
+  ],
+  "pilot_builds_default_and_scarce": 1,
+  "payback_followup": "eligible"
+}

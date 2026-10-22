@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+from collections import Counter
 import json
 from pathlib import Path
 import random
@@ -54,12 +55,23 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
               "decisions_a": 0, "decisions_b": 0, "invalid_a": 0, "invalid_b": 0,
               "timeouts_a": 0, "timeouts_b": 0, "crashes_a": 0, "crashes_b": 0}
     failed = 0
+    exception_matches = 0
+    faulted_matches = 0
+    reliability = {label: {"attempted_games": 0, "clean_games": 0, "faulted_games": 0,
+                           "exception_games": 0, "invalid_actions": 0, "timeouts": 0,
+                           "crashes": 0, "protocol_fault_turns": 0} for label in ("a", "b")}
+    behavior_totals = {label: {"economy": Counter(), "exploration": Counter(),
+                               "construction_audit": Counter(), "site_audit_ignoring_iron": Counter(), "actions": {
+                                   "submitted": Counter(), "normalized": Counter(), "effect": Counter()}}
+                       for label in ("a", "b")}
     paired_differences: list[float] = []
     started = time.perf_counter()
     for map_seed in range(seed, seed + matches):
         identity_seeds = (map_seed * 1009, map_seed * 1009 + 1)
         pair_games: list[tuple[dict, dict, int, int]] = []
         for swapped in (False, True):
+            for label in ("a", "b"):
+                reliability[label]["attempted_games"] += 1
             folder = output_dir / f"seed-{map_seed}-{'swapped' if swapped else 'normal'}"
             specs = (bot_b, bot_a) if swapped else (bot_a, bot_b)
             seeds = identity_seeds[::-1] if swapped else identity_seeds
@@ -68,16 +80,35 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
                                    timeout_seconds, scenario=scenario)
             except Exception as error:
                 failed += 1
+                exception_matches += 1
+                for label in ("a", "b"):
+                    reliability[label]["exception_games"] += 1
                 records.append({"seed": map_seed, "swapped": swapped, "error": repr(error)})
                 continue
             a_slot = 1 if swapped else 0
             b_slot = 1 - a_slot
             score_a, score_b = result["scores"][a_slot], result["scores"][b_slot]
+            faults_by_label = {}
+            for label, slot in (("a", a_slot), ("b", b_slot)):
+                faults = {"invalid_actions": result.get("invalid_actions", [0, 0])[slot],
+                          "timeouts": result.get("timeouts", [0, 0])[slot],
+                          "crashes": result.get("crashes", [0, 0])[slot],
+                          "protocol_fault_turns": result.get("protocol_fault_turns", [0, 0])[slot]}
+                faults_by_label[label] = faults
+                for name, count in faults.items():
+                    reliability[label][name] += count
+                reliability[label]["faulted_games" if any(faults.values()) else "clean_games"] += 1
+            faulted = any(any(faults.values()) for faults in faults_by_label.values())
+            if faulted:
+                failed += 1
+                faulted_matches += 1
             record = {"seed": map_seed, "swapped": swapped, "score_a": score_a,
                             "score_b": score_b, "winner": "tie" if score_a == score_b else
-                            ("a" if score_a > score_b else "b"), "summary": result["output_dir"] + "/summary.json"}
+                            ("a" if score_a > score_b else "b"), "summary": result["output_dir"] + "/summary.json",
+                            "faults": faults_by_label, "excluded": faulted}
             records.append(record)
-            pair_games.append((record, result, a_slot, b_slot))
+            if not faulted:
+                pair_games.append((record, result, a_slot, b_slot))
         if len(pair_games) != 2:
             continue
         paired_differences.append(sum(record["score_a"] - record["score_b"]
@@ -93,6 +124,12 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
             totals["b"] += record["score_b"]
             totals["difference"] += record["score_a"] - record["score_b"]
             for label, slot in (("a", a_slot), ("b", b_slot)):
+                if "behavior" in result:
+                    for section in ("economy", "exploration", "construction_audit",
+                                    "site_audit_ignoring_iron"):
+                        behavior_totals[label][section].update(result["behavior"][slot][section])
+                    for layer in ("submitted", "normalized", "effect"):
+                        behavior_totals[label]["actions"][layer].update(result["behavior"][slot]["actions"][layer])
                 totals[f"latency_{label}"] += result["decision_latency_sum_ms"][slot]
                 totals[f"decisions_{label}"] += result["decisions"][slot]
                 for name in ("invalid_actions", "timeouts", "crashes"):
@@ -103,8 +140,21 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
         "game": "mini-mars", "bot_a": bot_a, "bot_b": bot_b, "first_seed": seed,
         "scenario": scenario, "source_sha256": source_hashes(),
         "source_revision": source_revision(), "python_version": sys.version.split()[0],
-        "paired_seeds": matches, "games_played": played, "failed_matches": failed,
+        "paired_seeds": matches, "games_played": played, "attempted_games": matches * 2,
+        "failed_matches": failed, "exception_matches": exception_matches,
+        "faulted_matches": faulted_matches,
         "complete_pairs": len(paired_differences), "failed_pairs": matches - len(paired_differences),
+        "reliability": reliability,
+        "behavior_totals": {label: {section: (dict(values) if section != "actions" else
+                                    {layer: dict(counts) for layer, counts in values.items()})
+                                    for section, values in behavior_totals[label].items()}
+                            for label in ("a", "b")},
+        "behavior_per_game": {label: {section: ({name: count / played for name, count in values.items()}
+                                      if section != "actions" else
+                                      {layer: {name: count / played for name, count in counts.items()}
+                                       for layer, counts in values.items()})
+                                      for section, values in behavior_totals[label].items()}
+                              for label in ("a", "b")},
         "paired_score_differences_a_minus_b": paired_differences,
         "paired_bootstrap_ci95_a_minus_b": paired_bootstrap_interval(paired_differences),
         "config": asdict(config), "wins": wins,

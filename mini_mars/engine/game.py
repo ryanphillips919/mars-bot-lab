@@ -279,12 +279,15 @@ def _normalize(game: Game, submissions: dict[int, Any], diagnostics: list[dict[s
     return actions
 
 
-def step(game: Game, submissions: dict[int, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def step(game: Game, submissions: dict[int, Any],
+         action_trace: dict[str, dict[str, str]] | None = None) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Apply one simultaneous turn. Return events and invalid-action diagnostics."""
     if game.turn >= game.config.turns:
         raise ValueError("game has already ended")
     diagnostics: list[dict[str, Any]] = []
     actions = _normalize(game, submissions, diagnostics)
+    if action_trace is not None:
+        action_trace.update(actions)
     events: list[dict[str, Any]] = []
 
     # Every action was checked against the same pre-turn state. Stacking is allowed.
