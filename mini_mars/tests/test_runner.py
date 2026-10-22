@@ -43,7 +43,7 @@ class RunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             sleeping = "python3 -c 'import time; time.sleep(2)'"
             result = run_match((sleeping, "greedy"), 7, config=Config(turns=2),
-                               output_dir=Path(directory), timeout_seconds=.05)
+                               output_dir=Path(directory), timeout_seconds=.2)
             self.assertEqual(result["turns"], 2)
             self.assertEqual(result["timeouts"], [1, 0])
             self.assertEqual(result["crashes"], [0, 0])

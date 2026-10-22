@@ -28,6 +28,7 @@ class Config:
     iron_pairs: int = 6
     deposit_min: int = 5
     deposit_max: int = 12
+    full_information: bool = False
 
     def __post_init__(self) -> None:
         if self.width < 7 or self.height < 7 or self.turns < 1 or self.starting_rovers < 1:
@@ -176,14 +177,17 @@ def reveal(game: Game) -> None:
     radius = game.config.vision_radius
     for colony in game.colonies:
         visible: set[Point] = set()
-        for rover in game.rovers.values():
-            if rover.player != colony.id:
-                continue
-            for dx in range(-radius, radius + 1):
-                for dy in range(-radius + abs(dx), radius - abs(dx) + 1):
-                    point = (rover.x + dx, rover.y + dy)
-                    if game.in_bounds(point):
-                        visible.add(point)
+        if game.config.full_information:
+            visible = {(x, y) for y in range(game.config.height) for x in range(game.config.width)}
+        else:
+            for rover in game.rovers.values():
+                if rover.player != colony.id:
+                    continue
+                for dx in range(-radius, radius + 1):
+                    for dy in range(-radius + abs(dx), radius - abs(dx) + 1):
+                        point = (rover.x + dx, rover.y + dy)
+                        if game.in_bounds(point):
+                            visible.add(point)
         colony.visible = visible
         for point in visible:
             cell = game.cell(point)

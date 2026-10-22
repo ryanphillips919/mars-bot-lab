@@ -13,7 +13,9 @@ python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated --matches 10 
 make view-mini-mars
 ```
 
-The match command prints the actual replay path; substitute it in the second command. Use `--step` to move through an ASCII replay interactively or `--view omniscient` to see the full map. For a quick browser demo, run `make demo-mini-mars` then `make view-mini-mars` and open **http://127.0.0.1:8766/**. The viewer loads completed matches with saved replays, lets you play or scrub turns, and switches the map between either player's fog of war and the full map. The score cards show replay-wide information in every map view. Run another match and click Refresh to load it; stop the viewer with Ctrl+C. The existing `make view` command remains the Halite viewer on port 8765. A tournament runs two games per seed with player slots swapped, then writes a JSON report under `mini_mars/results/tournaments/`. The bots run as persistent subprocesses using a [language-independent JSON Lines protocol](mini_mars/docs/README.md#bot-protocol); `random`, `greedy`, and `coordinated` are Python reference bots. The [Mini Mars guide](mini_mars/docs/README.md) covers the complete rules, algorithms, and interpretation of results. Python 3.11+ and the standard library are sufficient.
+The match command prints the actual replay path; substitute it in the second command. Use `--step` to move through an ASCII replay interactively or `--view omniscient` to see the full map. For a quick browser demo, run `make demo-mini-mars` then `make view-mini-mars` and open **http://127.0.0.1:8766/**. The viewer loads completed matches with saved replays, lets you play or scrub turns, and switches the map between either player's fog of war and the full map. The score cards show replay-wide information in every map view. Run another match and click Refresh to load it; stop the viewer with Ctrl+C. The existing `make view` command remains the Halite viewer on port 8765. A tournament runs two games per seed with player slots swapped, then writes a JSON report under `mini_mars/results/tournaments/`. The bots run as persistent subprocesses using a [language-independent JSON Lines protocol](mini_mars/docs/README.md#bot-protocol); the [Mini Mars guide](mini_mars/docs/README.md) lists all Python reference bots and rules. Python 3.11+ and the standard library are sufficient.
+
+Mini Mars also has four [experiment scenarios and strategy variants](mini_mars/docs/README.md#experiment-presets-and-evidence). Run `python3 -m mini_mars.runner.benchmark smoke`, then `python3 -m mini_mars.runner.benchmark validate` for the fixed paired-seed study. Its compact reports and [Lucid strategy playbook](mini_mars/docs/lucid-strategy-playbook.md) distinguish transferable ideas from our invented rules.
 
 ## Competition signals
 
@@ -80,6 +82,8 @@ make demo-lux
 | `experiments/match.py` | Primary Halite match runner and result validation |
 | `experiments/replay_server.py` and `ui/halite/` | Local browser replay viewer |
 | `mini_mars/viewer.py` and `mini_mars/ui/` | Separate Mini Mars browser replay viewer |
+| `mini_mars/scenarios.py` and `mini_mars/runner/benchmark.py` | Fixed Mini Mars scenarios and paired experiment matrix |
+| `mini_mars/docs/lucid-strategy-playbook.md` | Measured practice lessons and links to compact benchmark evidence |
 | `experiments/lux_match.py` | Preserved Lux Season 2 match runner |
 | `scripts/setup_halite.sh` | Halite checkout and starter kit builds |
 | `docs/halite-iii-investigation-20261021.md` | Investigation, exact build commands, and engine comparison |

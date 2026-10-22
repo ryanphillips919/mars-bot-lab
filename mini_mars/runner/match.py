@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 import hashlib
+from functools import lru_cache
 import json
 import os
 from pathlib import Path
@@ -16,19 +17,34 @@ import time
 from typing import Any
 
 from mini_mars.engine.game import Config, initial_map, make_game, observation, outcome, snapshot, step
+from mini_mars.scenarios import resolve_config
 
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "mini_mars" / "results"
-ALIASES = {"random", "greedy", "coordinated"}
+ALIASES = {"random", "greedy", "value", "independent", "coordinated",
+           "coordinated-no-explore", "coordinated-gold-only"}
 MAX_LINE = 1_000_000
 
 
 def source_hashes() -> dict[str, str]:
-    files = ("mini_mars/engine/game.py", "mini_mars/bots/strategies.py",
+    files = ("mini_mars/engine/game.py", "mini_mars/scenarios.py", "mini_mars/bots/strategies.py",
              "mini_mars/bots/entry.py", "mini_mars/runner/match.py",
-             "mini_mars/runner/tournament.py")
+             "mini_mars/runner/tournament.py", "mini_mars/runner/benchmark.py")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in files}
+
+
+@lru_cache(maxsize=1)
+def source_revision() -> dict[str, str | bool | None]:
+    """Record the Git snapshot even when experiments run before a commit."""
+    try:
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True,
+                              capture_output=True, text=True).stdout.strip()
+        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"],
+                                    cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip())
+        return {"git_head": head, "git_dirty": dirty}
+    except (OSError, subprocess.CalledProcessError):
+        return {"git_head": None, "git_dirty": None}
 
 
 def command_for(spec: str, seed: int) -> list[str]:
@@ -159,8 +175,9 @@ def exchange(bots: list[BotProcess], observations: list[dict], timeout_seconds: 
 
 def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] | None = None,
               config: Config | None = None, output_dir: Path | None = None,
-              save_replay: bool = True, timeout_seconds: float = 1.0) -> dict[str, Any]:
-    config = config or Config()
+              save_replay: bool = True, timeout_seconds: float = 1.0,
+              scenario: str | None = None) -> dict[str, Any]:
+    scenario, config = resolve_config(config, scenario)
     if timeout_seconds <= 0:
         raise ValueError("bot timeout must be positive")
     bot_seeds = bot_seeds or (seed * 1009, seed * 1009 + 1)
@@ -171,7 +188,9 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
     else:
         output_dir.mkdir(parents=True, exist_ok=True)
     game = make_game(seed, config)
-    replay = {"format": "mini-mars-replay-v1", "seed": seed, "config": asdict(config),
+    replay = {"format": "mini-mars-replay-v1", "seed": seed, "scenario": scenario,
+              "config": asdict(config), "source_revision": source_revision(),
+              "source_sha256": source_hashes(),
               "map": initial_map(game), "frames": [snapshot(game)]}
     commands = [command_for(spec, bot_seeds[player]) for player, spec in enumerate(bot_specs)]
     bots: list[BotProcess] = []
@@ -211,8 +230,9 @@ def run_match(bot_specs: tuple[str, str], seed: int, bot_seeds: tuple[int, int] 
 
     duration = (time.perf_counter() - started) * 1000
     summary: dict[str, Any] = {
-        "game": "mini-mars", "seed": seed, "config": asdict(config),
+        "game": "mini-mars", "seed": seed, "scenario": scenario, "config": asdict(config),
         "python_version": sys.version.split()[0], "source_sha256": source_hashes(),
+        "source_revision": source_revision(),
         "bots": list(bot_specs), "commands": commands, "bot_seeds": list(bot_seeds),
         "turns": game.turn, **outcome(game), "invalid_actions": invalid,
         "timeouts": timeouts, "crashes": crashes,

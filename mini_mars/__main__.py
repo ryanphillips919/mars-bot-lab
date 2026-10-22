@@ -8,6 +8,7 @@ from pathlib import Path
 from mini_mars.ascii_replay import view_file
 from mini_mars.runner.match import run_match
 from mini_mars.runner.tournament import run_tournament
+from mini_mars.scenarios import SCENARIOS
 
 
 def main() -> None:
@@ -17,9 +18,10 @@ def main() -> None:
     tournament = commands.add_parser("tournament", help="run paired seeded matches")
     replay = commands.add_parser("replay", help="inspect a saved replay in the terminal")
     for command in (match, tournament):
-        command.add_argument("--bot-a", default="greedy", help="random, greedy, coordinated, or a command")
-        command.add_argument("--bot-b", default="coordinated", help="random, greedy, coordinated, or a command")
+        command.add_argument("--bot-a", default="greedy", help="built-in bot name or a command")
+        command.add_argument("--bot-b", default="coordinated", help="built-in bot name or a command")
         command.add_argument("--seed", type=int, default=42)
+        command.add_argument("--scenario", choices=SCENARIOS, default="default")
         command.add_argument("--timeout", type=float, default=1.0, help="seconds per bot response")
     match.add_argument("--no-replay", action="store_true")
     tournament.add_argument("--matches", type=int, default=10, help="number of seeds; each runs twice with swapped slots")
@@ -31,7 +33,7 @@ def main() -> None:
     args = parser.parse_args()
     if args.command == "match":
         result = run_match((args.bot_a, args.bot_b), args.seed, save_replay=not args.no_replay,
-                           timeout_seconds=args.timeout)
+                           timeout_seconds=args.timeout, scenario=args.scenario)
         winner = "tie" if result["winner"] is None else f"player {result['winner']}"
         print(f"Seed {args.seed}: {result['scores'][0]}–{result['scores'][1]} gold; {winner}; "
               f"{result['turns']} turns")
@@ -43,7 +45,8 @@ def main() -> None:
                   f"bot faults {result['crashes']}")
     elif args.command == "tournament":
         report = run_tournament(args.bot_a, args.bot_b, args.matches, args.seed,
-                                save_replays=args.save_replays, timeout_seconds=args.timeout)
+                                save_replays=args.save_replays, timeout_seconds=args.timeout,
+                                scenario=args.scenario)
         print(f"{report['games_played']} games from {args.matches} paired seeds; "
               f"A {report['wins']['a']} wins, B {report['wins']['b']} wins, "
               f"{report['wins']['ties']} ties, {report['failed_matches']} failed")

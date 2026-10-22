@@ -11,6 +11,7 @@ python3 -m mini_mars match --bot-a greedy --bot-b coordinated --seed 42
 python3 -m mini_mars replay /path/printed/by/match/replay.json --turns 0,10,50,100 --view 0
 python3 -m mini_mars replay /path/printed/by/match/replay.json --step --view omniscient
 python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated --matches 10 --seed 42
+python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-gold-only --bot-b coordinated --matches 10 --seed 42
 make view-mini-mars
 make test
 ```
@@ -20,6 +21,28 @@ For a quick saved match, use `make demo-mini-mars` before starting the browser v
 The match command saves `summary.json`, `replay.json` by default, and one stderr log per bot in a unique ignored `mini_mars/results/matches/` directory. `--no-replay` skips the replay. Summaries record the seed, bot commands and seeds, Python version, and hashes of the local engine and reference bot source. For custom bots, also retain the bot's own executable or source version. A tournament's `--matches` is the number of **map seeds**; each seed runs twice with the bots in opposite player slots. Its report and individual match summaries are under `mini_mars/results/tournaments/`. Add `--save-replays` to retain every tournament replay. No installed frontend package is needed.
 
 The browser viewer at **http://127.0.0.1:8766/** reads completed Mini Mars replays from `mini_mars/results/matches/`. Select a match, play or scrub, inspect a cell by hovering, and switch the map between player 0, player 1, and full visibility. Player views hide unexplored terrain and enemies outside current vision; remembered deposits are dimmed and may have stale quantities. The score cards and event log show complete replay information in all map views. The viewer does not run bots or show a match live. Run a new match in another terminal and click Refresh. The Halite browser viewer is separate (`make view`, port 8765).
+
+## Experiment presets and evidence
+
+`--scenario` accepts four fixed presets on `match` and `tournament`; omitting it preserves the default rules. These are **invented practice variations**, not organizer rules.
+
+| Preset | Change from default |
+| --- | --- |
+| `default` | 8 mirrored rock pairs, 9 gold pairs, 6 iron pairs, fog of war |
+| `full-info` | Identical physical map for the same seed as `default`; every current tile, deposit quantity, rover, and base is visible to both bots |
+| `scarce` | 5 gold and 3 iron pairs, with the same 5–12 units per deposit |
+| `obstacle-heavy` | 20 rock pairs; map generation still checks that open tiles are connected |
+
+Named scenarios, their complete configurations, Git revision and dirty state, and source hashes are saved in match/replay/tournament metadata. Explicit Python `Config` callers still work and are labeled `custom` when they do not match a preset. The map seed fixes symmetric terrain and deposits; a bot's RNG seed stays with its identity when tournament slots swap.
+
+The fixed issue #1 matrix runs with:
+
+```sh
+python3 -m mini_mars.runner.benchmark smoke
+python3 -m mini_mars.runner.benchmark validate
+```
+
+Smoke uses 20 paired seeds starting at 10000. Validation uses 100 disjoint paired seeds starting at 20000 for four preset comparisons plus at most two promoted by the documented score rule in `runner/benchmark.py`. Each pair has a normal and a swapped game. The benchmark stops on built-in bot faults or incomplete pairs. Detailed outputs and a few verified example replays stay under ignored `mini_mars/results/`; compact evidence is tracked under `mini_mars/docs/benchmarks/issue-1/`. The 95% paired bootstrap interval resamples whole map seeds, keeping both swapped games together (5000 deterministic resamples). A score interval spanning zero is inconclusive for its scenario and sample.
 
 ## Complete game rules
 
@@ -75,6 +98,12 @@ Directions are uppercase `N`, `S`, `E`, `W`; action types are uppercase. `MINE`,
 - **Random:** A seeded Python RNG chooses among known legal moves, mine, deposit, build, and wait. It checks local legality but ignores long-term value. The RNG instance persists across turns, so fixed map and bot seeds reproduce its choices.
 - **Greedy miner:** Each rover independently computes BFS over explored traversable tiles, prefers a reachable gold deposit, mines until full, follows BFS to the nearest base, deposits, and explores a known frontier when no reachable deposit is known. Independent choices can duplicate effort on a small deposit.
 - **Coordinated greedy:** Computes deposit and frontier bids for all available rovers. A bid estimates useful units divided by travel, mining, and return time, with a modest penalty if a visible opponent is closer. It sorts bids and assigns each rover to a distinct target, retaining a small preference for last turn's target. It considers iron before turn 60 and can build a base when enough nearby known gold lies far from existing bases. This can outperform independent selection when several rovers would otherwise chase the same deposit, but it is a heuristic, not a guarantee.
+- **Value greedy (`value`):** Keeps greedy's gold-first, iron-fallback and frontier behavior, but ranks known deposits by useful units divided by outbound BFS steps, mining turns, estimated return distance, and one deposit turn. It does not build bases.
+- **Independent bids (`independent`):** Uses the coordinated scorer, exploration, iron/build policy, and target persistence; each rover may choose the same highest-value task. Compare it with `coordinated` to isolate distinct-target allocation.
+- **No exploration bids (`coordinated-no-explore`):** Uses the coordinated policy with frontier bid weight zero; otherwise identical. Compare it with `coordinated` to test the value of active scouting under fog.
+- **Gold only (`coordinated-gold-only`):** Uses the coordinated policy without iron bids or base construction; otherwise identical. Compare it with `coordinated` to test iron/base investment as a package.
+
+Coordinated bid weights live in `StrategySettings`: exploration `0.24` per newly revealed cell, prior target multiplier `1.2`, early iron `0.65`, late iron `0.05`, and visible-opponent penalty `0.8`. These are fixed practice heuristics, not tuned Lucid values. Every variant uses the same BFS over known traversable cells; candidate return distance remains a Manhattan estimate.
 
 BFS is `O(V + E)` on known tiles (at most 225 here). Greedy runs one BFS per rover per turn, `O(R(V + E))`. Coordinated greedy also scores up to `R × (D + F)` deposit/frontier candidates and sorts the bids: `O(R(V + E) + RD log(RD))` when `F ≤ V` and `D ≤ V`. The frontier scan checks a constant-size vision neighborhood for each known tile. The task-selection functions are in `mini_mars/bots/strategies.py`, separate from protocol I/O in `bots/entry.py`; swapping BFS or bid scoring needs no engine change.
 
@@ -82,4 +111,4 @@ BFS is `O(V + E)` on known tiles (at most 225 here). Greedy runs one BFS per rov
 
 The tournament report records wins, losses via the opponent's wins, ties, tie-adjusted win rates, average banked gold, average A-minus-B score, invalid actions, bot timeouts/crashes, and total wall time. Every seed has a normal and swapped result. Built-in bot RNG seeds stay with bot identity through that swap. The average decision latency measures subprocess request-to-response time, including JSON and scheduling overhead; it is **not** pure algorithm compute time. Evaluate strategic quality with paired scores/wins, then inspect latency separately. A handful of matches can reveal bugs and rough direction, not statistical significance.
 
-Future comparisons that fit this platform: (1) BFS versus A* or cached paths, (2) independent versus coordinated assignment with value-per-turn bids, and (3) exploration policies that weigh unknown cells against known gold. Weighted Dijkstra, min-cost flow, cross-language equivalents, and parallel candidate evaluation can follow only if these simpler comparisons show value.
+Future comparisons that fit this platform include BFS versus A* or cached paths, but pathfinder changes should be tested separately from the allocation and exploration experiments above. Weighted Dijkstra, min-cost flow, cross-language equivalents, and parallel candidate evaluation can follow only if these simpler comparisons show value.

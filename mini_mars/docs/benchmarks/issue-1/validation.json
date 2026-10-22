@@ -1,0 +1,439 @@
+{
+  "format": "mini-mars-issue-1-benchmark-v1",
+  "stage": "validate",
+  "seed_start": 20000,
+  "paired_seeds_per_case": 100,
+  "source_revision": {
+    "git_head": "4232e2ca903ab82d6092549bf7a5aaaca0c23022",
+    "git_dirty": true
+  },
+  "source_sha256": {
+    "mini_mars/engine/game.py": "740b6a7b9c4045dff9eb84c67d402b7229b16984bc57564d08457ac126fb7b24",
+    "mini_mars/scenarios.py": "c00ef3c5a02359f83f2135e8221c8ff23a4dfd21a10f137d227212421a9c7f4c",
+    "mini_mars/bots/strategies.py": "92fff08796a2cf026767f1e7c9d323bf6aaa88a3480fae869076786b8d3d1529",
+    "mini_mars/bots/entry.py": "a69c01e6aad437de4e7cfcdc02592f715ea5dc87db4f244d118fb88b37e0f0de",
+    "mini_mars/runner/match.py": "3910e6b540c338b46cac610b052932508d1acfa55aa3c1e784dbd0ef7662c8ce",
+    "mini_mars/runner/tournament.py": "b0b65cb1849ab0fda905af62b99f1179d3dd32eafb2067ad620298f9ff66722d",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359"
+  },
+  "python_version": "3.12.3",
+  "bootstrap": "5000 percentile resamples of complete seed pairs, RNG seed 20261021",
+  "cases": [
+    {
+      "case": [
+        "default",
+        "independent",
+        "coordinated"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 0,
+        "b": 200,
+        "ties": 0
+      },
+      "win_rate_b": 1.0,
+      "average_gold": {
+        "a": 20.49,
+        "b": 42.785
+      },
+      "paired_mean_b_minus_a": 22.295,
+      "paired_ci95_b_minus_a": [
+        20.895,
+        23.675
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 5.359386843207176,
+        "b": 5.80575506840687
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a independent --bot-b coordinated --matches 100 --seed 20000"
+    },
+    {
+      "case": [
+        "default",
+        "coordinated-no-explore",
+        "coordinated"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 0,
+        "b": 200,
+        "ties": 0
+      },
+      "win_rate_b": 1.0,
+      "average_gold": {
+        "a": 0.0,
+        "b": 42.825
+      },
+      "paired_mean_b_minus_a": 42.825,
+      "paired_ci95_b_minus_a": [
+        41.715,
+        43.950125
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 1.9172811934971832,
+        "b": 5.84310993833642
+      },
+      "command": "python3 -m mini_mars tournament --scenario default --bot-a coordinated-no-explore --bot-b coordinated --matches 100 --seed 20000"
+    },
+    {
+      "case": [
+        "full-info",
+        "independent",
+        "coordinated"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 20,
+        "b": 162,
+        "ties": 18
+      },
+      "win_rate_b": 0.855,
+      "average_gold": {
+        "a": 51.71,
+        "b": 60.265
+      },
+      "paired_mean_b_minus_a": 8.555,
+      "paired_ci95_b_minus_a": [
+        7.064875000000002,
+        10.07
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 6.542868967849063,
+        "b": 6.553018572757719
+      },
+      "command": "python3 -m mini_mars tournament --scenario full-info --bot-a independent --bot-b coordinated --matches 100 --seed 20000"
+    },
+    {
+      "case": [
+        "scarce",
+        "greedy",
+        "value"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 48,
+        "b": 54,
+        "ties": 98
+      },
+      "win_rate_b": 0.515,
+      "average_gold": {
+        "a": 29.815,
+        "b": 29.845
+      },
+      "paired_mean_b_minus_a": 0.03,
+      "paired_ci95_b_minus_a": [
+        -0.575,
+        0.64
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 2.8516962785462967,
+        "b": 2.8768539775934188
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a greedy --bot-b value --matches 100 --seed 20000"
+    },
+    {
+      "case": [
+        "scarce",
+        "coordinated-gold-only",
+        "coordinated"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 5,
+        "iron_pairs": 3,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 83,
+        "b": 59,
+        "ties": 58
+      },
+      "win_rate_b": 0.44,
+      "average_gold": {
+        "a": 34.83,
+        "b": 34.195
+      },
+      "paired_mean_b_minus_a": -0.635,
+      "paired_ci95_b_minus_a": [
+        -1.105,
+        -0.18
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 5.792232791054994,
+        "b": 5.842901797241939
+      },
+      "command": "python3 -m mini_mars tournament --scenario scarce --bot-a coordinated-gold-only --bot-b coordinated --matches 100 --seed 20000"
+    },
+    {
+      "case": [
+        "obstacle-heavy",
+        "coordinated-no-explore",
+        "coordinated"
+      ],
+      "scenario_config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 20,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": false
+      },
+      "seed_start": 20000,
+      "paired_seeds_requested": 100,
+      "complete_pairs": 100,
+      "games_played": 200,
+      "failed_matches": 0,
+      "failed_pairs": 0,
+      "wins": {
+        "a": 0,
+        "b": 200,
+        "ties": 0
+      },
+      "win_rate_b": 1.0,
+      "average_gold": {
+        "a": 0.0,
+        "b": 39.895
+      },
+      "paired_mean_b_minus_a": 39.895,
+      "paired_ci95_b_minus_a": [
+        38.92,
+        40.835
+      ],
+      "invalid_actions": {
+        "a": 0,
+        "b": 0
+      },
+      "timeouts": {
+        "a": 0,
+        "b": 0
+      },
+      "bot_crashes": {
+        "a": 0,
+        "b": 0
+      },
+      "average_decision_latency_ms": {
+        "a": 1.7749970812175888,
+        "b": 5.021125491960265
+      },
+      "command": "python3 -m mini_mars tournament --scenario obstacle-heavy --bot-a coordinated-no-explore --bot-b coordinated --matches 100 --seed 20000"
+    }
+  ],
+  "selected_matrix_indices": [
+    1,
+    2,
+    5,
+    7,
+    8,
+    10
+  ],
+  "representative_replays": [
+    {
+      "category": "candidate-win",
+      "case": [
+        "default",
+        "coordinated-no-explore",
+        "coordinated"
+      ],
+      "seed": 20014,
+      "swapped": false,
+      "score_a": 0,
+      "score_b": 60,
+      "local_replay": "mini_mars/results/matches/issue-1-candidate-win-default-seed-20014-normal/replay.json"
+    },
+    {
+      "category": "candidate-loss",
+      "case": [
+        "scarce",
+        "greedy",
+        "value"
+      ],
+      "seed": 20046,
+      "swapped": false,
+      "score_a": 42,
+      "score_b": 18,
+      "local_replay": "mini_mars/results/matches/issue-1-candidate-loss-scarce-seed-20046-normal/replay.json"
+    },
+    {
+      "category": "close",
+      "case": [
+        "full-info",
+        "independent",
+        "coordinated"
+      ],
+      "seed": 20000,
+      "swapped": true,
+      "score_a": 55,
+      "score_b": 55,
+      "local_replay": "mini_mars/results/matches/issue-1-close-full-info-seed-20000-swapped/replay.json"
+    }
+  ],
+  "missing_replay_categories": []
+}

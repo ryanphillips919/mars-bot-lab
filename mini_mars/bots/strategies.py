@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import deque
+from dataclasses import dataclass
 import random
 from typing import Any
 
@@ -101,6 +102,10 @@ class RandomBot:
 class GreedyMiner:
     """Each rover independently chooses a nearby gold deposit, then returns."""
 
+    def deposit_rank(self, point: Point, cell: dict, distance: int,
+                     rover: dict, bases: list[dict], capacity: int) -> tuple:
+        return (0 if cell["resource"] == "gold" else 1, distance, point)
+
     def decide(self, observation: dict) -> list[dict]:
         cells = known_cells(observation)
         deposits = [(point, cell) for point, cell in cells.items()
@@ -121,10 +126,10 @@ class GreedyMiner:
                 actions.append(move(rover_id, base_move))
                 continue
             distances, first_moves = bfs(start, cells)
-            reachable = [(0 if cell["resource"] == "gold" else 1, distances[point], point)
+            reachable = [(self.deposit_rank(point, cell, distances[point], rover, bases, capacity), point)
                          for point, cell in deposits if point in distances]
             if reachable:
-                _, _, target = min(reachable)
+                _, target = min(reachable)
                 actions.append(simple(rover_id, "MINE") if target == start
                                else move(rover_id, first_moves[target]))
             elif cargo:
@@ -136,8 +141,35 @@ class GreedyMiner:
         return actions
 
 
+class ValueGreedy(GreedyMiner):
+    """Keep greedy's choices, but rank same-resource deposits by useful units per turn."""
+
+    def deposit_rank(self, point: Point, cell: dict, distance: int,
+                     rover: dict, bases: list[dict], capacity: int) -> tuple:
+        units = min(cell["quantity"], capacity - sum(rover["cargo"].values()))
+        return_distance = min(abs(point[0] - base["x"]) + abs(point[1] - base["y"])
+                              for base in bases)
+        value = units / (distance + units + return_distance + 1)
+        return (0 if cell["resource"] == "gold" else 1, -value, point)
+
+
+@dataclass(frozen=True)
+class StrategySettings:
+    """Fixed experiment switches; all variants share the same path and bid code."""
+
+    coordinate: bool = True
+    exploration_weight: float = 0.24
+    persistence_bonus: float = 1.2
+    iron_enabled: bool = True
+    build_enabled: bool = True
+    early_iron_weight: float = 0.65
+    late_iron_weight: float = 0.05
+    visible_enemy_penalty: float = 0.8
+
+
 def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
-                    frontiers: list[tuple[Point, int]], prior_target: Point | None) -> list[tuple[float, str, Point, str | None]]:
+                    frontiers: list[tuple[Point, int]], prior_target: Point | None,
+                    settings: StrategySettings) -> list[tuple[float, str, Point, str | None]]:
     """Rank useful deposits and scouting cells by estimated reward per turn."""
     start = (rover["x"], rover["y"])
     distances, first_moves = bfs(start, cells)
@@ -153,23 +185,25 @@ def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
             continue
         if cell["resource"] == "gold":
             resource_weight = 1.0
+        elif not settings.iron_enabled:
+            continue
         elif observation["bank"]["iron"] < observation["constants"]["base_cost_iron"] and observation["turn"] < 60:
-            resource_weight = 0.65
+            resource_weight = settings.early_iron_weight
         else:
-            resource_weight = 0.05
+            resource_weight = settings.late_iron_weight
         return_distance = min(abs(point[0] - base[0]) + abs(point[1] - base[1]) for base in bases)
         elapsed = distances[point] + units + return_distance + 1
         value = units * resource_weight / elapsed
         if point == prior_target:
-            value *= 1.2
+            value *= settings.persistence_bonus
         if any(abs(point[0] - x) + abs(point[1] - y) < distances[point] for x, y in enemy_points):
-            value *= .8
+            value *= settings.visible_enemy_penalty
         candidates.append((value, "resource", point, first_moves.get(point)))
     for point, unseen in frontiers:
-        if point in distances:
-            value = 0.24 * unseen / (distances[point] + 2)
+        if point in distances and settings.exploration_weight > 0:
+            value = settings.exploration_weight * unseen / (distances[point] + 2)
             if point == prior_target:
-                value *= 1.2
+                value *= settings.persistence_bonus
             candidates.append((value, "explore", point, first_moves.get(point)))
     return candidates
 
@@ -177,7 +211,8 @@ def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
 class CoordinatedGreedy:
     """Assign one rover per high-value task; favor useful return and new bases."""
 
-    def __init__(self) -> None:
+    def __init__(self, settings: StrategySettings | None = None) -> None:
+        self.settings = settings or StrategySettings()
         self.targets: dict[str, Point] = {}
 
     def _should_build(self, observation: dict, rover: dict, cells: dict[Point, dict]) -> bool:
@@ -211,7 +246,7 @@ class CoordinatedGreedy:
                 assigned[rover_id] = simple(rover_id, "DEPOSIT")
             elif cargo >= capacity:
                 assigned[rover_id] = move(rover_id, base_move)
-            elif (build_budget >= observation["constants"]["base_cost_iron"] and
+            elif (self.settings.build_enabled and build_budget >= observation["constants"]["base_cost_iron"] and
                   point not in claimed_bases and self._should_build(observation, rover, cells)):
                 assigned[rover_id] = simple(rover_id, "BUILD")
                 build_budget -= observation["constants"]["base_cost_iron"]
@@ -223,19 +258,20 @@ class CoordinatedGreedy:
         bids = []
         for rover in free:
             for value, kind, point, first_move in task_candidates(
-                    observation, rover, cells, frontiers, self.targets.get(rover["id"])):
+                    observation, rover, cells, frontiers, self.targets.get(rover["id"]), self.settings):
                 bids.append((-value, rover["id"], kind, point, first_move))
         bids.sort(key=lambda bid: (bid[0], bid[1], bid[2], bid[3]))
         used_tasks: set[Point] = set()
         for _, rover_id, kind, point, first_move in bids:
-            if rover_id in assigned or point in used_tasks:
+            if rover_id in assigned or (self.settings.coordinate and point in used_tasks):
                 continue
             rover = free_by_id[rover_id]
             assigned[rover_id] = (simple(rover_id, "MINE") if kind == "resource" and
                                   (rover["x"], rover["y"]) == point
                                   else move(rover_id, first_move))
             self.targets[rover_id] = point
-            used_tasks.add(point)
+            if self.settings.coordinate:
+                used_tasks.add(point)
         for rover in free:
             if rover["id"] not in assigned:
                 _, _, base_move = shortest_base(rover, observation["bases"], cells)

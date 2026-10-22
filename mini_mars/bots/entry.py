@@ -6,16 +6,29 @@ import argparse
 import json
 import sys
 
-from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot
+from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot, StrategySettings, ValueGreedy
+
+
+BOT_NAMES = ("random", "greedy", "value", "independent", "coordinated",
+             "coordinated-no-explore", "coordinated-gold-only")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("name", choices=("random", "greedy", "coordinated"))
+    parser.add_argument("name", choices=BOT_NAMES)
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
-    bot = {"random": lambda: RandomBot(args.seed), "greedy": GreedyMiner,
-           "coordinated": CoordinatedGreedy}[args.name]()
+    bots = {
+        "random": lambda: RandomBot(args.seed),
+        "greedy": GreedyMiner,
+        "value": ValueGreedy,
+        "independent": lambda: CoordinatedGreedy(StrategySettings(coordinate=False)),
+        "coordinated": CoordinatedGreedy,
+        "coordinated-no-explore": lambda: CoordinatedGreedy(StrategySettings(exploration_weight=0)),
+        "coordinated-gold-only": lambda: CoordinatedGreedy(StrategySettings(iron_enabled=False,
+                                                                            build_enabled=False)),
+    }
+    bot = bots[args.name]()
     for line in sys.stdin:
         try:
             observation = json.loads(line)
