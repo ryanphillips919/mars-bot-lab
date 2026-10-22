@@ -1,5 +1,9 @@
 # Halite III engine investigation — 2026-10-21
 
+> Follow-up: after this investigation, Halite III became the default local match workflow. The implementation and usage are in the [project README](../README.md). The findings and temporary artifact paths below record the investigation as it happened.
+
+> Viewer follow-up: Mars Bot Lab now has its own local browser replay viewer (`make view`). It rendered a saved 402-frame match in headless Chrome. The official `libhaliteviz` and Halite in a Box builds remain unverified.
+
 ## Recommendation
 
 Adopt Halite III as the **primary practice engine for the next iteration**, after a small, reversible runner adaptation. Keep the existing Lux Season 2 runner and results as a comparison baseline. No engine migration was made in this investigation.
@@ -7,6 +11,12 @@ Adopt Halite III as the **primary practice engine for the next iteration**, afte
 Halite III directly exercises mining, routing, fleet allocation, dropoff placement, and collision avoidance. Its single resource and single ship type remove much of Lux Season 2's factory, power, lichen, bid, and action queue work. A complete seeded match and a repeated, semantically identical match worked with the current toolchains. The main cost is maintaining a local C++ engine build with old pinned dependencies. That cost is real, but bounded and outweighed by the closer algorithm fit and three working language kits. The [official game overview](https://github.com/HaliteChallenge/Halite-III/blob/e1050ee924292997b3a446b4be4c821848944fd8/website/learn-programming-challenge/game-overview.md) describes the rules; the match evidence below comes from running the engine.
 
 This is a practice engine, not evidence about the unpublished Lucid competition rules. The game’s sea setting, toroidal map, inspiration bonus, and ship collision rules are domain-specific; algorithms should be expressed independently of these details.
+
+## Update from the hackathon description
+
+The user supplied the organizers' brief description after this investigation: competitors will control rovers, gather **iron and gold**, build bases, explore Mars, and compete against other colonies. It confirms two named resources and base construction, but gives no scoring rules, resource uses, costs, map visibility, collision rules, or bot interface. “Explore” alone does not imply fog of war.
+
+Halite III still works as the primary practice engine for rover dispatch, mining routes, return timing, infrastructure payoff, and contested movement. Its ships and dropoffs are proxies for rovers and bases, and its one resource and fully visible map leave two clear coverage gaps: iron-versus-gold allocation and possible information-gathering decisions. Lux Season 2 can serve as a secondary reference for multiple resources and base operations, though its extra mechanics are not confirmed Lucid rules. The recommendation above remains conditional on learning the actual competition rules; keep strategies independent of either engine's protocol.
 
 ## Source, environment, and licenses
 
@@ -99,4 +109,4 @@ Lux Season 1 and Season 2 comparisons use their official [Season 1 specification
 3. Store the engine Git revision, binary hash, build type/toolchain, dependency archive hashes, map generator and size, game seed, bot source/binary hashes, bot RNG seeds, command lines, and ordered player slots with every match. Use paired seeds with swapped player order in tournaments.
 4. Move tournament scheduling and benchmark summaries above the engine adapter. Compare the same strategy and protocol decisions across Python, Go, and C++ with deterministic tie-breaking and RNG streams. Benchmark bot decision time separately from engine wall time and replay compression, and retain raw replays for strategy audits.
 
-No project architecture, match runner, Git remote, or upstream checkout was changed. This file is the only Mars Bot Lab artifact from the investigation.
+At the time of this investigation, no project architecture, match runner, Git remote, or upstream checkout was changed. This file was its only Mars Bot Lab artifact; the subsequent runner implementation is documented in the README.

@@ -1,5 +1,9 @@
 .venv/
 engine/upstream/
+engine/halite/upstream/
+engine/halite/build-source/
+engine/halite/cpp-build/
+engine/halite/bin/
 results/
 __pycache__/
 *.py[cod]

@@ -1,80 +1,55 @@
-import contextlib
-import io
-import json
-import sys
-import tempfile
-import types
 import unittest
-from pathlib import Path
-from unittest.mock import patch
 
-from experiments.match import main
+from experiments.match import read_result
 
 
-class MatchCommandTest(unittest.TestCase):
-    def test_writes_replay_and_serializable_summary_from_episode(self):
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            agent = root / "agent.py"
-            agent.write_text("# test agent\n", encoding="utf-8")
-            replay = root / "replays" / "game.json"
-            summary = root / "results" / "game.json"
-            observed = {}
+def example_result():
+    raw = {
+        "map_seed": 42,
+        "map_width": 32,
+        "map_height": 32,
+        "stats": {"0": {"score": 0, "rank": 2}, "1": {"score": 0, "rank": 1}},
+        "terminated": {"0": False, "1": False},
+    }
+    replay = {
+        "ENGINE_VERSION": "1.2.2.finals",
+        "map_generator_seed": 42,
+        "number_of_players": 2,
+        "full_frames": [{}, {}],
+        "game_statistics": {
+            "number_turns": 1,
+            "player_statistics": [
+                {"player_id": 0, "final_production": 0, "rank": 2},
+                {"player_id": 1, "final_production": 0, "rank": 1},
+            ],
+        },
+    }
+    return raw, replay
 
-            class EngineScore:
-                def __init__(self, value):
-                    self.value = value
 
-                def __int__(self):
-                    return self.value
+class HaliteResultTest(unittest.TestCase):
+    def test_uses_engine_rank_to_break_equal_scores(self):
+        raw, replay = example_result()
+        result = read_result(raw, replay, 42, 32, 32)
+        self.assertEqual(result["scores"], {"player_0": 0, "player_1": 0})
+        self.assertEqual(result["winner"], "player_1")
 
-            class EpisodeConfig:
-                def __init__(self, **kwargs):
-                    self.__dict__.update(kwargs)
+    def test_rejects_terminated_bot(self):
+        raw, replay = example_result()
+        raw["terminated"]["0"] = True
+        with self.assertRaisesRegex(ValueError, "terminated"):
+            read_result(raw, replay, 42, 32, 32)
 
-            class ReplayConfig:
-                def __init__(self, **kwargs):
-                    self.__dict__.update(kwargs)
-
-            class Episode:
-                def __init__(self, cfg):
-                    observed["config"] = cfg
-
-                async def run(self):
-                    replay.parent.mkdir(parents=True)
-                    replay.write_text("{}", encoding="utf-8")
-                    return {"player_0": EngineScore(7), "player_1": EngineScore(3)}
-
-            runner = types.ModuleType("luxai_runner")
-            episode_module = types.ModuleType("luxai_runner.episode")
-            episode_module.Episode = Episode
-            episode_module.EpisodeConfig = EpisodeConfig
-            episode_module.ReplayConfig = ReplayConfig
-            simulator = types.ModuleType("luxai_s2")
-            simulator.LuxAI_S2 = type("LuxAI_S2", (), {})
-            modules = {
-                "luxai_runner": runner,
-                "luxai_runner.episode": episode_module,
-                "luxai_s2": simulator,
-            }
-            argv = [
-                "match", "--player-0", str(agent), "--player-1", str(agent),
-                "--seed", "13", "--replay", str(replay), "--summary", str(summary),
-            ]
-            with patch.dict(sys.modules, modules), patch.object(sys, "argv", argv):
-                with contextlib.redirect_stdout(io.StringIO()):
-                    main()
-
-            data = json.loads(summary.read_text(encoding="utf-8"))
-            self.assertEqual(data["scores"], {"player_0": 7, "player_1": 3})
-            self.assertEqual(data["winner"], "player_0")
-            self.assertEqual(data["seed"], 13)
-            self.assertEqual(len(data["engine_revision"]), 40)
-            self.assertEqual(observed["config"].players, [str(agent), str(agent)])
-            self.assertEqual(observed["config"].replay_options.save_format, "json")
-            self.assertTrue(replay.is_file())
+    def test_rejects_incomplete_or_disagreeing_replay(self):
+        raw, replay = example_result()
+        replay["full_frames"].pop()
+        with self.assertRaisesRegex(ValueError, "complete turn sequence"):
+            read_result(raw, replay, 42, 32, 32)
+        replay["full_frames"].append({})
+        replay["game_statistics"]["player_statistics"][0]["final_production"] = 4
+        with self.assertRaisesRegex(ValueError, "replay score differs"):
+            read_result(raw, replay, 42, 32, 32)
 
 
 if __name__ == "__main__":
     unittest.main()
-

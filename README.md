@@ -1,43 +1,74 @@
 # Mars Bot Lab
 
-Local experiments with autonomous agents for [Lux AI Season 2](https://github.com/Lux-AI-Challenge/Lux-Design-S2). This repository currently provides the first match workflow; strategies, tournaments, and cross-language benchmarks are future milestones.
+Local experiments with autonomous agents for the upcoming Lucid Mars colony competition. [Halite III](https://github.com/HaliteChallenge/Halite-III) is the primary practice engine because its mining, routing, fleet allocation, dropoff expansion, and collision problems transfer well to this project. The Lucid rules are unpublished, so Halite is a practice environment rather than a model of that competition. The earlier Lux AI Season 2 workflow remains available for comparison.
+
+## Competition signals
+
+The hackathon description supplied by the organizers says code will control rovers, gather **iron and gold**, build bases, explore Mars, and compete against other colonies. This makes rover allocation, resource-specific mining decisions, return routes, base placement, and exploration useful strategy targets. It does not specify scoring, resource uses, construction costs, map visibility, collision rules, or the bot API. In particular, “explore” does not establish that the map has hidden information.
+
+Halite provides a working sandbox for mining logistics, expansion, and contested movement. It has one resource and a fully visible map, so it cannot by itself test choosing between iron and gold or any hidden-map exploration rule the organizers may later announce. Keep those gaps explicit when judging results; use the preserved Lux Season 2 workflow as a secondary reference for multi-resource and base decisions.
 
 ## Quick start (Linux or WSL Ubuntu)
 
-Install Git and Python 3.10 with its `venv` module. The [upstream setup guide](https://github.com/Lux-AI-Challenge/Lux-Design-S2/blob/5bcb3c775d536cecda32a3c041a9814279b79c5b/README.md) supports Python 3.8–3.10; this project selects 3.10. Network access to GitHub and PyPI is needed for setup.
+Install Git, Python 3, a C++17 compiler, Make, and CMake. Go is optional; setup compiles its starter bot when Go is installed. The engine requires access to GitHub and the pinned dependency download hosts during a fresh setup.
 
 ```sh
 make setup
 make test
 make demo
+make view
 ```
 
-`make setup` checks out upstream commit `5bcb3c775d536cecda32a3c041a9814279b79c5b` into ignored `engine/upstream/`, creates `.venv/`, installs the upstream simulator, and saves the resolved package list to `.venv/installed-packages.txt`. Set `PYTHON=/path/to/python3.10 make setup` if needed. The engine revision is fixed; Python transitive dependencies are not yet locked, so retain `installed-packages.txt` when comparing runs.
+`make setup` checks out official Halite III at the revision in `engine/halite/REVISION`, builds its engine in-source in a separate ignored source copy, and compiles the official C++ and optional Go starter bots. The engine uses pinned dependency archive hashes. `make demo` runs two official C++ starters on a 32×32 map with engine seed 42 and explicit bot seeds 101 and 202. Each invocation creates a unique directory under `results/halite/` containing `summary.json`, the raw `engine-result.json`, `engine-stderr.log`, bot logs, and a plain JSON `.hlt` replay. The runner prints the summary and its artifact paths.
 
-`make demo` runs the pinned upstream Python starter agent against itself with seed 42. It writes `results/demo/replay.json` and `results/demo/summary.json`. Upload the replay JSON to the [official viewer](https://s2vis.lux-ai.org/) to watch it. The local CLI can also run the same two agents directly:
+`make view` starts a local replay viewer at **http://127.0.0.1:8765/**. Open that URL in your browser (including from Windows when running the server in WSL). Select a saved match, press Play, scrub turns, or click an event to jump to it. The map shows remaining halite, ships and their cargo, shipyards, dropoffs, and collisions. Bank balances and ship counts update with the replay. Run `make demo` in another terminal to create a new match, then click Refresh in the viewer. The viewer uses only Python's standard library and browser JavaScript; it reads completed matches and does not start bots. Stop it with Ctrl+C. Its visualization is a project-built overview, separate from the unbuilt official `libhaliteviz` and Halite in a Box source.
+
+For an existing local source checkout and cached dependency archives, setup also accepts:
 
 ```sh
-.venv/bin/luxai-s2 engine/upstream/kits/python/main.py engine/upstream/kits/python/main.py -s 42 -o results/demo/cli-replay.json
+HALITE_SOURCE=/path/to/Halite-III \
+HALITE_DEPS_CACHE=/path/to/archives \
+CMAKE=/path/to/cmake make setup
 ```
 
-Run a different pair with:
+`HALITE_DEPS_CACHE` must contain `v2.2.3.zip`, `include.zip`, `tclap-1.2.2.tar.gz`, and `v1.3.4.zip`. CMake checks their upstream SHA-256 hashes. The engine checkout and compiled outputs are ignored by Git.
+
+## Run matches
 
 ```sh
-.venv/bin/python -m experiments.match --player-0 path/to/first/main.py --player-1 path/to/second/main.py --seed 42
+python3 -m experiments.match --seed 43 --width 40 --height 40
+python3 -m experiments.match \
+  --player-0 "python3 $PWD/engine/halite/upstream/starter_kits/Python3/MyBot.py" \
+  --player-1 "$PWD/engine/halite/bin/MyBotGo 202" --seed 77
 ```
 
-The runner uses the engine's `Episode` and terminal rewards. `summary.json` records the engine revision, seed, two scores, and winning player; the official replay remains the full record of the game. Keep each Python bot's `main.py`, `agent.py`, and `lux/` helpers together as described in the [starter kit](https://github.com/Lux-AI-Challenge/Lux-Design-S2/tree/5bcb3c775d536cecda32a3c041a9814279b79c5b/kits/python).
+`--player-0` and `--player-1` each accept one shell command; the official engine launches them with `/bin/sh -c` from the run's result directory. Use absolute paths for local bots and scripts. The upstream Python starter chooses random moves without an explicit RNG seed, so a map seed alone does not reproduce its actions. The official C++ and Go starters accept an RNG seed argument.
+
+The runner requests `--results-as-json` and `--no-compression`, checks the replay against the result, and records engine and visible bot file hashes. It reports `scores` in the existing `player_0` / `player_1` shape and selects the winner by the engine's **rank**, including equal final scores. Keep the raw result and replay when comparing algorithms. For a fair tournament, run each map seed twice with player slots swapped, record bot RNG seeds in the command strings, and compare paired outcomes. Benchmark bot decision time separately from engine wall time and replay writing.
+
+## Earlier Lux Season 2 workflow
+
+The Lux runner is preserved at `experiments/lux_match.py`:
+
+```sh
+make setup-lux
+make demo-lux
+```
+
+`make setup-lux` needs Python 3.10 and installs the pinned Lux Season 2 checkout at `engine/REVISION` into `.venv/`. The existing Lux match runner and its test remain available, but no real Lux match has yet been verified in this workspace. Its replay viewer is [s2vis.lux-ai.org](https://s2vis.lux-ai.org/).
 
 ## Project map
 
 | Path | Purpose |
 | --- | --- |
-| `engine/REVISION` | Exact upstream Git revision |
-| `engine/upstream/` | Ignored local checkout, created by setup |
-| `experiments/match.py` | Seeded two-agent match and result JSON |
-| `scripts/setup.sh` | Local simulator installation |
-| `docs/upstream-notes.md` | Rules, protocol, licensing, and current limits |
-| `results/` | Ignored replays and experiment output |
+| `engine/halite/REVISION` | Pinned official Halite III revision |
+| `engine/halite/upstream/` | Ignored Halite checkout created by setup |
+| `engine/halite/build-source/halite` | Engine built in an ignored source copy |
+| `experiments/match.py` | Primary Halite match runner and result validation |
+| `experiments/replay_server.py` and `ui/halite/` | Local browser replay viewer |
+| `experiments/lux_match.py` | Preserved Lux Season 2 match runner |
+| `scripts/setup_halite.sh` | Halite checkout and starter kit builds |
+| `docs/halite-iii-investigation-20261021.md` | Investigation, exact build commands, and engine comparison |
+| `results/` | Ignored match artifacts |
 
-The competition rules and API for the upcoming Lucid event are unpublished. Lux is a practice environment, not an implementation of those rules.
-
+Halite III's MIT source license and the four dependencies' license details are documented in the [investigation report](docs/halite-iii-investigation-20261021.md). This setup does not add or change the Mars Bot Lab Git remote.

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mars Bot Lab · Halite Replay</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">◇</span>
+      <div><strong>MARS BOT LAB</strong><span>HALITE REPLAY VIEWER</span></div>
+    </div>
+    <div class="top-actions">
+      <label class="match-picker">MATCH <select id="match-select" aria-label="Select a match"></select></label>
+      <button class="button button-small" id="refresh" type="button" title="Find new saved matches">↻ <span>Refresh</span></button>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro-row">
+      <div>
+        <div class="eyebrow">LOCAL SIMULATION <span class="eyebrow-line"></span> SEED <span id="seed-label">—</span></div>
+        <h1>Watch the match unfold<span class="period">.</span></h1>
+        <p>Scrub through a completed game to see mining routes, cargo, base positions, and collisions.</p>
+      </div>
+      <div class="result-pill" id="result-pill">Load a match to begin</div>
+    </div>
+
+    <div id="status" class="status" role="status" hidden></div>
+
+    <div class="workspace" id="workspace" hidden>
+      <aside class="side-panel left-panel">
+        <div class="panel-heading"><span>COLONIES</span><span class="panel-index">01 / 03</span></div>
+        <div id="player-cards" class="player-cards"></div>
+        <div class="panel-divider"></div>
+        <div class="panel-heading"><span>RESOURCE MAP</span></div>
+        <div class="heat-scale" aria-hidden="true"></div>
+        <div class="scale-label"><span>LOW HALITE</span><span>HIGH HALITE</span></div>
+        <p class="panel-note">Bright cells hold more halite. Colored circles are ships; the outer ring shows cargo carried. Diamonds mark shipyards and dropoffs.</p>
+        <div class="key-row"><i class="key-dot player-zero"></i> Player 0 <i class="key-dot player-one"></i> Player 1</div>
+        <div class="key-row"><i class="key-diamond"></i> Base <i class="key-ring"></i> Ship cargo</div>
+      </aside>
+
+      <section class="center-panel" aria-label="Replay map and controls">
+        <div class="map-topline"><span id="map-label">MAP — × —</span><span id="turn-label">TURN 0 / 0</span></div>
+        <div class="board-shell"><canvas id="board" role="img" aria-label="Halite match map showing resources, bases and ships"></canvas></div>
+        <div class="tile-info" id="tile-info">Hover over a map cell to inspect it.</div>
+
+        <div class="transport">
+          <div class="transport-buttons">
+            <button id="first" type="button" class="icon-button" title="First frame" aria-label="First frame">⇤</button>
+            <button id="previous" type="button" class="icon-button" title="Previous frame (left arrow)" aria-label="Previous frame">←</button>
+            <button id="play" type="button" class="play-button" title="Play or pause (space)" aria-label="Play">▶ <span>PLAY</span></button>
+            <button id="next" type="button" class="icon-button" title="Next frame (right arrow)" aria-label="Next frame">→</button>
+            <button id="last" type="button" class="icon-button" title="Last frame" aria-label="Last frame">⇥</button>
+          </div>
+          <label class="speed-picker">SPEED <select id="speed" aria-label="Playback speed"><option value="2">2×</option><option value="4">4×</option><option value="8" selected>8×</option><option value="16">16×</option><option value="32">32×</option></select></label>
+        </div>
+        <label class="sr-only" for="scrubber">Replay turn</label>
+        <input id="scrubber" class="scrubber" type="range" min="0" max="0" value="0">
+        <div class="scrub-labels"><span>START</span><span id="progress-label">0 OF 0 TURNS</span><span>FINAL STATE</span></div>
+
+        <div class="chart-panel">
+          <div class="panel-heading"><span>HALITE IN BANK</span><span class="panel-index">START-OF-TURN BALANCE</span></div>
+          <svg id="bank-chart" viewBox="0 0 400 96" role="img" aria-label="Bank balances over the match" preserveAspectRatio="none">
+            <line x1="0" y1="94" x2="400" y2="94" class="chart-baseline"></line>
+            <path id="chart-zero" class="chart-line zero"></path>
+            <path id="chart-one" class="chart-line one"></path>
+            <line id="chart-cursor" x1="0" y1="0" x2="0" y2="96" class="chart-cursor"></line>
+          </svg>
+          <div class="chart-legend"><span><i class="key-dot player-zero"></i> Player 0</span><span><i class="key-dot player-one"></i> Player 1</span></div>
+        </div>
+      </section>
+
+      <aside class="side-panel right-panel">
+        <div class="panel-heading"><span>MATCH INTEL</span><span class="panel-index">03 / 03</span></div>
+        <div class="stat-block"><span>TURN</span><strong id="stat-turn">—</strong></div>
+        <div class="stat-block"><span>SHIPS ACTIVE</span><strong id="stat-ships">—</strong></div>
+        <div class="stat-block"><span>BASES BUILT</span><strong id="stat-bases">—</strong></div>
+        <div class="panel-divider"></div>
+        <div class="panel-heading"><span>KEY EVENTS</span><span class="panel-index">CLICK TO JUMP</span></div>
+        <div id="event-list" class="event-list"></div>
+        <div class="note-box"><strong>About this replay</strong><p>Each frame shows ships and resources at the start of a turn. Event markers show what happens during that turn. Halite is a practice game, not the Mars competition.</p></div>
+      </aside>
+    </div>
+    <p class="bottom-note">LOCAL FILES ONLY <span>·</span> RUN <code>make demo</code> FOR A NEW MATCH, THEN REFRESH THIS PAGE</p>
+  </main>
+</body>
+</html>

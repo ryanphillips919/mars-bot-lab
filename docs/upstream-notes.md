@@ -1,4 +1,4 @@
-# Upstream integration notes
+# Retained Lux Season 2 integration notes
 
 Inspected source: [Lux-Design-S2 at `5bcb3c7`](https://github.com/Lux-AI-Challenge/Lux-Design-S2/tree/5bcb3c775d536cecda32a3c041a9814279b79c5b). The checkout is a pinned dependency and is not copied into this repository.
 
@@ -20,5 +20,5 @@ The repository root [LICENSE](https://github.com/Lux-AI-Challenge/Lux-Design-S2/
 
 ## Current verification limit
 
-This workspace has Python 3.12 but no Python 3.10, and shell DNS cannot resolve GitHub. The match command and replay workflow have been checked against upstream source, but a real match cannot be run here until Python 3.10 and network access are available. A local test covers the command's result and replay wiring with a simulated episode; it does not validate the actual simulator.
+This workspace has Python 3.12 but no Python 3.10, and shell DNS cannot resolve GitHub. The preserved Lux runner is now `experiments/lux_match.py`. Its match and replay workflow have been checked against upstream source, but a real Lux match cannot be run here until Python 3.10 and network access are available. A local test covers its result and replay wiring with a simulated episode; it does not validate the actual simulator.
 
