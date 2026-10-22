@@ -20,8 +20,15 @@ class MatchMetrics:
         self.economy = [Counter(), Counter()]
         self.economic_diagnostics = [Counter(), Counter()]
         self.milestones = [{"first_gold_discovery_turn": None, "first_gold_mine_turn": None,
-                            "first_gold_deposit_turn": None} for _ in (0, 1)]
+                            "first_gold_deposit_turn": None,
+                            "first_resource_discovery_turn": None,
+                            "first_resource_mine_turn": None,
+                            "first_resource_deposit_turn": None} for _ in (0, 1)]
         self.ever_deliverable_gold_known = [False, False]
+        self.ever_feasible_carried_gold: dict[str, bool] = {}
+        self.previous_targets: list[dict[str, tuple[int, int]]] = [{}, {}]
+        self.economic_idle_streak = [0, 0]
+        self.longest_economic_idle_streak = [0, 0]
         self.last_opportunities: dict[str, bool] = {}
         self.build_audit = [Counter(), Counter()]
         self.site_audit = [Counter(), Counter()]
@@ -35,6 +42,9 @@ class MatchMetrics:
             if self.milestones[player]["first_gold_discovery_turn"] is None and any(
                     cell["resource"] == "gold" for cell in colony.known.values()):
                 self.milestones[player]["first_gold_discovery_turn"] = self.game.turn
+            if self.milestones[player]["first_resource_discovery_turn"] is None and any(
+                    cell["resource"] in ("gold", "iron") for cell in colony.known.values()):
+                self.milestones[player]["first_resource_discovery_turn"] = self.game.turn
 
     def record(self, observations: list[dict], responses: list[Any], actions: dict[str, dict],
                events: list[dict], before: dict[str, tuple[int, int]]) -> None:
@@ -48,6 +58,9 @@ class MatchMetrics:
             if spec in {"coordinated", "independent", "coordinated-nearest",
                         "coordinated-harvest-first",
                         "coordinated-harvest-scored",
+                        "coordinated-harvest-stable", "coordinated-harvest-cargo",
+                        "coordinated-harvest-reliable",
+                        "coordinated-stable",
                         "coordinated-frontier-scored", "coordinated-adaptive",
                         "coordinated-no-endgame", "coordinated-no-explore",
                         "coordinated-payback-build"}:
@@ -74,6 +87,7 @@ class MatchMetrics:
             if not isinstance(targets, dict):
                 targets = {}
             bases = {(base["x"], base["y"]) for base in obs["bases"]}
+            resource_claims = Counter()
             for rover in obs["rovers"]:
                 rid = rover["id"]
                 start = before[rid]
@@ -81,6 +95,8 @@ class MatchMetrics:
                 distance, _ = bfs(start, cells)
                 free = obs["constants"]["cargo_capacity"] - sum(rover["cargo"].values())
                 left = obs["constants"]["turns"] - obs["turn"]
+                if not rover["cargo"]["gold"]:
+                    self.ever_feasible_carried_gold.pop(rid, None)
                 deliverable = free > 0 and any(
                     cell["terrain"] == "plain" and cell["resource"] == "gold" and cell["quantity"] > 0
                     and point in distance and distance[point] + home.get(point, float("inf")) + 2 <= left
@@ -89,6 +105,20 @@ class MatchMetrics:
                 if deliverable:
                     self.ever_deliverable_gold_known[player] = True
                     self.economic_diagnostics[player]["rover_turns_with_deliverable_gold_known"] += 1
+                if (rover["cargo"]["gold"] and home.get(start, float("inf")) + 1 <= left):
+                    self.ever_feasible_carried_gold[rid] = True
+                raw_target = targets.get(rid)
+                target = tuple(raw_target) if isinstance(raw_target, list) and len(raw_target) == 2 and all(
+                    isinstance(value, int) for value in raw_target) else None
+                prior = self.previous_targets[player].get(rid)
+                if target is not None:
+                    if prior is not None and target != prior:
+                        self.economic_diagnostics[player]["target_changes"] += 1
+                    self.previous_targets[player][rid] = target
+                    if target in cells and cells[target]["resource"] in ("gold", "iron") and cells[target]["quantity"] > 0:
+                        resource_claims[target] += 1
+                else:
+                    self.previous_targets[player].pop(rid, None)
                 if actions[rid]["type"] != "MOVE" or start == end:
                     continue
                 radius = obs["constants"]["vision_radius"]
@@ -96,19 +126,23 @@ class MatchMetrics:
                     self.economic_diagnostics[player]["moves_revealing_new_tiles"] += 1
                 if any(abs(point[0] - end[0]) + abs(point[1] - end[1]) <= radius for point in new_gold):
                     self.economic_diagnostics[player]["moves_revealing_new_gold"] += 1
-                raw_target = targets.get(rid)
-                target = tuple(raw_target) if isinstance(raw_target, list) and len(raw_target) == 2 and all(
-                    isinstance(value, int) for value in raw_target) else None
+                if rover["cargo"]["gold"] and home.get(end, float("inf")) > home.get(start, float("inf")):
+                    self.economic_diagnostics[player]["moves_away_from_base_with_gold"] += 1
                 if target in bases and home.get(end, float("inf")) < home.get(start, float("inf")):
                     self.economic_diagnostics[player]["moves_toward_base"] += 1
-                elif target in cells and cells[target]["resource"] == "gold" and target in distance:
+                elif target in cells and cells[target]["resource"] in ("gold", "iron") and target in distance:
                     after_distance = bfs(end, cells)[0].get(target, float("inf"))
                     if after_distance < distance[target]:
-                        self.economic_diagnostics[player]["moves_toward_known_gold"] += 1
+                        self.economic_diagnostics[player]["moves_toward_known_resource"] += 1
+                        if cells[target]["resource"] == "gold":
+                            self.economic_diagnostics[player]["moves_toward_known_gold"] += 1
                 elif target is not None and deliverable:
                     self.economic_diagnostics[player]["exploration_moves_with_deliverable_gold_known"] += 1
+            self.economic_diagnostics[player]["duplicate_resource_target_rover_turns"] += sum(
+                count - 1 for count in resource_claims.values() if count > 1)
 
         effected: set[str] = set()
+        economic_effect = [False, False]
         for rover_id, action in actions.items():
             player = self.game.rovers[rover_id].player
             kind = action["type"]
@@ -123,6 +157,7 @@ class MatchMetrics:
                 player = self.game.rovers[rover_id].player if rover_id else event["player"]
                 action_kind = kind.upper()
                 self.effect[player][action_kind] += 1
+                economic_effect[player] = True
                 if rover_id:
                     effected.add(rover_id)
                 elif kind == "build":
@@ -134,11 +169,15 @@ class MatchMetrics:
                         effected.add(builder)
                 if kind == "mine":
                     self.economy[player][f'{event["resource"]}_mined'] += event["quantity"]
+                    if self.milestones[player]["first_resource_mine_turn"] is None:
+                        self.milestones[player]["first_resource_mine_turn"] = observations[player]["turn"]
                     if event["resource"] == "gold" and self.milestones[player]["first_gold_mine_turn"] is None:
                         self.milestones[player]["first_gold_mine_turn"] = observations[player]["turn"]
                 elif kind == "deposit":
                     for resource in ("gold", "iron"):
                         self.economy[player][f"{resource}_deposited"] += event[resource]
+                    if self.milestones[player]["first_resource_deposit_turn"] is None:
+                        self.milestones[player]["first_resource_deposit_turn"] = observations[player]["turn"]
                     if event["gold"] and self.milestones[player]["first_gold_deposit_turn"] is None:
                         self.milestones[player]["first_gold_deposit_turn"] = observations[player]["turn"]
                 else:
@@ -147,6 +186,10 @@ class MatchMetrics:
         for rover_id in actions:
             if rover_id not in effected:
                 self.economy[self.game.rovers[rover_id].player]["no_effect_rover_turns"] += 1
+        for player in (0, 1):
+            self.economic_idle_streak[player] = 0 if economic_effect[player] else self.economic_idle_streak[player] + 1
+            self.longest_economic_idle_streak[player] = max(
+                self.longest_economic_idle_streak[player], self.economic_idle_streak[player])
         self._reveal()
 
     def report(self) -> list[dict]:
@@ -162,13 +205,22 @@ class MatchMetrics:
             diagnostics = {name: self.economic_diagnostics[player][name] for name in (
                 "rover_turns_with_deliverable_gold_known", "moves_revealing_new_tiles",
                 "moves_revealing_new_gold", "moves_toward_known_gold", "moves_toward_base",
-                "exploration_moves_with_deliverable_gold_known")}
+                "moves_toward_known_resource", "moves_away_from_base_with_gold",
+                "exploration_moves_with_deliverable_gold_known", "target_changes",
+                "duplicate_resource_target_rover_turns")}
             actions_total = sum(self.normalized[player].values())
             diagnostics["mine_or_deposit_action_percent"] = (100 * (
                 self.normalized[player]["MINE"] + self.normalized[player]["DEPOSIT"]) /
                 actions_total if actions_total else 0)
             diagnostics["zero_score_after_deliverable_gold_known"] = int(
                 colony.gold == 0 and self.ever_deliverable_gold_known[player])
+            diagnostics["max_consecutive_turns_without_mine_deposit_build"] = self.longest_economic_idle_streak[player]
+            diagnostics["stranded_gold_rovers_after_feasible_return"] = sum(
+                rover.gold > 0 and self.ever_feasible_carried_gold.get(rover.id, False)
+                for rover in self.game.rovers.values() if rover.player == player)
+            useful_actions = self.effect[player]["MINE"] + self.effect[player]["DEPOSIT"]
+            diagnostics["banked_gold_per_effective_mine_or_deposit"] = (
+                colony.gold / useful_actions if useful_actions else 0)
             results.append({
                 "economy": economy,
                 "economic_diagnostics": diagnostics,

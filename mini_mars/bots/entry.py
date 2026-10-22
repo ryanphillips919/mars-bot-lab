@@ -13,6 +13,9 @@ from .competition_starter import StarterBot
 BOT_NAMES = ("random", "starter", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
              "coordinated-harvest-first",
              "coordinated-harvest-scored",
+             "coordinated-harvest-stable", "coordinated-harvest-cargo",
+             "coordinated-harvest-reliable",
+             "coordinated-stable",
              "coordinated-frontier-scored", "coordinated-adaptive",
              "coordinated-nearest", "coordinated-no-endgame",
              "coordinated-payback-build",
@@ -35,6 +38,14 @@ def main() -> None:
         "coordinated-harvest-first": lambda: CoordinatedGreedy(StrategySettings(gold_priority=True)),
         "coordinated-harvest-scored": lambda: CoordinatedGreedy(
             StrategySettings(gold_priority=True, frontier_value_mode="individual")),
+        "coordinated-harvest-stable": lambda: CoordinatedGreedy(
+            StrategySettings(gold_priority=True, stable_targets=True)),
+        "coordinated-harvest-cargo": lambda: CoordinatedGreedy(
+            StrategySettings(gold_priority=True, marginal_cargo_return=True)),
+        "coordinated-harvest-reliable": lambda: CoordinatedGreedy(
+            StrategySettings(gold_priority=True, stable_targets=True,
+                             marginal_cargo_return=True)),
+        "coordinated-stable": lambda: CoordinatedGreedy(StrategySettings(stable_targets=True)),
         "coordinated-frontier-scored": lambda: CoordinatedGreedy(
             StrategySettings(frontier_value_mode="individual")),
         "coordinated-adaptive": lambda: CoordinatedGreedy(

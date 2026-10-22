@@ -165,7 +165,9 @@ def main() -> None:
         except Exception as error:
             print(f"starter input error: {error}", file=sys.stderr, flush=True)
             turn = obs.get("turn", -1) if isinstance(obs, dict) else -1
-            rovers = obs.get("rovers", []) if isinstance(obs, dict) else []
+            rovers = obs.get("rovers") if isinstance(obs, dict) else None
+            if not isinstance(rovers, list):
+                rovers = []
             response = {"turn": turn, "actions": [action(rover["id"], "WAIT") for rover in rovers
                                                     if isinstance(rover, dict) and isinstance(rover.get("id"), str)],
                         "bot_error": type(error).__name__}

@@ -1,0 +1,133 @@
+{
+  "format": "mini-mars-final-sprint-score-checked-replays-v1",
+  "source_sha256": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+    "mini_mars/bots/strategies.py": "8475a494db40195ded0ffdcc7393171a91e54f7467089dee5be5586bf4338329",
+    "mini_mars/bots/entry.py": "a064a48ef315b489e52975ed9fffc3ab79599b4309c81a0250ff7ff27a849be7",
+    "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+    "mini_mars/runner/match.py": "53d0d6cb0bc27bc5370bd38a7f22fd3854d3cdb3b871453ebc5d00d56bd96c43",
+    "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+    "mini_mars/runner/metrics.py": "927eec43a4ef0a1499adbeeb7ca17d7eacd6d4da837a2c38b75aa0335346bbdf",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+    "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+    "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+    "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+    "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+    "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+    "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+    "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+  },
+  "checks": "rerun tournament seed and slot with identical bot seeds; compare both scores and final replay banks",
+  "records": [
+    {
+      "stage": "validation",
+      "case": "starter_vs_harvest_default",
+      "selector": "worst_candidate_game",
+      "seed": 73039,
+      "swapped": false,
+      "bot_seeds_in_slot_order": [
+        73696351,
+        73696352
+      ],
+      "scores_a_b": [
+        51,
+        39
+      ],
+      "movement_warnings_in_slot_order": [
+        {},
+        {}
+      ],
+      "tournament_report": "mini_mars/results/benchmarks/final-sprint-v1/validation/starter_vs_harvest_default-k4vkdgd1/tournament.json",
+      "replay": "mini_mars/results/matches/final-sprint-starter_vs_harvest_default-73039-normal/replay.json"
+    },
+    {
+      "stage": "validation",
+      "case": "starter_vs_harvest_short-horizon",
+      "selector": "best_candidate_game",
+      "seed": 73035,
+      "swapped": true,
+      "bot_seeds_in_slot_order": [
+        73692316,
+        73692315
+      ],
+      "scores_a_b": [
+        8,
+        29
+      ],
+      "movement_warnings_in_slot_order": [
+        {},
+        {}
+      ],
+      "tournament_report": "mini_mars/results/benchmarks/final-sprint-v1/validation/starter_vs_harvest_short-horizon-u9oz7lfy/tournament.json",
+      "replay": "mini_mars/results/matches/final-sprint-starter_vs_harvest_short-horizon-73035-swapped/replay.json"
+    },
+    {
+      "stage": "validation",
+      "case": "harvest_vs_stable_full-info",
+      "selector": "worst_candidate_game",
+      "seed": 73011,
+      "swapped": false,
+      "bot_seeds_in_slot_order": [
+        73668099,
+        73668100
+      ],
+      "scores_a_b": [
+        69,
+        64
+      ],
+      "movement_warnings_in_slot_order": [
+        {},
+        {}
+      ],
+      "tournament_report": "mini_mars/results/benchmarks/final-sprint-v1/validation/harvest_vs_stable_full-info-b9bxjhve/tournament.json",
+      "replay": "mini_mars/results/matches/final-sprint-harvest_vs_stable_full-info-73011-normal/replay.json"
+    },
+    {
+      "stage": "validation",
+      "case": "harvest_vs_cargo_scarce",
+      "selector": "worst_candidate_game",
+      "seed": 73006,
+      "swapped": false,
+      "bot_seeds_in_slot_order": [
+        73663054,
+        73663055
+      ],
+      "scores_a_b": [
+        45,
+        30
+      ],
+      "movement_warnings_in_slot_order": [
+        {},
+        {}
+      ],
+      "tournament_report": "mini_mars/results/benchmarks/final-sprint-v1/validation/harvest_vs_cargo_scarce-ms_0z6tc/tournament.json",
+      "replay": "mini_mars/results/matches/final-sprint-harvest_vs_cargo_scarce-73006-normal/replay.json"
+    },
+    {
+      "stage": "comparison",
+      "case": "historical_vs_stable_full-info",
+      "selector": "first_warning_game",
+      "seed": 72005,
+      "swapped": false,
+      "bot_seeds_in_slot_order": [
+        72653045,
+        72653046
+      ],
+      "scores_a_b": [
+        59,
+        52
+      ],
+      "movement_warnings_in_slot_order": [
+        {
+          "back_and_forth": 1,
+          "goal_switching": 1
+        },
+        {}
+      ],
+      "tournament_report": "mini_mars/results/benchmarks/final-sprint-v1/comparison/historical_vs_stable_full-info-dggp6h6c/tournament.json",
+      "replay": "mini_mars/results/matches/final-sprint-historical_vs_stable_full-info-72005-normal/replay.json"
+    }
+  ]
+}

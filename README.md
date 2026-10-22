@@ -15,7 +15,7 @@ make view-mini-mars
 
 The match command prints the actual replay path; substitute it in the second command. Use `--step` to move through an ASCII replay interactively or `--view omniscient` to see the full map. For a quick browser demo, run `make demo-mini-mars` then `make view-mini-mars` and open **http://127.0.0.1:8766/**. The viewer loads completed matches with saved replays, lets you play or scrub turns, and switches the map between either player's fog of war and the full map. The score cards show replay-wide information in every map view. Run another match and click Refresh to load it; stop the viewer with Ctrl+C. The existing `make view` command remains the Halite viewer on port 8765. A tournament runs two games per seed with player slots swapped, then writes a JSON report under `mini_mars/results/tournaments/`. The bots run as persistent subprocesses using a [language-independent JSON Lines protocol](mini_mars/docs/README.md#bot-protocol); the [Mini Mars guide](mini_mars/docs/README.md) lists all Python reference bots and rules. Python 3.11+ and the standard library are sufficient.
 
-Mini Mars has ten [experiment scenarios and strategy variants](mini_mars/docs/README.md#experiment-presets-and-evidence). The [research notebook](mini_mars/docs/research-loop-notebook.md) explains why historical `coordinated` often explored instead of scoring and records the tested resource-first repair. The [standalone competition starter](mini_mars/bots/competition_starter.py) is a small JSON Lines scoring bot to adapt once Lucid publishes its API. The [Lucid strategy playbook](mini_mars/docs/lucid-strategy-playbook.md) distinguishes transferable ideas from our invented rules. Earlier paired-study commands and evidence remain in the Mini Mars guide.
+Mini Mars has ten [experiment scenarios and strategy variants](mini_mars/docs/README.md#experiment-presets-and-evidence). The [research notebook](mini_mars/docs/research-loop-notebook.md) explains why historical `coordinated` often explored instead of scoring and records the tested resource-first repair. The [standalone competition starter](mini_mars/bots/competition_starter.py) is a small JSON Lines scoring bot to adapt once Lucid publishes its API. Start event preparation with the [Competition Day Field Guide](mini_mars/docs/competition-day-field-guide.md); the [final engineering report](mini_mars/docs/final-sprint-20261022.md) and [Lucid strategy playbook](mini_mars/docs/lucid-strategy-playbook.md) distinguish transferable ideas from our invented rules and link the latest paired evidence. Earlier studies remain in the Mini Mars guide.
 
 ## Competition signals
 
@@ -84,6 +84,8 @@ make demo-lux
 | `mini_mars/viewer.py` and `mini_mars/ui/` | Separate Mini Mars browser replay viewer |
 | `mini_mars/scenarios.py` and `mini_mars/runner/benchmark.py` | Fixed Mini Mars scenarios and paired experiment matrix |
 | `mini_mars/docs/lucid-strategy-playbook.md` | Measured practice lessons and links to compact benchmark evidence |
+| `mini_mars/docs/competition-day-field-guide.md` | First 45 minutes, algorithm cheat sheet, and emergency checks |
+| `mini_mars/docs/final-sprint-20261022.md` | Latest audit, complete-bot validation, and reproduction commands |
 | `experiments/lux_match.py` | Preserved Lux Season 2 match runner |
 | `scripts/setup_halite.sh` | Halite checkout and starter kit builds |
 | `docs/halite-iii-investigation-20261021.md` | Investigation, exact build commands, and engine comparison |

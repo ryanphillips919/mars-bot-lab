@@ -27,6 +27,9 @@ RESULTS = ROOT / "mini_mars" / "results"
 ALIASES = {"random", "starter", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
            "coordinated-harvest-first",
            "coordinated-harvest-scored",
+           "coordinated-harvest-stable", "coordinated-harvest-cargo",
+           "coordinated-harvest-reliable",
+           "coordinated-stable",
            "coordinated-frontier-scored", "coordinated-adaptive",
            "coordinated-nearest", "coordinated-no-endgame",
            "coordinated-payback-build",
@@ -42,6 +45,7 @@ def source_hashes() -> dict[str, str]:
              "mini_mars/runner/reliability.py", "mini_mars/runner/reliability_benchmark.py",
              "mini_mars/runner/research_loop.py", "mini_mars/runner/exploration_study.py",
              "mini_mars/runner/frontier_value_study.py",
+             "mini_mars/runner/final_sprint.py",
              "mini_mars/__main__.py")
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in files}
 

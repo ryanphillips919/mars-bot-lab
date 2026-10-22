@@ -48,6 +48,26 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(result["timeouts"], [1, 0])
             self.assertEqual(result["crashes"], [0, 0])
 
+    def test_wrong_turn_and_oversized_response_are_not_clean_games(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            wrong = root / "wrong_turn.py"
+            wrong.write_text('import json, sys\nfor line in sys.stdin:\n'
+                             '    obs = json.loads(line)\n'
+                             '    print(json.dumps({"turn": obs["turn"] + 1, "actions": []}), flush=True)\n')
+            oversized = root / "oversized.py"
+            oversized.write_text('print("x" * 1000001, flush=True)\n')
+            wrong_result = run_match((f"python3 {wrong}", "greedy"), 7,
+                                     config=Config(turns=2), output_dir=root / "wrong",
+                                     save_replay=False)
+            self.assertGreater(wrong_result["invalid_actions"][0], 0)
+            self.assertEqual(wrong_result["protocol_fault_turns"], [0, 0])
+            oversized_result = run_match((f"python3 {oversized}", "greedy"), 7,
+                                         config=Config(turns=2), output_dir=root / "oversized",
+                                         save_replay=False)
+            self.assertEqual(oversized_result["crashes"], [1, 0])
+            self.assertGreater(oversized_result["invalid_actions"][0], 0)
+
     def test_coordinator_builds_once_when_remote_gold_pays_back(self):
         game = make_game(5)
         for rover_id in ("p0-r0", "p0-r1"):

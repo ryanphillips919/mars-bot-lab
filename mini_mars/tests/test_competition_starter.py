@@ -40,15 +40,18 @@ class StarterTests(unittest.TestCase):
     def test_direct_json_lines_entry_survives_bad_observation(self):
         valid = observation(make_game(21, Config(turns=2)), 0)
         partial = {"turn": 7, "rovers": [{"id": "p0-r0"}]}
+        malformed = {**valid, "turn": 8, "rovers": None}
         process = subprocess.run([sys.executable, "-m", "mini_mars.bots.competition_starter"],
-                                 input="\n".join(json.dumps(item) for item in (valid, partial)) + "\n",
+                                 input="\n".join(json.dumps(item) for item in (valid, partial, malformed, valid)) + "\n",
                                  text=True, capture_output=True, check=True)
-        first, second = [json.loads(line) for line in process.stdout.splitlines()]
+        first, second, third, fourth = [json.loads(line) for line in process.stdout.splitlines()]
         self.assertEqual(first["turn"], 0)
         self.assertNotIn("bot_error", first)
         self.assertEqual(second["turn"], 7)
         self.assertEqual(second["actions"], [{"rover_id": "p0-r0", "type": "WAIT"}])
         self.assertEqual(second["bot_error"], "KeyError")
+        self.assertEqual(third, {"turn": 8, "actions": [], "bot_error": "TypeError"})
+        self.assertNotIn("bot_error", fourth)
 
     def test_new_presets_generate_symmetric_reachable_maps(self):
         for name in ("abundant", "open", "limited-vision", "low-capacity", "iron-rich"):

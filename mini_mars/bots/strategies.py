@@ -269,17 +269,21 @@ class StrategySettings:
     gold_priority: bool = False
     frontier_value_mode: str = "shared-max"
     adaptive_exploration: bool = False
+    stable_targets: bool = False
+    marginal_cargo_return: bool = False
 
 
 def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
                     frontiers: list[tuple[Point, int]], prior_target: Point | None,
-                    settings: StrategySettings) -> list[tuple[float, str, Point, str | None, tuple]]:
+                    settings: StrategySettings,
+                    home: dict[Point, int] | None = None) -> list[tuple[float, str, Point, str | None, tuple]]:
     """Rank useful deposits and scouting cells by estimated reward per turn."""
     start = (rover["x"], rover["y"])
     distances, first_moves = bfs(start, cells)
     capacity = observation["constants"]["cargo_capacity"] - sum(rover["cargo"].values())
     bases = [(base["x"], base["y"]) for base in observation["bases"]]
-    home = home_distances(observation["bases"], cells)
+    if home is None:
+        home = home_distances(observation["bases"], cells)
     enemy_points = [(enemy["x"], enemy["y"]) for enemy in observation["enemies"]["rovers"]]
     candidates = []
     for point, cell in cells.items():
@@ -389,6 +393,7 @@ class CoordinatedGreedy:
     def __init__(self, settings: StrategySettings | None = None) -> None:
         self.settings = settings or StrategySettings()
         self.targets: dict[str, Point] = {}
+        self.target_kinds: dict[str, str] = {}
         self.diagnostic_targets: dict[str, Point] = {}
 
     def _should_build(self, observation: dict, rover: dict, cells: dict[Point, dict]) -> bool:
@@ -403,10 +408,13 @@ class CoordinatedGreedy:
         free = []
         build_budget = observation["bank"]["iron"]
         claimed_bases: set[Point] = set()
+        busy_tasks: set[Point] = set()
+        base_distances: dict[str, int] = {}
         for rover in observation["rovers"]:
             rover_id = rover["id"]
             point = (rover["x"], rover["y"])
             base, home_distance, base_move = shortest_base(rover, observation["bases"], cells)
+            base_distances[rover_id] = home_distance
             cargo = sum(rover["cargo"].values())
             if cargo and point == base:
                 assigned[rover_id] = simple(rover_id, "DEPOSIT")
@@ -416,40 +424,94 @@ class CoordinatedGreedy:
                                        home_distance + 1 >= remaining_turns(observation)):
                 assigned[rover_id] = move(rover_id, base_move)
                 self.diagnostic_targets[rover_id] = base
-            elif (self.settings.build_enabled and build_budget >= observation["constants"]["base_cost_iron"] and
+            elif (self.settings.build_enabled and not (
+                    self.settings.marginal_cargo_return and rover["cargo"]["gold"]) and
+                  build_budget >= observation["constants"]["base_cost_iron"] and
                   point not in claimed_bases and self._should_build(observation, rover, cells)):
                 assigned[rover_id] = simple(rover_id, "BUILD")
                 build_budget -= observation["constants"]["base_cost_iron"]
                 claimed_bases.add(point)
             else:
                 free.append(rover)
+            if rover_id in assigned and self.settings.stable_targets:
+                cell = cells.get(point, {})
+                if (assigned[rover_id]["type"] == "DEPOSIT" and self.targets.get(rover_id) == point
+                        and cell.get("resource") in {"gold", "iron"} and cell.get("quantity", 0) > 0):
+                    # The miner will be free to work this same tile next turn.
+                    busy_tasks.add(point)
+                else:
+                    self.targets.pop(rover_id, None)
+                    self.target_kinds.pop(rover_id, None)
 
         free_by_id = {rover["id"]: rover for rover in free}
         bids = []
+        # Friendly bases and known terrain are shared by every rover this turn.
+        home = home_distances(observation["bases"], cells)
         for rover in free:
-            for value, kind, point, first_move, preference in task_candidates(
-                    observation, rover, cells, frontiers, self.targets.get(rover["id"]), self.settings):
+            candidates = task_candidates(observation, rover, cells, frontiers,
+                                         self.targets.get(rover["id"]), self.settings, home)
+            if self.settings.marginal_cargo_return and rover["cargo"]["gold"]:
+                # A detour to collect a little more gold should not delay a
+                # valuable partial load for many turns. Returning also avoids
+                # speculative scouting when no efficient gold trip remains.
+                start = (rover["x"], rover["y"])
+                distances, _ = bfs(start, cells)
+                free_capacity = capacity - sum(rover["cargo"].values())
+                rate = observation["constants"]["mine_rate"]
+                candidates = [(value, kind, point, first_move, preference)
+                              for value, kind, point, first_move, preference in candidates
+                              if kind == "resource" and cells[point]["resource"] == "gold" and
+                              (units := min(free_capacity, cells[point]["quantity"])) > 0 and
+                              (distances[point] + home.get(point, inf) - base_distances[rover["id"]]
+                               + ceil(units / rate)) <= 2 * units]
+            for value, kind, point, first_move, preference in candidates:
                 priority = (0 if self.settings.gold_priority and kind == "resource"
                             and cells[point]["resource"] == "gold" else 1)
                 bids.append((priority, -value, rover["id"], kind, preference, point, first_move))
         bids.sort(key=lambda bid: (bid[0], bid[1], bid[2], bid[3], bid[4], bid[5]))
-        used_tasks: set[Point] = set()
-        for _, _, rover_id, kind, _, point, first_move in bids:
+        used_tasks: set[Point] = busy_tasks if self.settings.stable_targets else set()
+
+        def claim(bid: tuple) -> None:
+            _, _, rover_id, kind, _, point, first_move = bid
             if rover_id in assigned or (self.settings.coordinate and point in used_tasks):
-                continue
+                return
             rover = free_by_id[rover_id]
             assigned[rover_id] = (simple(rover_id, "MINE") if kind == "resource" and
                                   (rover["x"], rover["y"]) == point
                                   else move(rover_id, first_move))
             self.targets[rover_id] = point
+            self.target_kinds[rover_id] = kind
             self.diagnostic_targets[rover_id] = point
             if self.settings.coordinate:
                 used_tasks.add(point)
+
+        if self.settings.stable_targets and self.settings.coordinate:
+            # Keep a still-useful frontier with its current rover after gold
+            # claims are made. This prevents tiny bid changes from reversing
+            # long scouting routes, without locking out newly known gold.
+            for bid in bids:
+                if bid[0] == 0:
+                    claim(bid)
+            frontier_points = {point for point, _ in frontiers}
+            for rover in sorted(free, key=lambda item: item["id"]):
+                rover_id = rover["id"]
+                prior = self.targets.get(rover_id)
+                if rover_id in assigned or prior not in frontier_points or self.target_kinds.get(rover_id) != "explore":
+                    continue
+                previous_bid = next((bid for bid in bids if bid[2] == rover_id and bid[3] == "explore"
+                                     and bid[5] == prior), None)
+                if previous_bid is not None:
+                    claim(previous_bid)
+        for bid in bids:
+            claim(bid)
         for rover in free:
             if rover["id"] not in assigned:
                 _, _, base_move = shortest_base(rover, observation["bases"], cells)
                 assigned[rover["id"]] = move(rover["id"], base_move) if sum(rover["cargo"].values()) else simple(rover["id"], "WAIT")
                 self.targets.pop(rover["id"], None)
+                self.target_kinds.pop(rover["id"], None)
+                if self.settings.marginal_cargo_return and sum(rover["cargo"].values()):
+                    self.diagnostic_targets[rover["id"]] = shortest_base(rover, observation["bases"], cells)[0]
         actions = [assigned[rover["id"]] for rover in observation["rovers"]]
         if self.settings.endgame_enabled:
             for index, rover in enumerate(observation["rovers"]):
@@ -457,4 +519,7 @@ class CoordinatedGreedy:
                     observation, rover, actions[index], cells, observation["bases"])
                 if override is not None:
                     self.diagnostic_targets[rover["id"]] = override
+                    if self.settings.stable_targets:
+                        self.targets.pop(rover["id"], None)
+                        self.target_kinds.pop(rover["id"], None)
         return actions

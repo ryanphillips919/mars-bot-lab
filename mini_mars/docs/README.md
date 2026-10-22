@@ -2,7 +2,7 @@
 
 Mini Mars is a deliberately small, **unofficial** game for comparing bot algorithms. The Lucid competition description names rovers, iron, gold, bases, and exploration; it does not supply rules or an API. Every rule below is a Mini Mars design choice. The Halite III integration in the repository is independent.
 
-For the 45-minute event window, start with the [competition starter](competition-starter.md) and the [strategy playbook](lucid-strategy-playbook.md).
+For the 45-minute event window, start with the [Competition Day Field Guide](competition-day-field-guide.md), the [competition starter](competition-starter.md), and the [strategy playbook](lucid-strategy-playbook.md).
 
 ## Run it
 
@@ -58,6 +58,8 @@ python3 -m mini_mars.runner.frontier_value_study comparison
 
 The strategy-v2 study uses 20 paired smoke seeds starting at 30000 and 100 disjoint validation seeds starting at 40000. The focused reliability study uses 20 paired seeds starting at 50000. The [new research notebook](research-loop-notebook.md) explains the broader 64000-seed matrix and the resource-first repair on 66000-seed maps; the [playbook](lucid-strategy-playbook.md) gives the competition-morning recommendation. Each pair has a normal and swapped game. Compact reports are under `mini_mars/docs/benchmarks/`; detailed outputs and score-checked example replays stay under ignored `mini_mars/results/`. The 95% paired bootstrap interval resamples whole map seeds (5000 deterministic resamples). Faulted games invalidate their seed pair for score analysis, while reliability counts all attempted games separately.
 
+The [22 October final report](final-sprint-20261022.md) adds a complete-bot comparison on seeds **72000–72019** and held-out validation on **73000–73099**, plus replay checks, adversarial tests, and decision profiling. Reproduce its compact reports with `python3 -m mini_mars.runner.final_sprint comparison` and the explicitly selected `validation --cases ...` command in the report. The command refuses to overwrite historical evidence. `python3 -m mini_mars.runner.profile_decisions` runs the deterministic in-process performance fixtures.
+
 ## Complete game rules
 
 | Item | Rule / default |
@@ -89,7 +91,7 @@ The replay has frame 0 for the initial state and one frame after each resolved t
 
 ## Bot protocol
 
-The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, [`starter`](../bots/competition_starter.py), `greedy`, `greedy-no-cargo-guard` (a controlled unsafe baseline), `value`, `independent`, `coordinated`, `coordinated-harvest-first`, `coordinated-harvest-scored`, `coordinated-frontier-scored`, `coordinated-adaptive`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-no-explore`, `coordinated-gold-only`, and `coordinated-payback-build`.
+The runner keeps each bot process alive for the entire match and sends one UTF-8 JSON object followed by `\n` on stdin per turn. The bot must print exactly one JSON object followed by `\n` on stdout per turn and flush. Logs belong on stderr. Bot processes run from the repository root. The response deadline defaults to one second (`--timeout`). Bot commands are split into arguments, not run through a shell. For custom commands, `{seed}` is replaced with the bot's deterministic seed; use it to seed the bot's own RNG. Built-in aliases include `random`, [`starter`](../bots/competition_starter.py), `greedy`, `greedy-no-cargo-guard` (a controlled unsafe baseline), `value`, `independent`, `coordinated`, `coordinated-harvest-first`, `coordinated-harvest-scored`, `coordinated-frontier-scored`, `coordinated-adaptive`, `coordinated-nearest`, `coordinated-no-endgame`, `coordinated-no-explore`, `coordinated-gold-only`, `coordinated-payback-build`, and the experimental `coordinated-stable`, `coordinated-harvest-stable`, `coordinated-harvest-cargo`, and `coordinated-harvest-reliable` controls. The cargo-return controls lost score in the [held-out final study](benchmarks/final-sprint-v1/validation.json) and are not recommended as default bots.
 
 Example observation, abridged to two known cells and one rover:
 

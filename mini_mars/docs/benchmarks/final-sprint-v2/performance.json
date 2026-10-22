@@ -1,0 +1,133 @@
+{
+  "format": "mini-mars-decision-profile-v1",
+  "python_version": "3.12.3",
+  "source_revision": {
+    "git_head": "689864dd7c29be2028b50e19b7555d05a8224f86",
+    "git_dirty": true
+  },
+  "source_sha256": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+    "mini_mars/bots/strategies.py": "0b1bd6fdf05182f3ac435a67778dd41ce66533d07a41aa5b126709f7a55d4eef",
+    "mini_mars/bots/entry.py": "a064a48ef315b489e52975ed9fffc3ab79599b4309c81a0250ff7ff27a849be7",
+    "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+    "mini_mars/runner/match.py": "53d0d6cb0bc27bc5370bd38a7f22fd3854d3cdb3b871453ebc5d00d56bd96c43",
+    "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+    "mini_mars/runner/metrics.py": "927eec43a4ef0a1499adbeeb7ca17d7eacd6d4da837a2c38b75aa0335346bbdf",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+    "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+    "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+    "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+    "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+    "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+    "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+    "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+  },
+  "profile_script_sha256": "8c243dd5d3d52a9e497597b269221530ea2d9057ccc59dcfb12f281cc88f2f91",
+  "method": "perf_counter_ns around decide() only; fresh bot each repetition; no subprocess, JSON, or engine step",
+  "fixtures": [
+    {
+      "config": {
+        "width": 15,
+        "height": 15,
+        "turns": 100,
+        "starting_rovers": 3,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 8,
+        "gold_pairs": 9,
+        "iron_pairs": 6,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "seed": 20261022,
+      "repetitions_per_bot": 30,
+      "timings": {
+        "starter": {
+          "median_ms": 1.077148,
+          "maximum_ms": 1.376291
+        },
+        "coordinated-harvest-first": {
+          "median_ms": 2.027253,
+          "maximum_ms": 2.515847
+        },
+        "coordinated-harvest-stable": {
+          "median_ms": 1.899808,
+          "maximum_ms": 2.124419
+        }
+      }
+    },
+    {
+      "config": {
+        "width": 25,
+        "height": 25,
+        "turns": 100,
+        "starting_rovers": 10,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 20,
+        "gold_pairs": 30,
+        "iron_pairs": 15,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "seed": 20261022,
+      "repetitions_per_bot": 30,
+      "timings": {
+        "starter": {
+          "median_ms": 4.896453,
+          "maximum_ms": 5.701298
+        },
+        "coordinated-harvest-first": {
+          "median_ms": 14.015177000000001,
+          "maximum_ms": 15.043269
+        },
+        "coordinated-harvest-stable": {
+          "median_ms": 14.3824575,
+          "maximum_ms": 16.11324
+        }
+      }
+    },
+    {
+      "config": {
+        "width": 35,
+        "height": 35,
+        "turns": 100,
+        "starting_rovers": 30,
+        "cargo_capacity": 5,
+        "mine_rate": 1,
+        "base_cost_iron": 8,
+        "vision_radius": 2,
+        "rock_pairs": 40,
+        "gold_pairs": 60,
+        "iron_pairs": 30,
+        "deposit_min": 5,
+        "deposit_max": 12,
+        "full_information": true
+      },
+      "seed": 20261022,
+      "repetitions_per_bot": 30,
+      "timings": {
+        "starter": {
+          "median_ms": 26.910001,
+          "maximum_ms": 30.157899
+        },
+        "coordinated-harvest-first": {
+          "median_ms": 84.286156,
+          "maximum_ms": 90.527473
+        },
+        "coordinated-harvest-stable": {
+          "median_ms": 84.7151925,
+          "maximum_ms": 161.665718
+        }
+      }
+    }
+  ]
+}

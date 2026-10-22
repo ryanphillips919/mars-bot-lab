@@ -1,0 +1,57 @@
+{
+  "format": "mini-mars-optimization-check-v1",
+  "change": "share one multi-source base distance map across rovers per coordinated decision",
+  "command": "python3 -m mini_mars tournament --scenario default --bot-a starter --bot-b coordinated-harvest-first --matches 20 --seed 72000",
+  "comparison_snapshot": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+    "mini_mars/bots/strategies.py": "8475a494db40195ded0ffdcc7393171a91e54f7467089dee5be5586bf4338329",
+    "mini_mars/bots/entry.py": "a064a48ef315b489e52975ed9fffc3ab79599b4309c81a0250ff7ff27a849be7",
+    "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+    "mini_mars/runner/match.py": "53d0d6cb0bc27bc5370bd38a7f22fd3854d3cdb3b871453ebc5d00d56bd96c43",
+    "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+    "mini_mars/runner/metrics.py": "927eec43a4ef0a1499adbeeb7ca17d7eacd6d4da837a2c38b75aa0335346bbdf",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+    "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+    "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+    "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+    "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+    "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+    "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+    "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+  },
+  "optimized_snapshot": {
+    "mini_mars/engine/game.py": "2c99a7a6e5935667785adc9db8e1562985ba744b6ed5dc9cfbb2e9c3683c825c",
+    "mini_mars/scenarios.py": "112156f7e2ea6c5cee523eaef6de3693f244328f74c4774a64d6d1ce0376797d",
+    "mini_mars/bots/strategies.py": "0b1bd6fdf05182f3ac435a67778dd41ce66533d07a41aa5b126709f7a55d4eef",
+    "mini_mars/bots/entry.py": "a064a48ef315b489e52975ed9fffc3ab79599b4309c81a0250ff7ff27a849be7",
+    "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+    "mini_mars/runner/match.py": "53d0d6cb0bc27bc5370bd38a7f22fd3854d3cdb3b871453ebc5d00d56bd96c43",
+    "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+    "mini_mars/runner/metrics.py": "927eec43a4ef0a1499adbeeb7ca17d7eacd6d4da837a2c38b75aa0335346bbdf",
+    "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+    "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+    "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+    "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+    "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+    "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+    "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+    "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+    "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+  },
+  "source_revision": {
+    "git_head": "689864dd7c29be2028b50e19b7555d05a8224f86",
+    "git_dirty": true
+  },
+  "python_version": "3.12.3",
+  "games": 40,
+  "exactly_equal_game_summaries_except_timing_and_provenance": {
+    "scores": 40,
+    "faults": 40,
+    "warnings": 40,
+    "behavior": 40
+  },
+  "old_tournament": "mini_mars/results/benchmarks/final-sprint-v1/comparison/starter_vs_harvest_default-58mzd75f/tournament.json",
+  "optimized_tournament": "mini_mars/results/benchmarks/final-sprint-v2/optimization-check/tournament.json"
+}

@@ -2,9 +2,26 @@
 
 Mini Mars is an **unofficial** practice game. Lucid's announcement names rovers, iron, gold, bases, exploration, and competing colonies, but does not define scoring or the bot API. The measured results below test our invented rules, not Lucid's game.
 
+## 22 October update: compare complete bots first
+
+Use the [Competition Day Field Guide](competition-day-field-guide.md) for the first 45 minutes and the [final engineering report](final-sprint-20261022.md) for audit, test, and performance details. A new [33-case comparison matrix](benchmarks/final-sprint-v1/comparison.json) used 20 paired seeds per case. The preselected [held-out validation](benchmarks/final-sprint-v1/validation.json) used 100 fresh paired seeds per row. Across their **3,320 games**, all built-in bots in these cases completed without a fault, invalid action, or zero score. Candidate minus baseline score and 95% intervals below resample whole map-seed pairs; every row is 200 clean games.
+
+| Invented map and full-bot comparison | Candidate banked-gold difference [95% interval] | Practical reading |
+| --- | ---: | --- |
+| Default: `starter → greedy` | **−6.64** [−7.41, −5.86] | The small starter is clearly stronger than old greedy. |
+| Default: `starter → coordinated-harvest-first` | +0.55 [−0.12, +1.24] | No established scoring difference. |
+| Obstacle heavy: same comparison | +0.02 [−0.70, +0.74] | No established scoring difference. |
+| Scarce: same comparison | +0.36 [−0.50, +1.21] | No established scoring difference. |
+| 40 turns: same comparison | **+1.99** [+1.46, +2.53] | Resource-first coordination is stronger under this short deadline. |
+| Limited vision: same comparison | −0.21 [−1.26, +0.82] | No established scoring difference. |
+
+**Transferable:** Start with legal protocol, BFS routes, actual scoring, and a deadline-aware return. Add distinct task ownership if several rovers waste time on the same finite deposit. A stable ownership variant eliminated the reproduced **64008** and **67049** loops; fresh default, scarce, and full-information score intervals included both gains and losses. **Dependent on invented rules:** The experimental partial-cargo rule that rejected detours costing over two turns per unit lost **1.66 [−2.27, −1.04]** gold on scarce maps, so do not adopt that threshold. Mini Mars iron collection rarely funded a base; [construction diagnostics](final-sprint-20261022.md#complete-bot-leaderboard-in-invented-mini-mars-rules) distinguish inadequate iron from site rejection and confirm a funded build can work. Revisit all values when official scoring and costs are known.
+
+The advanced bot's short-map win does not make it an overall Lucid winner. The small `starter` remains the competition-morning reference; `coordinated-harvest-first` is the validated advanced option when the official rules justify coordination. The later paragraphs preserve historical studies and their own recorded source snapshots.
+
 ## Survive the First Match
 
-The schedule allows approximately **45 minutes before qualifying**. Follow the [small competition starter](competition-starter.md): inspect the real API, get valid output, add one safe scoring loop, then finish and inspect a complete match. Use the organizer's rules in place of every Mini Mars assumption below.
+The schedule allows approximately **45 minutes before qualifying**. Follow the [Competition Day Field Guide](competition-day-field-guide.md) and [small competition starter](competition-starter.md): inspect the real API, get valid output, add one safe scoring loop, then finish and inspect a complete match. Use the organizer's rules in place of every Mini Mars assumption below.
 
 | Catastrophic failure | Prevention before qualifying |
 | --- | --- |
