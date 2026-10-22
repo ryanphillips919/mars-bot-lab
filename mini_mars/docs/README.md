@@ -11,10 +11,15 @@ python3 -m mini_mars match --bot-a greedy --bot-b coordinated --seed 42
 python3 -m mini_mars replay /path/printed/by/match/replay.json --turns 0,10,50,100 --view 0
 python3 -m mini_mars replay /path/printed/by/match/replay.json --step --view omniscient
 python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated --matches 10 --seed 42
+make view-mini-mars
 make test
 ```
 
-The match command saves `summary.json`, `replay.json` by default, and one stderr log per bot in a unique ignored `mini_mars/results/matches/` directory. `--no-replay` skips the replay. Summaries record the seed, bot commands and seeds, Python version, and hashes of the local engine and reference bot source. For custom bots, also retain the bot's own executable or source version. A tournament's `--matches` is the number of **map seeds**; each seed runs twice with the bots in opposite player slots. Its report and individual match summaries are under `mini_mars/results/tournaments/`. Add `--save-replays` to retain every tournament replay. No frontend or installed package is needed.
+For a quick saved match, use `make demo-mini-mars` before starting the browser viewer.
+
+The match command saves `summary.json`, `replay.json` by default, and one stderr log per bot in a unique ignored `mini_mars/results/matches/` directory. `--no-replay` skips the replay. Summaries record the seed, bot commands and seeds, Python version, and hashes of the local engine and reference bot source. For custom bots, also retain the bot's own executable or source version. A tournament's `--matches` is the number of **map seeds**; each seed runs twice with the bots in opposite player slots. Its report and individual match summaries are under `mini_mars/results/tournaments/`. Add `--save-replays` to retain every tournament replay. No installed frontend package is needed.
+
+The browser viewer at **http://127.0.0.1:8766/** reads completed Mini Mars replays from `mini_mars/results/matches/`. Select a match, play or scrub, inspect a cell by hovering, and switch the map between player 0, player 1, and full visibility. Player views hide unexplored terrain and enemies outside current vision; remembered deposits are dimmed and may have stale quantities. The score cards and event log show complete replay information in all map views. The viewer does not run bots or show a match live. Run a new match in another terminal and click Refresh. The Halite browser viewer is separate (`make view`, port 8765).
 
 ## Complete game rules
 
@@ -43,7 +48,7 @@ All constants live in `mini_mars/engine/game.py` as `Config`. The seed determine
 5. Builds resolve before deposits, so iron deposited on this turn cannot fund a build until the next turn. If multiple builds compete for one tile or a colony overspends, the loser waits and gets a diagnostic. Player priority for a contested tile alternates with turn parity; same-player ties use rover ID.
 6. Valid deposits unload cargo. The turn advances, rover vision refreshes knowledge, and the next observations are ready. New bases can receive deposits from the following turn.
 
-The replay has frame 0 for the initial state and one frame after each resolved turn, so a standard game has 101 frames. It includes the complete map for **analysis**; bot observations are generated separately and include only known cells. The ASCII viewer defaults to one player's limited view: `?` means unexplored, `,` remembered empty terrain, lowercase `g/i` remembered deposits, uppercase `G/I` currently visible deposits, `#` rock, `A/B` bases, `a/b` rovers, and `*` a stack. Use `--view 1` for the other player or `--view omniscient` for the full replay. The viewer is not the Halite browser viewer.
+The replay has frame 0 for the initial state and one frame after each resolved turn, so a standard game has 101 frames. It includes the complete map for **analysis**; bot observations are generated separately and include only known cells. The ASCII viewer defaults to one player's limited view: `?` means unexplored, `,` remembered empty terrain, lowercase `g/i` remembered deposits, uppercase `G/I` currently visible deposits, `#` rock, `A/B` bases, `a/b` rovers, and `*` a stack. Use `--view 1` for the other player or `--view omniscient` for the full replay.
 
 ## Bot protocol
 

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111c22">
+  <link rel="icon" href="data:,">
+  <title>Mini Mars · Replay Viewer</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-symbol" aria-hidden="true">✦</span><div><strong>MARS BOT LAB</strong><small>MINI MARS / REPLAY VIEWER</small></div></div>
+    <div class="top-actions">
+      <label class="picker">SAVED MATCH <select id="match-select" aria-label="Saved match"></select></label>
+      <button id="refresh" class="plain-button" type="button">↻ Refresh</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow">LOCAL PRACTICE SIMULATION <span>·</span> SEED <span id="seed-label">—</span></div><h1>A little planet. Big decisions<span>.</span></h1><p>Watch rovers explore, mine gold and iron, bring cargo home, and expand their colonies.</p></div>
+      <div class="result" id="result">CHOOSE A SAVED MATCH</div>
+    </section>
+    <div id="status" class="status" role="status">Loading saved matches…</div>
+
+    <div id="workspace" class="workspace" hidden>
+      <aside class="panel colony-panel">
+        <div class="section-heading"><span>COLONIES</span><span>01 / 03</span></div>
+        <div id="colony-cards" class="colony-cards"></div>
+        <div class="section-heading top-gap"><span>GOLD IN BANK</span><span>SCORE</span></div>
+        <svg id="score-chart" viewBox="0 0 320 100" preserveAspectRatio="none" role="img" aria-label="Gold score by turn">
+          <line x1="0" y1="96" x2="320" y2="96" class="chart-base"></line>
+          <path id="score-zero" class="score-line zero"></path>
+          <path id="score-one" class="score-line one"></path>
+          <line id="score-cursor" x1="0" y1="0" x2="0" y2="100" class="chart-cursor"></line>
+        </svg>
+        <div class="chart-key"><span><i class="swatch player-zero"></i> Player 0</span><span><i class="swatch player-one"></i> Player 1</span></div>
+        <div class="section-heading top-gap"><span>MAP KEY</span></div>
+        <div class="legend"><span><i class="legend-shape gold"></i> Gold</span><span><i class="legend-shape iron"></i> Iron</span><span><i class="legend-shape rock"></i> Rock</span><span><i class="legend-shape base"></i> Base</span></div>
+        <p class="note">Bright cells are visible now. Dim cells are remembered; their resource counts may be stale. Dark cells have not been explored. Score cards use the full replay.</p>
+      </aside>
+
+      <section class="panel map-panel" aria-label="Replay map and playback controls">
+        <div class="map-header"><div><span class="section-heading">SURFACE MAP</span><small id="map-size">—</small></div><label class="picker view-picker">VIEW <select id="perspective"><option value="full" selected>Full map</option><option value="0">Player 0</option><option value="1">Player 1</option></select></label></div>
+        <div class="map-wrap"><canvas id="board" width="600" height="600" role="img" aria-label="Mini Mars grid map"></canvas></div>
+        <div class="tile-readout" id="tile-readout">Hover over a cell to inspect it.</div>
+        <div class="transport">
+          <div class="transport-buttons">
+            <button id="first" type="button" class="icon-button" aria-label="First turn" title="First turn">⇤</button>
+            <button id="previous" type="button" class="icon-button" aria-label="Previous turn" title="Previous turn (←)">←</button>
+            <button id="play" type="button" class="play-button" aria-label="Play">▶ <span>PLAY</span></button>
+            <button id="next" type="button" class="icon-button" aria-label="Next turn" title="Next turn (→)">→</button>
+            <button id="last" type="button" class="icon-button" aria-label="Last turn" title="Last turn">⇥</button>
+          </div>
+          <label class="picker speed-picker">SPEED <select id="speed" aria-label="Playback speed"><option value="2">2 turns/s</option><option value="4" selected>4 turns/s</option><option value="8">8 turns/s</option><option value="16">16 turns/s</option></select></label>
+        </div>
+        <label class="sr-only" for="scrubber">Turn</label>
+        <input id="scrubber" type="range" min="0" max="0" value="0">
+        <div class="scrub-labels"><span>LANDING</span><strong id="turn-label">TURN 0 / 0</strong><span>FINAL TURN</span></div>
+      </section>
+
+      <aside class="panel intel-panel">
+        <div class="section-heading"><span>FIELD LOG</span><span>03 / 03</span></div>
+        <div class="turn-summary"><small>CURRENT TURN</small><strong id="current-turn">00</strong><span id="turn-phase">Landing state</span></div>
+        <div class="section-heading top-gap"><span>THIS TURN</span></div>
+        <div id="current-events" class="current-events"></div>
+        <div class="section-heading top-gap"><span>NOTABLE TURNS</span><span>CLICK TO JUMP</span></div>
+        <div id="event-list" class="event-list"></div>
+        <div class="info-box"><strong>What am I seeing?</strong><p>This is a completed Mini Mars match, replayed turn by turn. Mini Mars is an unofficial practice game; its rules are not the Lucid competition rules.</p></div>
+      </aside>
+    </div>
+    <footer>RUN <code>python3 -m mini_mars match --bot-a greedy --bot-b coordinated --seed 42</code> FOR ANOTHER MATCH, THEN REFRESH.</footer>
+  </main>
+</body>
+</html>
