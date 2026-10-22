@@ -2,6 +2,18 @@
 
 Local experiments with autonomous agents for the upcoming Lucid Mars colony competition. [Halite III](https://github.com/HaliteChallenge/Halite-III) is the primary practice engine because its mining, routing, fleet allocation, dropoff expansion, and collision problems transfer well to this project. The Lucid rules are unpublished, so Halite is a practice environment rather than a model of that competition. The earlier Lux AI Season 2 workflow remains available for comparison.
 
+## Mini Mars: independent practice game
+
+`mini_mars/` is a separate, lightweight simulator based on the few mechanics named in the hackathon description. Its rules are **invented for practice**, not Lucid rules. It uses a 15×15 seeded grid, two resources, rovers, bases, fog of war, and 100 simultaneous turns. The existing Halite and Lux workflows remain available.
+
+```sh
+python3 -m mini_mars match --bot-a greedy --bot-b coordinated --seed 42
+python3 -m mini_mars replay /path/printed/by/match/replay.json --turns 0,10,50,100 --view 0
+python3 -m mini_mars tournament --bot-a greedy --bot-b coordinated --matches 10 --seed 42
+```
+
+The match command prints the actual replay path; substitute it in the second command. Use `--step` to move through a replay interactively or `--view omniscient` to see the full map. A tournament runs two games per seed with player slots swapped, then writes a JSON report under `mini_mars/results/tournaments/`. The bots run as persistent subprocesses using a [language-independent JSON Lines protocol](mini_mars/docs/README.md#bot-protocol); `random`, `greedy`, and `coordinated` are Python reference bots. The [Mini Mars guide](mini_mars/docs/README.md) covers the complete rules, algorithms, and interpretation of results. Python 3.11+ and the standard library are sufficient.
+
 ## Competition signals
 
 The hackathon description supplied by the organizers says code will control rovers, gather **iron and gold**, build bases, explore Mars, and compete against other colonies. This makes rover allocation, resource-specific mining decisions, return routes, base placement, and exploration useful strategy targets. It does not specify scoring, resource uses, construction costs, map visibility, collision rules, or the bot API. In particular, “explore” does not establish that the map has hidden information.

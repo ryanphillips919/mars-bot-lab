@@ -5,6 +5,7 @@ setup:
 
 test:
 	python3 -m unittest discover -s tests -v
+	python3 -m unittest discover -s mini_mars/tests -v
 
 demo:
 	python3 -m experiments.match

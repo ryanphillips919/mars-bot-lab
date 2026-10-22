@@ -1,0 +1,1 @@
+"""Mini Mars automated checks."""
