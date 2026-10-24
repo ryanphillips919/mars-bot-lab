@@ -63,7 +63,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
                            "crashes": 0, "decision_errors": 0,
                            "protocol_fault_turns": 0} for label in ("a", "b")}
     behavior_totals = {label: {"economy": Counter(), "economic_diagnostics": Counter(),
-                               "exploration": Counter(),
+                               "exploration": Counter(), "base_usage": Counter(),
                                "construction_audit": Counter(), "site_audit_ignoring_iron": Counter(), "actions": {
                                    "submitted": Counter(), "normalized": Counter(), "effect": Counter()}}
                        for label in ("a", "b")}
@@ -131,7 +131,7 @@ def run_tournament(bot_a: str, bot_b: str, matches: int, seed: int,
             for label, slot in (("a", a_slot), ("b", b_slot)):
                 movement_totals[label].update(result.get("movement_warnings", [{}, {}])[slot])
                 if "behavior" in result:
-                    for section in ("economy", "economic_diagnostics", "exploration", "construction_audit",
+                    for section in ("economy", "economic_diagnostics", "exploration", "base_usage", "construction_audit",
                                     "site_audit_ignoring_iron"):
                         behavior_totals[label][section].update(result["behavior"][slot][section])
                     for layer in ("submitted", "normalized", "effect"):

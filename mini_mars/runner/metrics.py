@@ -179,7 +179,11 @@ class MatchMetrics:
                     deposit_point = self.game.rovers[rover_id].position
                     base_index = self.game.colonies[player].bases.index(deposit_point)
                     self.base_usage[player][f"base_{base_index}_gold"] += event["gold"]
-                    self.base_usage[player][f"base_{base_index}_deliveries"] += 1
+                    if event["gold"]:
+                        self.base_usage[player][f"base_{base_index}_gold_deliveries"] += 1
+                        if base_index:
+                            self.base_usage[player]["constructed_base_gold"] += event["gold"]
+                            self.base_usage[player]["constructed_base_gold_deliveries"] += 1
                     for resource in ("gold", "iron"):
                         self.economy[player][f"{resource}_deposited"] += event[resource]
                     if self.milestones[player]["first_resource_deposit_turn"] is None:
@@ -191,6 +195,7 @@ class MatchMetrics:
                                                       "x": event["x"], "y": event["y"]})
                     self.economy[player]["iron_spent_on_bases"] += self.game.config.base_cost_iron
                     self.economy[player]["bases_built"] += 1
+                    self.economy[player]["build_turn_sum"] += observations[player]["turn"]
         for rover_id in actions:
             if rover_id not in effected:
                 self.economy[self.game.rovers[rover_id].player]["no_effect_rover_turns"] += 1
@@ -207,7 +212,7 @@ class MatchMetrics:
                                    if rover.player == player) for resource in ("gold", "iron")}
             economy = {name: self.economy[player][name] for name in (
                 "gold_mined", "gold_deposited", "iron_mined", "iron_deposited",
-                "iron_spent_on_bases", "bases_built", "no_effect_rover_turns")}
+                "iron_spent_on_bases", "bases_built", "build_turn_sum", "no_effect_rover_turns")}
             economy["gold_in_cargo_at_end"] = cargo["gold"]
             economy["iron_in_cargo_at_end"] = cargo["iron"]
             diagnostics = {name: self.economic_diagnostics[player][name] for name in (

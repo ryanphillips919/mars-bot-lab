@@ -19,6 +19,45 @@ def remote_gold_game(initial_iron=4):
 
 
 class PlannedConstructionTests(unittest.TestCase):
+    def test_complete_unfunded_lifecycle_improves_banked_gold(self):
+        from mini_mars.bots.strategies import CoordinatedGreedy
+
+        def play(bot):
+            game = remote_gold_game(initial_iron=0)
+            iron_mined = builds = constructed_gold = 0
+            while game.turn < game.config.turns:
+                turn = game.turn
+                actions = bot.decide(observation(game, 0))
+                events, diagnostics = step(game, {0: {"turn": turn, "actions": actions},
+                                                  1: {"turn": turn, "actions": []}})
+                self.assertFalse(diagnostics)
+                for event in events:
+                    if event["type"] == "mine" and event["resource"] == "iron" and event["rover_id"].startswith("p0"):
+                        iron_mined += event["quantity"]
+                    if event["type"] == "build" and event["player"] == 0:
+                        builds += 1
+                    if event["type"] == "deposit" and event["rover_id"].startswith("p0"):
+                        point = game.rovers[event["rover_id"]].position
+                        if point in game.colonies[0].bases[1:]:
+                            constructed_gold += event["gold"]
+            return game.colonies[0].gold, iron_mined, builds, constructed_gold
+
+        planned = play(PlannedConstructionBot())
+        gold_only = play(CoordinatedGreedy(StrategySettings(iron_enabled=False, build_enabled=False)))
+        self.assertEqual(planned[1:3], (4, 1))
+        self.assertGreater(planned[3], 0)
+        self.assertGreater(planned[0], gold_only[0])
+
+    def test_rejects_plan_without_payback_or_iron(self):
+        bot = PlannedConstructionBot()
+        game = remote_gold_game(initial_iron=0)
+        game.cell((2, 1)).quantity = 0
+        reveal(game)
+        self.assertIsNone(bot._choose_plan(observation(game, 0), known_cells(observation(game, 0))))
+        game.colonies[0].iron = 4
+        game.turn = 110
+        self.assertIsNone(bot._choose_plan(observation(game, 0), known_cells(observation(game, 0))))
+
     def test_funded_colony_selects_site_and_builds(self):
         game = remote_gold_game()
         bot = PlannedConstructionBot()
@@ -52,7 +91,8 @@ class PlannedConstructionTests(unittest.TestCase):
 
     def test_legacy_and_scaled_thresholds_are_distinct(self):
         game = remote_gold_game()
-        game.turn = 80
+        # 75 is past the historical cutoff (65), but before 65% of 120 (78).
+        game.turn = 75
         rover = game.rovers["p0-r0"]
         cells = known_cells(observation(game, 0))
         self.assertEqual(construction_reason(observation(game, 0), rover.public(), cells,

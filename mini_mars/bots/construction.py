@@ -93,11 +93,11 @@ class PlannedConstructionBot(CoordinatedGreedy):
             -sum(max(0, home.get(g, 0) - (abs(p[0]-g[0])+abs(p[1]-g[1])))
                  * min(c["quantity"], capacity) for g, c in gold),
             p))
+        rover_routes = [bfs((r["x"], r["y"]), cells)[0] for r in obs["rovers"]]
         best = None
         for site in scored[:12]:
             gain = self._site_value(site, obs, cells, home)
-            travel = min((bfs((r["x"], r["y"]), cells)[0].get(site, inf)
-                          for r in obs["rovers"]), default=inf)
+            travel = min((route.get(site, inf) for route in rover_routes), default=inf)
             investment = acquisition + travel + 1
             if investment >= left or gain <= investment * 1.25:
                 continue

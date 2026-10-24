@@ -18,6 +18,11 @@ class ConstructionStudyTests(unittest.TestCase):
         c = expansion_config(15, 100, 4, initial_banked_iron=4)
         self.assertEqual(c.initial_banked_iron, c.base_cost_iron)
 
+    def test_selected_validation_rejects_empty_matrix(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "no configurations"):
+                run_study("validate", output_root=Path(directory), sizes=[17])
+
     def test_paired_screen_smoke(self):
         with tempfile.TemporaryDirectory() as directory:
             study = run_study("screen", case_limit=1,
