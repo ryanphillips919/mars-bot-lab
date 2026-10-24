@@ -55,6 +55,6 @@ from merely placing a structure. Payback is an estimate, not an observed
 counterfactual.
 
 The GitHub plugin can create commits and pull requests but does not by itself
-run Python. Results and passing test claims must be established by actual
-execution (e.g. local `make test` or CI). The research branch includes no
-claimed tournament findings.
+run Python. Run validation locally using `make test` and the experiment commands
+above. No GitHub Actions workflows are configured for this research project.
+The research branch includes no claimed tournament findings.
