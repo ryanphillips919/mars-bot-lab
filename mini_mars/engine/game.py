@@ -161,7 +161,18 @@ def make_game(seed: int, config: Config | None = None) -> Game:
     available = [pair for pair in pairs if pair not in chosen_rocks]
     if config.gold_pairs + config.iron_pairs > len(available):
         raise ValueError("not enough open tiles for deposits")
+    # For clustered maps, replay the uniform quantity stream on a separate RNG.
+    # The two layouts then have identical resource totals for a given seed,
+    # while the historical uniform map and its RNG sequence remain unchanged.
+    quantity_rng = random.Random()
+    quantity_rng.setstate(rng.getstate())
+    uniform_available = available.copy()
     for kind, count in (("gold", config.gold_pairs), ("iron", config.iron_pairs)):
+        reference = quantity_rng.sample(uniform_available, count)
+        reference_set = set(reference)
+        uniform_available = [pair for pair in uniform_available if pair not in reference_set]
+        quantities = [quantity_rng.randint(config.deposit_min, config.deposit_max)
+                      for _ in range(count)]
         if config.resource_layout == "uniform" or count == 0:
             # Preserve the historical default RNG and distribution exactly.
             selected = rng.sample(available, count)
@@ -177,8 +188,9 @@ def make_game(seed: int, config: Config | None = None) -> Game:
             selected = sorted(available, key=lambda pair: (proximity(pair), rng.random()))[:count]
         chosen = set(selected)
         available = [pair for pair in available if pair not in chosen]
-        for pair in selected:
-            quantity = rng.randint(config.deposit_min, config.deposit_max)
+        for index, pair in enumerate(selected):
+            quantity = (rng.randint(config.deposit_min, config.deposit_max)
+                        if config.resource_layout == "uniform" else quantities[index])
             for x, y in pair:
                 cells[y][x].resource = kind
                 cells[y][x].quantity = quantity

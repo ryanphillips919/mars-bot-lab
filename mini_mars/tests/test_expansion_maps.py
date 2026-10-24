@@ -1,6 +1,8 @@
 """Regression tests for controlled large-map construction experiments."""
 import unittest
 from dataclasses import replace
+import hashlib
+import json
 
 from mini_mars.engine.game import Config, initial_map, make_game, reachable
 from mini_mars.scenarios import expansion_config
@@ -35,6 +37,18 @@ class ExpandedMapTests(unittest.TestCase):
         cfg = replace(base, initial_banked_iron=8)
         game = make_game(17, cfg)
         self.assertEqual([colony.iron for colony in game.colonies], [8, 8])
+
+    def test_layouts_match_resource_totals_and_preserve_uniform_baseline(self):
+        for size in (15, 30, 50):
+            uniform = make_game(811, expansion_config(size, 200, 6, "uniform"))
+            clustered = make_game(811, expansion_config(size, 200, 6, "clustered"))
+            for resource in ("gold", "iron"):
+                total = lambda game: sum(cell.quantity for row in game.cells for cell in row
+                                         if cell.resource == resource)
+                self.assertEqual(total(uniform), total(clustered))
+        historical = make_game(811)
+        digest = hashlib.sha256(json.dumps(initial_map(historical), sort_keys=True).encode()).hexdigest()
+        self.assertEqual(digest, "c700ab6d5993201c969f62d49f79cbff9f0dbeb428ae7daa3361e293363ab138")
 
     def test_invalid_configurations(self):
         for kwargs in ({"resource_layout": "diagonal"},
