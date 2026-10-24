@@ -28,7 +28,9 @@ class ConstructionStudyTests(unittest.TestCase):
             study = run_study("screen", case_limit=1,
                               candidates=["coordinated-planned-build"],
                               count=1, output_root=Path(directory))
-            self.assertEqual(len(study["cases"]), 2)
+            self.assertEqual(len(study["cases"]), 4)
+            self.assertEqual({row["baseline"] for row in study["cases"]},
+                             {"coordinated-gold-only", "coordinated-planned-no-build"})
             for row in study["cases"]:
                 self.assertEqual(row["attempted_games"], 2)
                 self.assertEqual(row["complete_pairs"], 1)

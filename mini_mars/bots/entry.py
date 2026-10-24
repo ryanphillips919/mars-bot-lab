@@ -20,6 +20,7 @@ BOT_NAMES = ("random", "starter", "greedy", "greedy-no-cargo-guard", "value", "i
              "coordinated-frontier-scored", "coordinated-adaptive",
              "coordinated-nearest", "coordinated-no-endgame",
              "coordinated-payback-build", "coordinated-scaling-build", "coordinated-planned-build",
+             "coordinated-planned-no-build",
              "coordinated-no-explore", "coordinated-gold-only")
 
 
@@ -57,6 +58,9 @@ def main() -> None:
         "coordinated-scaling-build": lambda: CoordinatedGreedy(StrategySettings(
             build_policy="payback", horizon_scaled=True)),
         "coordinated-planned-build": PlannedConstructionBot,
+        "coordinated-planned-no-build": lambda: CoordinatedGreedy(StrategySettings(
+            gold_priority=True, iron_enabled=False, build_enabled=False,
+            stable_targets=True, horizon_scaled=True)),
         "coordinated-no-explore": lambda: CoordinatedGreedy(StrategySettings(exploration_weight=0)),
         "coordinated-gold-only": lambda: CoordinatedGreedy(StrategySettings(iron_enabled=False,
                                                                             build_enabled=False)),

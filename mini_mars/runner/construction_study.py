@@ -19,6 +19,7 @@ BOTS = (
     ("coordinated-gold-only", "coordinated-payback-build"),
     ("coordinated-gold-only", "coordinated-scaling-build"),
     ("coordinated-gold-only", "coordinated-planned-build"),
+    ("coordinated-planned-no-build", "coordinated-planned-build"),
 )
 
 
@@ -28,16 +29,17 @@ def configurations():
         yield expansion_config(size, turns, cost, layout)
 
 
-def case_name(config, candidate, initial_iron):
+def case_name(config, baseline, candidate, initial_iron):
     return (f"{config.width}x{config.height}-t{config.turns}-i{config.base_cost_iron}-"
-            f"{config.resource_layout}-{candidate}-bank{initial_iron}")
+            f"{config.resource_layout}-{baseline}-vs-{candidate}-bank{initial_iron}")
 
 
 def run_study(stage: str, case_limit: int | None = None, candidates: list[str] | None = None,
               count: int | None = None, output_root: Path | None = None,
               seed: int | None = None, sizes: list[int] | None = None,
               turns: list[int] | None = None, costs: list[int] | None = None,
-              layouts: list[str] | None = None, rovers: int = 3) -> dict:
+              layouts: list[str] | None = None, rovers: int = 3,
+              baselines: list[str] | None = None) -> dict:
     if stage not in {"screen", "validate"} or rovers < 1:
         raise ValueError("invalid stage or rover count")
     if count is not None and count < 1:
@@ -58,14 +60,16 @@ def run_study(stage: str, case_limit: int | None = None, candidates: list[str] |
         raise ValueError("validation must be restricted to preselected configurations")
     if case_limit is not None:
         combos = combos[:case_limit]
-    comparisons = [pair for pair in BOTS if candidates is None or pair[1] in candidates]
+    comparisons = [pair for pair in BOTS
+                   if (candidates is None or pair[1] in candidates)
+                   and (baselines is None or pair[0] in baselines)]
     if not comparisons:
         raise ValueError("no candidate bots selected")
     rows = []
     for config in combos:
         for baseline, candidate in comparisons:
             for bank in (0, config.base_cost_iron):
-                name = case_name(config, candidate, bank)
+                name = case_name(config, baseline, candidate, bank)
                 current_config = expansion_config(config.width, config.turns,
                                                   config.base_cost_iron, config.resource_layout,
                                                   rovers=rovers, initial_banked_iron=bank)
@@ -108,6 +112,8 @@ def main():
     parser.add_argument("--case-limit", type=int, help="initial subset of matrix, in fixed order")
     parser.add_argument("--candidate", action="append",
                         choices=[candidate for _, candidate in BOTS])
+    parser.add_argument("--baseline", action="append",
+                        choices=sorted({baseline for baseline, _ in BOTS}))
     parser.add_argument("--size", action="append", type=int, choices=(15, 30, 50))
     parser.add_argument("--turns", action="append", type=int, choices=(100, 200, 400))
     parser.add_argument("--cost", action="append", type=int, choices=(4, 6, 8))
@@ -120,7 +126,8 @@ def main():
     args = parser.parse_args()
     evidence = run_study(args.stage, args.case_limit, args.candidate, args.matches,
                          seed=args.seed, sizes=args.size, turns=args.turns,
-                         costs=args.cost, layouts=args.layout, rovers=args.rovers)
+                         costs=args.cost, layouts=args.layout, rovers=args.rovers,
+                         baselines=args.baseline)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as stream:
         json.dump(evidence, stream, indent=2)

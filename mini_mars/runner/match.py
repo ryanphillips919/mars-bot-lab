@@ -33,6 +33,7 @@ ALIASES = {"random", "starter", "greedy", "greedy-no-cargo-guard", "value", "ind
            "coordinated-frontier-scored", "coordinated-adaptive",
            "coordinated-nearest", "coordinated-no-endgame",
            "coordinated-payback-build", "coordinated-scaling-build", "coordinated-planned-build",
+           "coordinated-planned-no-build",
            "coordinated-no-explore", "coordinated-gold-only"}
 MAX_LINE = 1_000_000
 
