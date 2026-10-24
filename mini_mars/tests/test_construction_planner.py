@@ -7,10 +7,10 @@ from mini_mars.engine.game import Config, make_game, observation, reveal, step
 from mini_mars.bots.strategies import StrategySettings, construction_reason, known_cells
 
 
-def remote_gold_game(initial_iron=4):
+def remote_gold_game(initial_iron=4, full_information=True):
     cfg = Config(turns=120, rock_pairs=0, gold_pairs=0, iron_pairs=0,
                  base_cost_iron=4, initial_banked_iron=initial_iron,
-                 full_information=True)
+                 full_information=full_information)
     game = make_game(1, cfg)
     game.cell((11, 11)).resource = "gold"
     game.cell((11, 11)).quantity = 80
@@ -21,6 +21,44 @@ def remote_gold_game(initial_iron=4):
 
 
 class PlannedConstructionTests(unittest.TestCase):
+    def test_fog_discovery_to_useful_base_lifecycle(self):
+        game = remote_gold_game(initial_iron=0, full_information=False)
+        bot = PlannedConstructionBot()
+        self.assertFalse(any(cell["resource"] == "gold" for cell in observation(game, 0)["cells"]))
+        discovered = planned = mined = deposited_iron = built = delivered = False
+        while game.turn < game.config.turns:
+            turn = game.turn
+            obs = observation(game, 0)
+            discovered |= any(cell["resource"] == "gold" for cell in obs["cells"])
+            actions = bot.decide(obs)
+            if bot.plan is not None:
+                planned = True
+                self.assertTrue(discovered)
+                self.assertGreater(bot.plan.projected_saved_turns, bot.plan.acquisition_turns)
+            events, diagnostics = step(game, {0: {"turn": turn, "actions": actions},
+                                              1: {"turn": turn, "actions": []}})
+            self.assertFalse(diagnostics)
+            for event in events:
+                if event["type"] == "mine" and event["resource"] == "iron" and event["rover_id"].startswith("p0"):
+                    mined = True
+                if event["type"] == "deposit" and event["rover_id"].startswith("p0"):
+                    deposited_iron |= event["iron"] > 0
+                    if game.rovers[event["rover_id"]].position in game.colonies[0].bases[1:]:
+                        delivered |= event["gold"] > 0
+                if event["type"] == "build" and event["player"] == 0:
+                    built = True
+        self.assertTrue(all((discovered, planned, mined, deposited_iron, built, delivered)))
+        from mini_mars.bots.strategies import CoordinatedGreedy
+        control = remote_gold_game(initial_iron=0, full_information=False)
+        collector = CoordinatedGreedy(StrategySettings(
+            gold_priority=True, iron_enabled=False, build_enabled=False,
+            stable_targets=True, horizon_scaled=True))
+        while control.turn < control.config.turns:
+            turn = control.turn
+            step(control, {0: {"turn": turn, "actions": collector.decide(observation(control, 0))},
+                           1: {"turn": turn, "actions": []}})
+        self.assertGreater(game.colonies[0].gold, control.colonies[0].gold)
+
     def test_complete_unfunded_lifecycle_improves_banked_gold(self):
         from mini_mars.bots.strategies import CoordinatedGreedy
 

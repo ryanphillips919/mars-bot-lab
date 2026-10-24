@@ -1,0 +1,5772 @@
+{
+  "format": "mini-mars-construction-evidence-v1",
+  "note": "Completed reports only; exploratory cases may repeat seeds. Early screens before the matched no-build control or quantity-matched layouts are retained as historical evidence, not causal comparisons.",
+  "reported_games": 2272,
+  "reports": [
+    {
+      "id": "smoke",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "6403ba14ad020df7e83ecaa7d12912d64f9cf2e8",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "b84fa6d04b9ebf7d9251616af9b0e43bc343e8b08aa31e77bcf7bd3a44ccd5f4",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "ed79c987fbcb6d66a6b130b687cdde8468c9616d34ba7457a50efd36a197ce54",
+        "mini_mars/runner/construction_study.py": "9d7ec6ce9e9c2271fc88d5235776b44156180693102d863766b72656a946b268",
+        "mini_mars/runner/match.py": "342bedb620644428d1b8b3ebb6203cc851bd90d8e6c0ed7e77b8d2f72b09954f",
+        "mini_mars/runner/tournament.py": "f00ae891291d6346e7d5c58410a668de92d2bb3b3c469f7b0aa621d639e3e2bb",
+        "mini_mars/runner/metrics.py": "3384b24a08420b9f96bd1375d4c4c6ba2496827faa0e1c875c7d093c57532c5a",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 1,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81000
+          ],
+          "attempted_games": 2,
+          "complete_pairs": 1,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 12.5,
+          "paired_ci95_candidate_minus_baseline": [
+            12.5,
+            12.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 48.0,
+            "b": 60.5
+          },
+          "average_decision_latency_ms": {
+            "a": 3.1957686899983173,
+            "b": 2.1017862050035774
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 60.5,
+            "gold_deposited": 60.5,
+            "iron_mined": 10.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 2.0,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 2.0
+          },
+          "candidate_constructed_base_gold_per_game": 0,
+          "candidate_constructed_base_gold_deliveries_per_game": 0,
+          "candidate_map_explored_percent": 62.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            12.5
+          ],
+          "constructed_bases_total": 4,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81000
+          ],
+          "attempted_games": 2,
+          "complete_pairs": 1,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 18.5,
+          "paired_ci95_candidate_minus_baseline": [
+            18.5,
+            18.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 46.5,
+            "b": 65.0
+          },
+          "average_decision_latency_ms": {
+            "a": 3.062279295001531,
+            "b": 2.2932136249988844
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 65.0,
+            "gold_deposited": 65.0,
+            "iron_mined": 8.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 12.0,
+            "bases_built": 3.0,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 0,
+          "candidate_constructed_base_gold_deliveries_per_game": 0,
+          "candidate_map_explored_percent": 74.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            18.5
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "screen-frozen",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "e184c99a6fd96e793c4bd1107177b3d40e6a6a84",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "b84fa6d04b9ebf7d9251616af9b0e43bc343e8b08aa31e77bcf7bd3a44ccd5f4",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "a0791d136345774237edd7d869294a1b1d83a64a3d0d185b1db8ab201c0696d5",
+        "mini_mars/runner/match.py": "342bedb620644428d1b8b3ebb6203cc851bd90d8e6c0ed7e77b8d2f72b09954f",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 5,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": -0.2,
+          "paired_ci95_candidate_minus_baseline": [
+            -1.4,
+            0.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.1,
+            "b": 43.9
+          },
+          "average_decision_latency_ms": {
+            "a": 3.0032368600036534,
+            "b": 3.0288024359979318
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 43.9,
+            "gold_deposited": 43.9,
+            "iron_mined": 1.1,
+            "iron_deposited": 0.9,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "build_turn_sum": 0.0,
+            "no_effect_rover_turns": 0.9,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "candidate_constructed_base_gold_per_game": 0,
+          "candidate_constructed_base_gold_deliveries_per_game": 0,
+          "candidate_map_explored_percent": 99.02222222222221,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            1.0,
+            0.5,
+            -2.5,
+            -0.0
+          ],
+          "constructed_bases_total": 0,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 20.4,
+          "paired_ci95_candidate_minus_baseline": [
+            12.9,
+            26.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 43.2,
+            "b": 63.6
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9663928180013954,
+            "b": 2.9340853719966162
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 63.6,
+            "gold_deposited": 63.6,
+            "iron_mined": 2.0,
+            "iron_deposited": 2.0,
+            "iron_spent_on_bases": 5.2,
+            "bases_built": 1.3,
+            "build_turn_sum": 23.1,
+            "no_effect_rover_turns": 0.1,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 58.8,
+          "candidate_constructed_base_gold_deliveries_per_game": 16.8,
+          "candidate_map_explored_percent": 98.71111111111111,
+          "paired_gold_differences_candidate_minus_baseline": [
+            14.5,
+            26.0,
+            27.5,
+            26.0,
+            8.0
+          ],
+          "constructed_bases_total": 13,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-payback-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 0.1,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.5,
+            0.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.1,
+            "b": 44.2
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9835940919997483,
+            "b": 3.0113442400001986
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 44.2,
+            "gold_deposited": 44.2,
+            "iron_mined": 1.1,
+            "iron_deposited": 0.9,
+            "iron_spent_on_bases": 0.4,
+            "bases_built": 0.1,
+            "build_turn_sum": 7.2,
+            "no_effect_rover_turns": 0.9,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "candidate_constructed_base_gold_per_game": 1.8,
+          "candidate_constructed_base_gold_deliveries_per_game": 0.5,
+          "candidate_map_explored_percent": 99.06666666666665,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            1.0,
+            0.5,
+            -1.0,
+            -0.0
+          ],
+          "constructed_bases_total": 1,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-payback-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.5,
+          "paired_ci95_candidate_minus_baseline": [
+            4.5,
+            10.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.9,
+            "b": 52.4
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9913473920030356,
+            "b": 2.9636185849972208
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 52.4,
+            "gold_deposited": 52.4,
+            "iron_mined": 4.0,
+            "iron_deposited": 3.6,
+            "iron_spent_on_bases": 6.8,
+            "bases_built": 1.7,
+            "build_turn_sum": 43.7,
+            "no_effect_rover_turns": 3.6,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.4
+          },
+          "candidate_constructed_base_gold_per_game": 46.4,
+          "candidate_constructed_base_gold_deliveries_per_game": 11.7,
+          "candidate_map_explored_percent": 98.88888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            2.0,
+            12.5,
+            5.0,
+            8.5,
+            9.5
+          ],
+          "constructed_bases_total": 17,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-scaling-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 0.1,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.5,
+            0.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.1,
+            "b": 44.2
+          },
+          "average_decision_latency_ms": {
+            "a": 3.1470417710017955,
+            "b": 3.161598628999627
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 44.2,
+            "gold_deposited": 44.2,
+            "iron_mined": 1.1,
+            "iron_deposited": 0.9,
+            "iron_spent_on_bases": 0.4,
+            "bases_built": 0.1,
+            "build_turn_sum": 7.2,
+            "no_effect_rover_turns": 0.9,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.2
+          },
+          "candidate_constructed_base_gold_per_game": 1.8,
+          "candidate_constructed_base_gold_deliveries_per_game": 0.5,
+          "candidate_map_explored_percent": 99.06666666666665,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            1.0,
+            0.5,
+            -1.0,
+            -0.0
+          ],
+          "constructed_bases_total": 1,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-scaling-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.5,
+          "paired_ci95_candidate_minus_baseline": [
+            4.5,
+            10.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.9,
+            "b": 52.4
+          },
+          "average_decision_latency_ms": {
+            "a": 3.019966897999211,
+            "b": 3.0064085019955655
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 52.4,
+            "gold_deposited": 52.4,
+            "iron_mined": 4.0,
+            "iron_deposited": 3.6,
+            "iron_spent_on_bases": 6.8,
+            "bases_built": 1.7,
+            "build_turn_sum": 43.7,
+            "no_effect_rover_turns": 3.6,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.4
+          },
+          "candidate_constructed_base_gold_per_game": 46.4,
+          "candidate_constructed_base_gold_deliveries_per_game": 11.7,
+          "candidate_map_explored_percent": 98.88888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            2.0,
+            12.5,
+            5.0,
+            8.5,
+            9.5
+          ],
+          "constructed_bases_total": 17,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 14.0,
+          "paired_ci95_candidate_minus_baseline": [
+            11.7,
+            17.1
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 44.3,
+            "b": 58.3
+          },
+          "average_decision_latency_ms": {
+            "a": 3.0360346269956153,
+            "b": 1.9794239880004625
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 58.3,
+            "gold_deposited": 58.3,
+            "iron_mined": 9.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 7.6,
+            "bases_built": 1.9,
+            "build_turn_sum": 102.4,
+            "no_effect_rover_turns": 0.1,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 1.0
+          },
+          "candidate_constructed_base_gold_per_game": 34.8,
+          "candidate_constructed_base_gold_deliveries_per_game": 13.8,
+          "candidate_map_explored_percent": 64.84444444444445,
+          "paired_gold_differences_candidate_minus_baseline": [
+            12.5,
+            14.5,
+            20.0,
+            12.0,
+            11.0
+          ],
+          "constructed_bases_total": 19,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 27.1,
+          "paired_ci95_candidate_minus_baseline": [
+            21.7,
+            33.2
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 42.7,
+            "b": 69.8
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9695857160031665,
+            "b": 1.9881691400003092
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 69.8,
+            "gold_deposited": 69.8,
+            "iron_mined": 8.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 12.0,
+            "bases_built": 3.0,
+            "build_turn_sum": 129.7,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 61.3,
+          "candidate_constructed_base_gold_deliveries_per_game": 28.9,
+          "candidate_map_explored_percent": 67.73333333333332,
+          "paired_gold_differences_candidate_minus_baseline": [
+            18.5,
+            39.0,
+            29.0,
+            22.5,
+            26.5
+          ],
+          "constructed_bases_total": 30,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "screen-long",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "e184c99a6fd96e793c4bd1107177b3d40e6a6a84",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "b84fa6d04b9ebf7d9251616af9b0e43bc343e8b08aa31e77bcf7bd3a44ccd5f4",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "a0791d136345774237edd7d869294a1b1d83a64a3d0d185b1db8ab201c0696d5",
+        "mini_mars/runner/match.py": "342bedb620644428d1b8b3ebb6203cc851bd90d8e6c0ed7e77b8d2f72b09954f",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 3,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": -1.0,
+          "paired_ci95_candidate_minus_baseline": [
+            -5.0,
+            2.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 77.83333333333333,
+            "b": 76.83333333333333
+          },
+          "average_decision_latency_ms": {
+            "a": 3.237479892913484,
+            "b": 3.2487422312486083
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 76.83333333333333,
+            "gold_deposited": 76.83333333333333,
+            "iron_mined": 0.3333333333333333,
+            "iron_deposited": 0.3333333333333333,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "build_turn_sum": 0.0,
+            "no_effect_rover_turns": 696.1666666666666,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 0,
+          "candidate_constructed_base_gold_deliveries_per_game": 0,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -5.0,
+            -0.0,
+            2.0
+          ],
+          "constructed_bases_total": 0,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 18.333333333333332,
+          "paired_ci95_candidate_minus_baseline": [
+            10.0,
+            27.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 68.16666666666667,
+            "b": 86.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9575908137489173,
+            "b": 3.282113638750843
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 86.5,
+            "gold_deposited": 86.5,
+            "iron_mined": 0.5,
+            "iron_deposited": 0.5,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 1.0,
+            "build_turn_sum": 5.333333333333333,
+            "no_effect_rover_turns": 774.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 83.66666666666667,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.0,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            27.0,
+            10.0,
+            18.0
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-payback-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": -1.0,
+          "paired_ci95_candidate_minus_baseline": [
+            -5.0,
+            2.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 77.83333333333333,
+            "b": 76.83333333333333
+          },
+          "average_decision_latency_ms": {
+            "a": 3.1961310454173977,
+            "b": 3.1857413175028646
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 76.83333333333333,
+            "gold_deposited": 76.83333333333333,
+            "iron_mined": 0.3333333333333333,
+            "iron_deposited": 0.3333333333333333,
+            "iron_spent_on_bases": 0.0,
+            "bases_built": 0.0,
+            "build_turn_sum": 0.0,
+            "no_effect_rover_turns": 696.1666666666666,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 0,
+          "candidate_constructed_base_gold_deliveries_per_game": 0,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -5.0,
+            -0.0,
+            2.0
+          ],
+          "constructed_bases_total": 0,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-payback-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 17.333333333333332,
+          "paired_ci95_candidate_minus_baseline": [
+            7.0,
+            27.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 68.66666666666667,
+            "b": 86.0
+          },
+          "average_decision_latency_ms": {
+            "a": 3.025998623333995,
+            "b": 3.3102607208339427
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 86.0,
+            "gold_deposited": 86.0,
+            "iron_mined": 0.5,
+            "iron_deposited": 0.5,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 1.0,
+            "build_turn_sum": 4.0,
+            "no_effect_rover_turns": 772.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 84.66666666666667,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.0,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            27.0,
+            7.0,
+            18.0
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-scaling-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": -2.3333333333333335,
+          "paired_ci95_candidate_minus_baseline": [
+            -5.0,
+            -0.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 78.5,
+            "b": 76.16666666666667
+          },
+          "average_decision_latency_ms": {
+            "a": 3.3601603966675007,
+            "b": 3.2560998512509323
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 76.16666666666667,
+            "gold_deposited": 76.16666666666667,
+            "iron_mined": 13.833333333333334,
+            "iron_deposited": 13.833333333333334,
+            "iron_spent_on_bases": 6.666666666666667,
+            "bases_built": 0.8333333333333334,
+            "build_turn_sum": 112.66666666666667,
+            "no_effect_rover_turns": 658.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 5.666666666666667,
+          "candidate_constructed_base_gold_deliveries_per_game": 1.6666666666666667,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -5.0,
+            -0.0,
+            -2.0
+          ],
+          "constructed_bases_total": 5,
+          "constructed_bases_without_gold": 1
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-scaling-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 12.333333333333334,
+          "paired_ci95_candidate_minus_baseline": [
+            7.0,
+            23.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 71.16666666666667,
+            "b": 83.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.9560915995827486,
+            "b": 3.188137408332352
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 83.5,
+            "gold_deposited": 83.5,
+            "iron_mined": 9.5,
+            "iron_deposited": 9.5,
+            "iron_spent_on_bases": 9.333333333333334,
+            "bases_built": 1.1666666666666667,
+            "build_turn_sum": 21.5,
+            "no_effect_rover_turns": 736.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 83.16666666666667,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.333333333333332,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            23.0,
+            7.0,
+            7.0
+          ],
+          "constructed_bases_total": 7,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.0,
+          "paired_ci95_candidate_minus_baseline": [
+            4.0,
+            10.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 73.83333333333333,
+            "b": 80.83333333333333
+          },
+          "average_decision_latency_ms": {
+            "a": 3.22756875458424,
+            "b": 2.673476036249459
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 80.83333333333333,
+            "gold_deposited": 80.83333333333333,
+            "iron_mined": 8.333333333333334,
+            "iron_deposited": 8.333333333333334,
+            "iron_spent_on_bases": 2.6666666666666665,
+            "bases_built": 0.3333333333333333,
+            "build_turn_sum": 12.166666666666666,
+            "no_effect_rover_turns": 694.8333333333334,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 17.666666666666668,
+          "candidate_constructed_base_gold_deliveries_per_game": 4.666666666666667,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            7.0,
+            4.0,
+            10.0
+          ],
+          "constructed_bases_total": 2,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 27.333333333333332,
+          "paired_ci95_candidate_minus_baseline": [
+            18.0,
+            45.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 63.666666666666664,
+            "b": 91.0
+          },
+          "average_decision_latency_ms": {
+            "a": 2.993086940001414,
+            "b": 2.944127435834029
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 91.0,
+            "gold_deposited": 91.0,
+            "iron_mined": 6.166666666666667,
+            "iron_deposited": 6.166666666666667,
+            "iron_spent_on_bases": 10.666666666666666,
+            "bases_built": 1.3333333333333333,
+            "build_turn_sum": 46.333333333333336,
+            "no_effect_rover_turns": 760.5,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 89.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 24.833333333333332,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            45.0,
+            19.0,
+            18.0
+          ],
+          "constructed_bases_total": 8,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "screen-large",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "e184c99a6fd96e793c4bd1107177b3d40e6a6a84",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "b84fa6d04b9ebf7d9251616af9b0e43bc343e8b08aa31e77bcf7bd3a44ccd5f4",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "a0791d136345774237edd7d869294a1b1d83a64a3d0d185b1db8ab201c0696d5",
+        "mini_mars/runner/match.py": "342bedb620644428d1b8b3ebb6203cc851bd90d8e6c0ed7e77b8d2f72b09954f",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 2,
+      "cases": [
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 69.75,
+          "paired_ci95_candidate_minus_baseline": [
+            59.0,
+            80.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 8.0,
+            "b": 77.75
+          },
+          "average_decision_latency_ms": {
+            "a": 8.736606760000996,
+            "b": 2.306990949998635
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 77.75,
+            "gold_deposited": 77.75,
+            "iron_mined": 8.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 7.0,
+            "bases_built": 1.75,
+            "build_turn_sum": 100.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 47.75,
+          "candidate_constructed_base_gold_deliveries_per_game": 16.75,
+          "candidate_map_explored_percent": 5.359999999999999,
+          "paired_gold_differences_candidate_minus_baseline": [
+            80.5,
+            59.0
+          ],
+          "constructed_bases_total": 7,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-gold-only",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 79.25,
+          "paired_ci95_candidate_minus_baseline": [
+            67.5,
+            91.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 8.0,
+            "b": 87.25
+          },
+          "average_decision_latency_ms": {
+            "a": 7.1785335149985485,
+            "b": 1.9679807750014788
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 87.25,
+            "gold_deposited": 87.25,
+            "iron_mined": 10.0,
+            "iron_deposited": 10.0,
+            "iron_spent_on_bases": 12.0,
+            "bases_built": 3.0,
+            "build_turn_sum": 121.75,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 76.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 30.0,
+          "candidate_map_explored_percent": 5.609999999999999,
+          "paired_gold_differences_candidate_minus_baseline": [
+            91.0,
+            67.5
+          ],
+          "constructed_bases_total": 12,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "matched-15",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "0191b5f756af5ffe4ec4dfc75fd928cc2f45202c",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "42bd43188e2fda86ec481870d4ac0bba0692a820260cb8d51818655ca7fbe451",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 5,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 4.8,
+          "paired_ci95_candidate_minus_baseline": [
+            2.3,
+            8.3
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 53.5,
+            "b": 58.3
+          },
+          "average_decision_latency_ms": {
+            "a": 1.743772722997619,
+            "b": 1.916705890997946
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 58.3,
+            "gold_deposited": 58.3,
+            "iron_mined": 8.3,
+            "iron_deposited": 7.9,
+            "iron_spent_on_bases": 6.4,
+            "bases_built": 1.6,
+            "build_turn_sum": 76.8,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.4
+          },
+          "candidate_constructed_base_gold_per_game": 34.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 12.8,
+          "candidate_map_explored_percent": 69.28888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            2.5,
+            3.5,
+            1.5,
+            11.5,
+            5.0
+          ],
+          "constructed_bases_total": 16,
+          "constructed_bases_without_gold": 1
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 15.0,
+          "paired_ci95_candidate_minus_baseline": [
+            9.7,
+            21.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 53.1,
+            "b": 68.1
+          },
+          "average_decision_latency_ms": {
+            "a": 1.724045442000488,
+            "b": 1.9655300400088436
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 68.1,
+            "gold_deposited": 68.1,
+            "iron_mined": 8.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 11.6,
+            "bases_built": 2.9,
+            "build_turn_sum": 121.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 59.1,
+          "candidate_constructed_base_gold_deliveries_per_game": 28.0,
+          "candidate_map_explored_percent": 67.37777777777778,
+          "paired_gold_differences_candidate_minus_baseline": [
+            6.5,
+            27.0,
+            13.5,
+            15.5,
+            12.5
+          ],
+          "constructed_bases_total": 29,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 4.7,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.0,
+            12.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 68.4,
+            "b": 73.1
+          },
+          "average_decision_latency_ms": {
+            "a": 1.4618844459982938,
+            "b": 1.6388108759967963
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 73.1,
+            "gold_deposited": 73.1,
+            "iron_mined": 2.8,
+            "iron_deposited": 2.8,
+            "iron_spent_on_bases": 2.4,
+            "bases_built": 0.6,
+            "build_turn_sum": 18.9,
+            "no_effect_rover_turns": 0.1,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 27.7,
+          "candidate_constructed_base_gold_deliveries_per_game": 9.2,
+          "candidate_map_explored_percent": 62.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            -0.0,
+            4.0,
+            19.5,
+            -0.0
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 14.1,
+          "paired_ci95_candidate_minus_baseline": [
+            4.8,
+            23.4
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 66.7,
+            "b": 80.8
+          },
+          "average_decision_latency_ms": {
+            "a": 1.4715456479984823,
+            "b": 2.0021019150015036
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 80.8,
+            "gold_deposited": 80.8,
+            "iron_mined": 2.4,
+            "iron_deposited": 1.6,
+            "iron_spent_on_bases": 4.8,
+            "bases_built": 1.2,
+            "build_turn_sum": 14.7,
+            "no_effect_rover_turns": 3.7,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.8
+          },
+          "candidate_constructed_base_gold_per_game": 78.6,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.5,
+          "candidate_map_explored_percent": 81.82222222222222,
+          "paired_gold_differences_candidate_minus_baseline": [
+            29.0,
+            4.0,
+            14.0,
+            22.5,
+            1.0
+          ],
+          "constructed_bases_total": 12,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 0.8,
+          "paired_ci95_candidate_minus_baseline": [
+            -2.2,
+            4.3
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 54.1,
+            "b": 54.9
+          },
+          "average_decision_latency_ms": {
+            "a": 1.831091569004002,
+            "b": 1.9532508420018075
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 54.9,
+            "gold_deposited": 54.9,
+            "iron_mined": 5.6,
+            "iron_deposited": 5.6,
+            "iron_spent_on_bases": 3.2,
+            "bases_built": 0.4,
+            "build_turn_sum": 24.2,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 11.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 4.2,
+          "candidate_map_explored_percent": 62.22222222222223,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -2.5,
+            -3.0,
+            7.5,
+            2.0,
+            -0.0
+          ],
+          "constructed_bases_total": 4,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 12.0,
+          "paired_ci95_candidate_minus_baseline": [
+            7.1,
+            17.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 53.8,
+            "b": 65.8
+          },
+          "average_decision_latency_ms": {
+            "a": 1.9208392739992632,
+            "b": 2.120392274000551
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 65.8,
+            "gold_deposited": 65.8,
+            "iron_mined": 6.4,
+            "iron_deposited": 6.1,
+            "iron_spent_on_bases": 13.6,
+            "bases_built": 1.7,
+            "build_turn_sum": 41.9,
+            "no_effect_rover_turns": 0.1,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.3
+          },
+          "candidate_constructed_base_gold_per_game": 54.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 23.1,
+          "candidate_map_explored_percent": 68.84444444444445,
+          "paired_gold_differences_candidate_minus_baseline": [
+            3.0,
+            20.5,
+            10.0,
+            15.0,
+            11.5
+          ],
+          "constructed_bases_total": 17,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 4.0,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.0,
+            11.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 68.6,
+            "b": 72.6
+          },
+          "average_decision_latency_ms": {
+            "a": 1.585215049000226,
+            "b": 1.6727836970005683
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 72.6,
+            "gold_deposited": 72.6,
+            "iron_mined": 3.2,
+            "iron_deposited": 3.2,
+            "iron_spent_on_bases": 3.2,
+            "bases_built": 0.4,
+            "build_turn_sum": 15.4,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 23.2,
+          "candidate_constructed_base_gold_deliveries_per_game": 7.2,
+          "candidate_map_explored_percent": 58.044444444444444,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            -0.0,
+            1.0,
+            19.0,
+            -0.0
+          ],
+          "constructed_bases_total": 4,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 15.5,
+          "paired_ci95_candidate_minus_baseline": [
+            5.4,
+            25.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 66.4,
+            "b": 81.9
+          },
+          "average_decision_latency_ms": {
+            "a": 1.5779914100007773,
+            "b": 2.1079704429973845
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 81.9,
+            "gold_deposited": 81.9,
+            "iron_mined": 0.4,
+            "iron_deposited": 0.0,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 1.0,
+            "build_turn_sum": 7.7,
+            "no_effect_rover_turns": 3.7,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.4
+          },
+          "candidate_constructed_base_gold_per_game": 79.7,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.5,
+          "candidate_map_explored_percent": 83.82222222222222,
+          "paired_gold_differences_candidate_minus_baseline": [
+            31.5,
+            4.0,
+            17.0,
+            24.0,
+            1.0
+          ],
+          "constructed_bases_total": 10,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "matched-50",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "0191b5f756af5ffe4ec4dfc75fd928cc2f45202c",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "42bd43188e2fda86ec481870d4ac0bba0692a820260cb8d51818655ca7fbe451",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 2,
+      "cases": [
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 10.75,
+          "paired_ci95_candidate_minus_baseline": [
+            6.0,
+            15.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 67.0,
+            "b": 77.75
+          },
+          "average_decision_latency_ms": {
+            "a": 1.529091467498347,
+            "b": 1.7164920399926586
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 77.75,
+            "gold_deposited": 77.75,
+            "iron_mined": 8.0,
+            "iron_deposited": 8.0,
+            "iron_spent_on_bases": 7.0,
+            "bases_built": 1.75,
+            "build_turn_sum": 100.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 47.75,
+          "candidate_constructed_base_gold_deliveries_per_game": 16.75,
+          "candidate_map_explored_percent": 5.359999999999999,
+          "paired_gold_differences_candidate_minus_baseline": [
+            15.5,
+            6.0
+          ],
+          "constructed_bases_total": 7,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 20.25,
+          "paired_ci95_candidate_minus_baseline": [
+            14.5,
+            26.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 67.0,
+            "b": 87.25
+          },
+          "average_decision_latency_ms": {
+            "a": 1.5391391150023992,
+            "b": 1.805876007497318
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 87.25,
+            "gold_deposited": 87.25,
+            "iron_mined": 10.0,
+            "iron_deposited": 10.0,
+            "iron_spent_on_bases": 12.0,
+            "bases_built": 3.0,
+            "build_turn_sum": 121.75,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 76.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 30.0,
+          "candidate_map_explored_percent": 5.609999999999999,
+          "paired_gold_differences_candidate_minus_baseline": [
+            26.0,
+            14.5
+          ],
+          "constructed_bases_total": 12,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "matched-50-long",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "0191b5f756af5ffe4ec4dfc75fd928cc2f45202c",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "42bd43188e2fda86ec481870d4ac0bba0692a820260cb8d51818655ca7fbe451",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 2,
+      "cases": [
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 106.5,
+          "paired_ci95_candidate_minus_baseline": [
+            93.0,
+            120.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 183.0,
+            "b": 289.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.348405758123562,
+            "b": 3.4094904268752657
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 289.5,
+            "gold_deposited": 289.5,
+            "iron_mined": 43.0,
+            "iron_deposited": 43.0,
+            "iron_spent_on_bases": 41.0,
+            "bases_built": 10.25,
+            "build_turn_sum": 2179.25,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 259.5,
+          "candidate_constructed_base_gold_deliveries_per_game": 101.5,
+          "candidate_map_explored_percent": 17.009999999999998,
+          "paired_gold_differences_candidate_minus_baseline": [
+            120.0,
+            93.0
+          ],
+          "constructed_bases_total": 41,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81001
+          ],
+          "attempted_games": 4,
+          "complete_pairs": 2,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 113.5,
+          "paired_ci95_candidate_minus_baseline": [
+            85.5,
+            141.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 183.0,
+            "b": 296.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.30414861937291,
+            "b": 3.586748231249146
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 296.5,
+            "gold_deposited": 296.5,
+            "iron_mined": 41.0,
+            "iron_deposited": 41.0,
+            "iron_spent_on_bases": 45.0,
+            "bases_built": 11.25,
+            "build_turn_sum": 2171.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 285.25,
+          "candidate_constructed_base_gold_deliveries_per_game": 111.25,
+          "candidate_map_explored_percent": 16.65,
+          "paired_gold_differences_candidate_minus_baseline": [
+            141.5,
+            85.5
+          ],
+          "constructed_bases_total": 45,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "matched-30",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "b84663250610f7fee922be07a3cc8fbbb7626642",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 3,
+      "cases": [
+        {
+          "config": {
+            "width": 30,
+            "height": 30,
+            "turns": 200,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 6,
+            "vision_radius": 2,
+            "rock_pairs": 32,
+            "gold_pairs": 36,
+            "iron_pairs": 24,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 31.833333333333332,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.0,
+            52.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 85.66666666666667,
+            "b": 117.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.183781309166003,
+            "b": 2.793595426664789
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 117.5,
+            "gold_deposited": 117.5,
+            "iron_mined": 6.0,
+            "iron_deposited": 6.0,
+            "iron_spent_on_bases": 6.0,
+            "bases_built": 1.0,
+            "build_turn_sum": 114.83333333333333,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 71.83333333333333,
+          "candidate_constructed_base_gold_deliveries_per_game": 17.333333333333332,
+          "candidate_map_explored_percent": 38.50000000000001,
+          "paired_gold_differences_candidate_minus_baseline": [
+            43.5,
+            52.0,
+            -0.0
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 2
+        },
+        {
+          "config": {
+            "width": 30,
+            "height": 30,
+            "turns": 200,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 6,
+            "vision_radius": 2,
+            "rock_pairs": 32,
+            "gold_pairs": 36,
+            "iron_pairs": 24,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 6
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 72.83333333333333,
+          "paired_ci95_candidate_minus_baseline": [
+            33.0,
+            97.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 85.66666666666667,
+            "b": 158.5
+          },
+          "average_decision_latency_ms": {
+            "a": 2.162056574165566,
+            "b": 3.4064621533347386
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 158.5,
+            "gold_deposited": 158.5,
+            "iron_mined": 9.833333333333334,
+            "iron_deposited": 9.833333333333334,
+            "iron_spent_on_bases": 14.0,
+            "bases_built": 2.3333333333333335,
+            "build_turn_sum": 221.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 156.83333333333334,
+          "candidate_constructed_base_gold_deliveries_per_game": 44.0,
+          "candidate_map_explored_percent": 35.925925925925924,
+          "paired_gold_differences_candidate_minus_baseline": [
+            88.0,
+            97.5,
+            33.0
+          ],
+          "constructed_bases_total": 14,
+          "constructed_bases_without_gold": 1
+        }
+      ]
+    },
+    {
+      "id": "matched-30-ten-rovers",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "b84663250610f7fee922be07a3cc8fbbb7626642",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 3,
+      "cases": [
+        {
+          "config": {
+            "width": 30,
+            "height": 30,
+            "turns": 200,
+            "starting_rovers": 10,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 6,
+            "vision_radius": 2,
+            "rock_pairs": 32,
+            "gold_pairs": 36,
+            "iron_pairs": 24,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 73.33333333333333,
+          "paired_ci95_candidate_minus_baseline": [
+            46.0,
+            101.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 202.16666666666666,
+            "b": 275.5
+          },
+          "average_decision_latency_ms": {
+            "a": 9.007302265834673,
+            "b": 10.148473164998299
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 275.5,
+            "gold_deposited": 275.5,
+            "iron_mined": 17.833333333333332,
+            "iron_deposited": 17.666666666666668,
+            "iron_spent_on_bases": 14.0,
+            "bases_built": 2.3333333333333335,
+            "build_turn_sum": 289.3333333333333,
+            "no_effect_rover_turns": 1.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.16666666666666666
+          },
+          "candidate_constructed_base_gold_per_game": 172.33333333333334,
+          "candidate_constructed_base_gold_deliveries_per_game": 42.833333333333336,
+          "candidate_map_explored_percent": 71.3888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            72.5,
+            46.0,
+            101.5
+          ],
+          "constructed_bases_total": 14,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 30,
+            "height": 30,
+            "turns": 200,
+            "starting_rovers": 10,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 6,
+            "vision_radius": 2,
+            "rock_pairs": 32,
+            "gold_pairs": 36,
+            "iron_pairs": 24,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 6
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 139.5,
+          "paired_ci95_candidate_minus_baseline": [
+            129.5,
+            153.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 194.16666666666666,
+            "b": 333.6666666666667
+          },
+          "average_decision_latency_ms": {
+            "a": 9.293467639996416,
+            "b": 12.760633280832584
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 333.6666666666667,
+            "gold_deposited": 333.6666666666667,
+            "iron_mined": 16.0,
+            "iron_deposited": 16.0,
+            "iron_spent_on_bases": 20.0,
+            "bases_built": 3.3333333333333335,
+            "build_turn_sum": 292.1666666666667,
+            "no_effect_rover_turns": 1.1666666666666667,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 327.8333333333333,
+          "candidate_constructed_base_gold_deliveries_per_game": 78.33333333333333,
+          "candidate_map_explored_percent": 70.7962962962963,
+          "paired_gold_differences_candidate_minus_baseline": [
+            135.5,
+            153.5,
+            129.5
+          ],
+          "constructed_bases_total": 20,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "matched-15-long",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "b84663250610f7fee922be07a3cc8fbbb7626642",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 3,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 0.6666666666666666,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.0,
+            2.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 77.0,
+            "b": 77.66666666666667
+          },
+          "average_decision_latency_ms": {
+            "a": 2.8107339954186727,
+            "b": 2.876819764164793
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 77.66666666666667,
+            "gold_deposited": 77.66666666666667,
+            "iron_mined": 2.6666666666666665,
+            "iron_deposited": 2.6666666666666665,
+            "iron_spent_on_bases": 2.6666666666666665,
+            "bases_built": 0.3333333333333333,
+            "build_turn_sum": 12.166666666666666,
+            "no_effect_rover_turns": 757.6666666666666,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 18.166666666666668,
+          "candidate_constructed_base_gold_deliveries_per_game": 5.333333333333333,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            -0.0,
+            2.0
+          ],
+          "constructed_bases_total": 2,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 8
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81002
+          ],
+          "attempted_games": 6,
+          "complete_pairs": 3,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 19.0,
+          "paired_ci95_candidate_minus_baseline": [
+            8.0,
+            32.0
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 67.83333333333333,
+            "b": 86.83333333333333
+          },
+          "average_decision_latency_ms": {
+            "a": 2.5672060145871,
+            "b": 3.0391751862501337
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 86.83333333333333,
+            "gold_deposited": 86.83333333333333,
+            "iron_mined": 1.5,
+            "iron_deposited": 1.5,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 1.0,
+            "build_turn_sum": 7.333333333333333,
+            "no_effect_rover_turns": 819.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 85.5,
+          "candidate_constructed_base_gold_deliveries_per_game": 24.166666666666668,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            32.0,
+            8.0,
+            17.0
+          ],
+          "constructed_bases_total": 6,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "validation-15",
+      "stage": "validate",
+      "source_revision": {
+        "git_head": "0191b5f756af5ffe4ec4dfc75fd928cc2f45202c",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "42bd43188e2fda86ec481870d4ac0bba0692a820260cb8d51818655ca7fbe451",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 91000,
+      "paired_seeds_per_case": 100,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            91000,
+            91099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.42,
+          "paired_ci95_candidate_minus_baseline": [
+            6.29,
+            8.590124999999999
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 56.565,
+            "b": 63.985
+          },
+          "average_decision_latency_ms": {
+            "a": 1.7040279598002144,
+            "b": 1.8913700129493463
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 63.985,
+            "gold_deposited": 63.985,
+            "iron_mined": 8.455,
+            "iron_deposited": 8.36,
+            "iron_spent_on_bases": 7.94,
+            "bases_built": 1.985,
+            "build_turn_sum": 110.89,
+            "no_effect_rover_turns": 0.08,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.095
+          },
+          "candidate_constructed_base_gold_per_game": 40.37,
+          "candidate_constructed_base_gold_deliveries_per_game": 15.285,
+          "candidate_map_explored_percent": 69.03777777777778,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            10.0,
+            10.0,
+            11.5,
+            11.5,
+            6.5,
+            7.5,
+            8.5,
+            11.5,
+            6.5,
+            6.0,
+            9.5,
+            8.0,
+            11.0,
+            6.5,
+            5.5,
+            9.0,
+            8.5,
+            9.5,
+            5.5,
+            1.5,
+            -6.0,
+            18.0,
+            4.5,
+            17.5,
+            9.0,
+            -0.0,
+            -6.5,
+            1.0,
+            20.5,
+            5.5,
+            10.5,
+            3.0,
+            4.0,
+            10.0,
+            3.0,
+            14.0,
+            3.0,
+            2.0,
+            -0.5,
+            7.0,
+            13.0,
+            -3.5,
+            9.5,
+            10.0,
+            12.0,
+            2.5,
+            5.5,
+            4.0,
+            13.5,
+            8.5,
+            4.0,
+            12.5,
+            7.0,
+            14.5,
+            11.0,
+            11.5,
+            3.0,
+            7.0,
+            17.0,
+            12.5,
+            2.0,
+            13.0,
+            2.0,
+            5.5,
+            1.5,
+            8.0,
+            5.5,
+            17.5,
+            2.0,
+            -4.0,
+            0.5,
+            -0.0,
+            3.0,
+            12.5,
+            10.0,
+            3.5,
+            12.5,
+            7.0,
+            18.5,
+            16.0,
+            7.0,
+            6.0,
+            13.5,
+            9.5,
+            -1.0,
+            23.0,
+            4.0,
+            -2.0,
+            12.0,
+            4.5,
+            -0.0,
+            8.0,
+            1.0,
+            2.0,
+            16.5,
+            10.0,
+            4.0,
+            12.0,
+            17.0
+          ],
+          "constructed_bases_total": 397,
+          "constructed_bases_without_gold": 8
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 4
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            91000,
+            91099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 12.835,
+          "paired_ci95_candidate_minus_baseline": [
+            11.505,
+            14.145
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 56.16,
+            "b": 68.995
+          },
+          "average_decision_latency_ms": {
+            "a": 1.714187724949306,
+            "b": 2.0157186036001353
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 68.995,
+            "gold_deposited": 68.995,
+            "iron_mined": 7.545,
+            "iron_deposited": 7.49,
+            "iron_spent_on_bases": 10.7,
+            "bases_built": 2.675,
+            "build_turn_sum": 110.67,
+            "no_effect_rover_turns": 0.05,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.055
+          },
+          "candidate_constructed_base_gold_per_game": 60.305,
+          "candidate_constructed_base_gold_deliveries_per_game": 23.445,
+          "candidate_map_explored_percent": 74.30222222222228,
+          "paired_gold_differences_candidate_minus_baseline": [
+            0.5,
+            24.5,
+            1.5,
+            17.0,
+            14.5,
+            12.5,
+            7.5,
+            11.5,
+            16.0,
+            15.0,
+            7.5,
+            8.5,
+            23.5,
+            21.0,
+            10.5,
+            9.0,
+            10.5,
+            13.0,
+            17.5,
+            4.0,
+            14.5,
+            2.5,
+            10.0,
+            9.0,
+            21.0,
+            13.5,
+            8.0,
+            7.5,
+            7.0,
+            23.5,
+            16.0,
+            8.5,
+            1.0,
+            11.5,
+            9.0,
+            20.0,
+            15.0,
+            17.5,
+            4.0,
+            16.0,
+            20.0,
+            16.5,
+            9.5,
+            11.5,
+            12.0,
+            13.5,
+            5.0,
+            10.0,
+            11.5,
+            28.0,
+            -0.0,
+            11.0,
+            16.0,
+            16.0,
+            15.0,
+            8.5,
+            17.5,
+            8.0,
+            8.5,
+            18.0,
+            21.5,
+            3.0,
+            11.0,
+            7.5,
+            16.0,
+            23.5,
+            1.0,
+            8.0,
+            21.0,
+            6.5,
+            -2.5,
+            11.5,
+            10.5,
+            2.5,
+            13.0,
+            15.0,
+            9.5,
+            19.5,
+            11.0,
+            25.0,
+            18.5,
+            10.0,
+            24.0,
+            24.0,
+            22.5,
+            7.0,
+            31.0,
+            18.0,
+            8.0,
+            21.5,
+            11.0,
+            20.5,
+            10.5,
+            15.5,
+            8.5,
+            16.0,
+            12.5,
+            0.5,
+            12.0,
+            21.5
+          ],
+          "constructed_bases_total": 535,
+          "constructed_bases_without_gold": 10
+        }
+      ]
+    },
+    {
+      "id": "validation-50-long",
+      "stage": "validate",
+      "source_revision": {
+        "git_head": "b84663250610f7fee922be07a3cc8fbbb7626642",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "c2e765010e8558c122e793dd4b7990a4d683b6716d9a513ca8c76498aae1ec21",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 92000,
+      "paired_seeds_per_case": 100,
+      "cases": [
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            92000,
+            92099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 112.75,
+          "paired_ci95_candidate_minus_baseline": [
+            109.16475,
+            116.28012500000001
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 159.035,
+            "b": 271.785
+          },
+          "average_decision_latency_ms": {
+            "a": 2.6405767021871465,
+            "b": 3.8975832003748443
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 271.785,
+            "gold_deposited": 271.785,
+            "iron_mined": 40.49,
+            "iron_deposited": 40.44,
+            "iron_spent_on_bases": 39.88,
+            "bases_built": 9.97,
+            "build_turn_sum": 2104.315,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.05
+          },
+          "candidate_constructed_base_gold_per_game": 248.35,
+          "candidate_constructed_base_gold_deliveries_per_game": 91.485,
+          "candidate_map_explored_percent": 18.538200000000007,
+          "paired_gold_differences_candidate_minus_baseline": [
+            110.5,
+            85.0,
+            134.0,
+            112.0,
+            115.0,
+            95.0,
+            105.0,
+            92.5,
+            101.5,
+            116.5,
+            99.5,
+            146.5,
+            118.0,
+            133.0,
+            123.5,
+            107.5,
+            108.0,
+            104.5,
+            136.0,
+            120.5,
+            85.5,
+            109.5,
+            96.5,
+            83.5,
+            92.5,
+            116.5,
+            102.0,
+            112.5,
+            124.0,
+            108.0,
+            85.5,
+            121.0,
+            84.0,
+            119.0,
+            118.0,
+            105.5,
+            131.0,
+            103.0,
+            136.0,
+            106.5,
+            129.5,
+            125.5,
+            140.5,
+            121.5,
+            96.5,
+            142.0,
+            116.0,
+            147.5,
+            97.5,
+            114.5,
+            109.5,
+            129.0,
+            81.0,
+            150.0,
+            141.0,
+            93.0,
+            104.0,
+            77.5,
+            126.0,
+            95.0,
+            132.5,
+            113.5,
+            102.5,
+            92.0,
+            135.5,
+            141.5,
+            115.5,
+            130.0,
+            105.5,
+            107.0,
+            110.5,
+            107.0,
+            142.5,
+            144.5,
+            120.5,
+            90.0,
+            125.0,
+            112.0,
+            102.5,
+            102.0,
+            84.5,
+            106.0,
+            121.5,
+            89.5,
+            123.0,
+            90.0,
+            105.0,
+            148.5,
+            93.0,
+            104.5,
+            108.0,
+            113.0,
+            142.0,
+            115.0,
+            134.0,
+            109.5,
+            70.0,
+            119.5,
+            117.5,
+            108.0
+          ],
+          "constructed_bases_total": 1994,
+          "constructed_bases_without_gold": 20
+        }
+      ]
+    },
+    {
+      "id": "factorial",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "c59e60c3b6e344f244dc622cf9391bff04853521",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "09e2e8eafdc7eae4c78b1c0a6ae9ec440af6ebeed8a62b4531a853d0e510f8fd",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 81000,
+      "paired_seeds_per_case": 5,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 4.8,
+          "paired_ci95_candidate_minus_baseline": [
+            2.3,
+            8.3
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 53.5,
+            "b": 58.3
+          },
+          "average_decision_latency_ms": {
+            "a": 1.7673934700014797,
+            "b": 1.9427676739969684
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 58.3,
+            "gold_deposited": 58.3,
+            "iron_mined": 8.3,
+            "iron_deposited": 7.9,
+            "iron_spent_on_bases": 6.4,
+            "bases_built": 1.6,
+            "build_turn_sum": 76.8,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.4
+          },
+          "candidate_constructed_base_gold_per_game": 34.0,
+          "candidate_constructed_base_gold_deliveries_per_game": 12.8,
+          "candidate_map_explored_percent": 69.28888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            2.5,
+            3.5,
+            1.5,
+            11.5,
+            5.0
+          ],
+          "constructed_bases_total": 16,
+          "constructed_bases_without_gold": 1
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 9.0,
+          "paired_ci95_candidate_minus_baseline": [
+            4.4,
+            13.6
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 75.3,
+            "b": 84.3
+          },
+          "average_decision_latency_ms": {
+            "a": 2.8599739012482814,
+            "b": 3.0209312937558934
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 84.3,
+            "gold_deposited": 84.3,
+            "iron_mined": 12.8,
+            "iron_deposited": 12.8,
+            "iron_spent_on_bases": 12.8,
+            "bases_built": 3.2,
+            "build_turn_sum": 285.9,
+            "no_effect_rover_turns": 700.8,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 57.3,
+          "candidate_constructed_base_gold_deliveries_per_game": 22.6,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            16.0,
+            5.0,
+            6.0,
+            15.0,
+            3.0
+          ],
+          "constructed_bases_total": 32,
+          "constructed_bases_without_gold": 2
+        },
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 9.2,
+          "paired_ci95_candidate_minus_baseline": [
+            6.9,
+            12.5
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 58.8,
+            "b": 68.0
+          },
+          "average_decision_latency_ms": {
+            "a": 1.6408068999949137,
+            "b": 1.8502973699969516
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 68.0,
+            "gold_deposited": 68.0,
+            "iron_mined": 9.2,
+            "iron_deposited": 9.2,
+            "iron_spent_on_bases": 8.4,
+            "bases_built": 2.1,
+            "build_turn_sum": 120.5,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 44.9,
+          "candidate_constructed_base_gold_deliveries_per_game": 17.4,
+          "candidate_map_explored_percent": 6.032,
+          "paired_gold_differences_candidate_minus_baseline": [
+            15.5,
+            6.0,
+            8.0,
+            8.5,
+            8.0
+          ],
+          "constructed_bases_total": 21,
+          "constructed_bases_without_gold": 1
+        },
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            81000,
+            81004
+          ],
+          "attempted_games": 10,
+          "complete_pairs": 5,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 119.2,
+          "paired_ci95_candidate_minus_baseline": [
+            104.9,
+            133.8
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 169.0,
+            "b": 288.2
+          },
+          "average_decision_latency_ms": {
+            "a": 2.4195363340022595,
+            "b": 3.7192700335085647
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 288.2,
+            "gold_deposited": 288.2,
+            "iron_mined": 43.2,
+            "iron_deposited": 43.2,
+            "iron_spent_on_bases": 41.6,
+            "bases_built": 10.4,
+            "build_turn_sum": 2195.6,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 265.1,
+          "candidate_constructed_base_gold_deliveries_per_game": 96.3,
+          "candidate_map_explored_percent": 17.948,
+          "paired_gold_differences_candidate_minus_baseline": [
+            120.0,
+            93.0,
+            125.5,
+            144.0,
+            113.5
+          ],
+          "constructed_bases_total": 104,
+          "constructed_bases_without_gold": 1
+        }
+      ]
+    },
+    {
+      "id": "price-layout",
+      "stage": "screen",
+      "source_revision": {
+        "git_head": "c59e60c3b6e344f244dc622cf9391bff04853521",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "09e2e8eafdc7eae4c78b1c0a6ae9ec440af6ebeed8a62b4531a853d0e510f8fd",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 82000,
+      "paired_seeds_per_case": 20,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            82000,
+            82019
+          ],
+          "attempted_games": 40,
+          "complete_pairs": 20,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.625,
+          "paired_ci95_candidate_minus_baseline": [
+            4.3,
+            11.05
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 57.0,
+            "b": 64.625
+          },
+          "average_decision_latency_ms": {
+            "a": 1.710692813249807,
+            "b": 1.9248813010034382
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 64.625,
+            "gold_deposited": 64.625,
+            "iron_mined": 8.4,
+            "iron_deposited": 8.4,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 2.0,
+            "build_turn_sum": 106.85,
+            "no_effect_rover_turns": 0.125,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 43.775,
+          "candidate_constructed_base_gold_deliveries_per_game": 17.85,
+          "candidate_map_explored_percent": 71.57777777777777,
+          "paired_gold_differences_candidate_minus_baseline": [
+            12.5,
+            18.0,
+            27.5,
+            6.5,
+            11.0,
+            4.0,
+            2.5,
+            10.0,
+            8.5,
+            15.0,
+            8.5,
+            0.5,
+            2.5,
+            4.0,
+            3.5,
+            -1.0,
+            3.0,
+            -9.0,
+            15.0,
+            10.0
+          ],
+          "constructed_bases_total": 80,
+          "constructed_bases_without_gold": 3
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            82000,
+            82019
+          ],
+          "attempted_games": 40,
+          "complete_pairs": 20,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 7.7,
+          "paired_ci95_candidate_minus_baseline": [
+            3.749375000000009,
+            12.100624999999999
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 64.4,
+            "b": 72.1
+          },
+          "average_decision_latency_ms": {
+            "a": 1.6482279907462498,
+            "b": 1.8776753805018416
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 72.1,
+            "gold_deposited": 72.1,
+            "iron_mined": 3.7,
+            "iron_deposited": 3.6,
+            "iron_spent_on_bases": 3.4,
+            "bases_built": 0.85,
+            "build_turn_sum": 40.875,
+            "no_effect_rover_turns": 0.425,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.1
+          },
+          "candidate_constructed_base_gold_per_game": 33.525,
+          "candidate_constructed_base_gold_deliveries_per_game": 11.525,
+          "candidate_map_explored_percent": 65.38888888888889,
+          "paired_gold_differences_candidate_minus_baseline": [
+            22.5,
+            24.0,
+            -0.0,
+            -0.0,
+            -5.0,
+            21.0,
+            5.0,
+            16.0,
+            -0.0,
+            -0.0,
+            5.0,
+            16.5,
+            23.0,
+            9.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            17.0,
+            -0.0
+          ],
+          "constructed_bases_total": 34,
+          "constructed_bases_without_gold": 0
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            82000,
+            82019
+          ],
+          "attempted_games": 40,
+          "complete_pairs": 20,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": -1.2,
+          "paired_ci95_candidate_minus_baseline": [
+            -2.975,
+            0.75
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 58.15,
+            "b": 56.95
+          },
+          "average_decision_latency_ms": {
+            "a": 1.7110985032536519,
+            "b": 1.817497794250471
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 56.95,
+            "gold_deposited": 56.95,
+            "iron_mined": 8.2,
+            "iron_deposited": 8.125,
+            "iron_spent_on_bases": 7.6,
+            "bases_built": 0.95,
+            "build_turn_sum": 68.675,
+            "no_effect_rover_turns": 0.025,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.075
+          },
+          "candidate_constructed_base_gold_per_game": 15.15,
+          "candidate_constructed_base_gold_deliveries_per_game": 4.95,
+          "candidate_map_explored_percent": 58.75555555555555,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -4.0,
+            9.0,
+            6.5,
+            1.0,
+            -1.0,
+            -1.5,
+            -7.5,
+            -5.0,
+            -6.5,
+            0.5,
+            -1.0,
+            -0.0,
+            -3.0,
+            -3.0,
+            -6.0,
+            -4.5,
+            -1.5,
+            -0.0,
+            6.0,
+            -2.5
+          ],
+          "constructed_bases_total": 38,
+          "constructed_bases_without_gold": 2
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            82000,
+            82019
+          ],
+          "attempted_games": 40,
+          "complete_pairs": 20,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 4.25,
+          "paired_ci95_candidate_minus_baseline": [
+            1.475,
+            7.625
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 65.0,
+            "b": 69.25
+          },
+          "average_decision_latency_ms": {
+            "a": 1.5619003809988499,
+            "b": 1.6762027832530748
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 69.25,
+            "gold_deposited": 69.25,
+            "iron_mined": 4.8,
+            "iron_deposited": 4.8,
+            "iron_spent_on_bases": 4.6,
+            "bases_built": 0.575,
+            "build_turn_sum": 32.05,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 22.9,
+          "candidate_constructed_base_gold_deliveries_per_game": 7.05,
+          "candidate_map_explored_percent": 57.36666666666669,
+          "paired_gold_differences_candidate_minus_baseline": [
+            18.5,
+            16.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            21.0,
+            -0.0,
+            3.0,
+            -0.0,
+            -0.0,
+            2.0,
+            6.5,
+            -4.0,
+            8.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            14.0,
+            -0.0
+          ],
+          "constructed_bases_total": 23,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "validation-price-layout",
+      "stage": "validate",
+      "source_revision": {
+        "git_head": "c59e60c3b6e344f244dc622cf9391bff04853521",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "09e2e8eafdc7eae4c78b1c0a6ae9ec440af6ebeed8a62b4531a853d0e510f8fd",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 94000,
+      "paired_seeds_per_case": 100,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            94000,
+            94099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 8.485,
+          "paired_ci95_candidate_minus_baseline": [
+            7.175,
+            9.75
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 56.335,
+            "b": 64.82
+          },
+          "average_decision_latency_ms": {
+            "a": 1.7514125321493113,
+            "b": 1.935891402548305
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 64.82,
+            "gold_deposited": 64.82,
+            "iron_mined": 8.475,
+            "iron_deposited": 8.455,
+            "iron_spent_on_bases": 8.0,
+            "bases_built": 2.0,
+            "build_turn_sum": 110.585,
+            "no_effect_rover_turns": 0.105,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.02
+          },
+          "candidate_constructed_base_gold_per_game": 41.77,
+          "candidate_constructed_base_gold_deliveries_per_game": 15.74,
+          "candidate_map_explored_percent": 68.08666666666664,
+          "paired_gold_differences_candidate_minus_baseline": [
+            3.0,
+            4.5,
+            18.5,
+            -1.5,
+            4.0,
+            6.5,
+            3.5,
+            19.0,
+            9.5,
+            16.0,
+            12.0,
+            6.5,
+            1.0,
+            0.5,
+            18.0,
+            10.0,
+            10.0,
+            18.0,
+            11.0,
+            1.0,
+            13.0,
+            19.0,
+            2.5,
+            4.5,
+            16.5,
+            -2.0,
+            5.5,
+            7.5,
+            1.0,
+            10.5,
+            10.0,
+            11.5,
+            16.0,
+            4.0,
+            2.0,
+            4.5,
+            -1.0,
+            4.0,
+            21.5,
+            -1.0,
+            6.0,
+            3.5,
+            5.5,
+            -0.0,
+            13.5,
+            11.5,
+            13.5,
+            12.5,
+            3.0,
+            7.0,
+            13.0,
+            12.0,
+            6.5,
+            -6.5,
+            27.0,
+            8.5,
+            18.0,
+            8.5,
+            10.5,
+            18.0,
+            11.0,
+            5.0,
+            6.5,
+            -1.0,
+            0.5,
+            10.0,
+            6.0,
+            8.0,
+            11.5,
+            10.5,
+            16.0,
+            6.5,
+            7.0,
+            10.5,
+            15.5,
+            7.5,
+            7.5,
+            12.5,
+            6.0,
+            2.5,
+            17.5,
+            7.0,
+            5.0,
+            4.5,
+            21.0,
+            1.0,
+            5.0,
+            -0.5,
+            20.0,
+            4.5,
+            10.0,
+            -0.0,
+            -2.0,
+            10.5,
+            -1.5,
+            7.5,
+            12.5,
+            16.0,
+            22.0,
+            17.0
+          ],
+          "constructed_bases_total": 400,
+          "constructed_bases_without_gold": 10
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            94000,
+            94099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 15.935,
+          "paired_ci95_candidate_minus_baseline": [
+            13.134750000000004,
+            18.805
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 59.54,
+            "b": 75.475
+          },
+          "average_decision_latency_ms": {
+            "a": 1.6395375550503104,
+            "b": 1.8744738741991787
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 75.475,
+            "gold_deposited": 75.475,
+            "iron_mined": 4.93,
+            "iron_deposited": 4.88,
+            "iron_spent_on_bases": 4.68,
+            "bases_built": 1.17,
+            "build_turn_sum": 55.675,
+            "no_effect_rover_turns": 0.155,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.05
+          },
+          "candidate_constructed_base_gold_per_game": 46.555,
+          "candidate_constructed_base_gold_deliveries_per_game": 15.645,
+          "candidate_map_explored_percent": 67.38222222222221,
+          "paired_gold_differences_candidate_minus_baseline": [
+            12.0,
+            22.0,
+            32.5,
+            7.5,
+            -0.0,
+            32.5,
+            -0.0,
+            -0.0,
+            4.5,
+            18.0,
+            25.5,
+            36.5,
+            16.0,
+            26.5,
+            32.0,
+            21.0,
+            32.5,
+            21.5,
+            -0.0,
+            14.5,
+            16.5,
+            39.5,
+            5.0,
+            19.5,
+            -0.0,
+            23.0,
+            -0.0,
+            -0.0,
+            48.0,
+            -0.0,
+            -0.0,
+            32.5,
+            21.5,
+            24.0,
+            -0.0,
+            35.5,
+            -0.0,
+            25.5,
+            29.0,
+            12.5,
+            20.0,
+            20.0,
+            8.5,
+            -0.0,
+            10.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            30.5,
+            -0.0,
+            31.5,
+            45.5,
+            36.5,
+            -0.0,
+            -0.0,
+            48.5,
+            46.0,
+            18.5,
+            8.0,
+            23.0,
+            7.5,
+            -0.0,
+            7.0,
+            3.0,
+            3.0,
+            38.0,
+            -0.0,
+            31.5,
+            23.5,
+            -0.0,
+            -0.0,
+            31.5,
+            2.5,
+            38.5,
+            22.0,
+            15.5,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            31.5,
+            35.5,
+            11.5,
+            31.0,
+            21.5,
+            15.0,
+            16.5,
+            -0.0,
+            39.0,
+            -0.0,
+            12.5,
+            40.5,
+            22.0,
+            -0.0,
+            8.5,
+            6.5,
+            18.5,
+            -0.0,
+            26.5,
+            -0.0
+          ],
+          "constructed_bases_total": 234,
+          "constructed_bases_without_gold": 3
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            94000,
+            94099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 0.635,
+          "paired_ci95_candidate_minus_baseline": [
+            -0.19012499999999818,
+            1.490125
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 56.79,
+            "b": 57.425
+          },
+          "average_decision_latency_ms": {
+            "a": 1.7194320724023782,
+            "b": 1.8456730783493418
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 57.425,
+            "gold_deposited": 57.425,
+            "iron_mined": 7.285,
+            "iron_deposited": 7.15,
+            "iron_spent_on_bases": 5.84,
+            "bases_built": 0.73,
+            "build_turn_sum": 50.49,
+            "no_effect_rover_turns": 0.03,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.135
+          },
+          "candidate_constructed_base_gold_per_game": 14.81,
+          "candidate_constructed_base_gold_deliveries_per_game": 4.725,
+          "candidate_map_explored_percent": 61.70222222222221,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -4.5,
+            -0.0,
+            5.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -3.0,
+            5.5,
+            -2.5,
+            7.0,
+            4.5,
+            3.0,
+            -0.0,
+            -0.0,
+            4.5,
+            4.5,
+            3.5,
+            -5.5,
+            1.0,
+            -0.5,
+            0.5,
+            -1.0,
+            1.0,
+            -4.5,
+            9.5,
+            -0.5,
+            -2.5,
+            2.5,
+            -0.0,
+            -4.5,
+            -2.5,
+            6.5,
+            9.0,
+            -0.0,
+            -1.5,
+            -2.5,
+            -2.5,
+            -0.5,
+            13.0,
+            -0.5,
+            7.0,
+            -0.0,
+            -0.0,
+            1.0,
+            -2.5,
+            5.5,
+            7.0,
+            -0.0,
+            -4.5,
+            -0.5,
+            -3.0,
+            -2.5,
+            -2.5,
+            -0.0,
+            17.0,
+            0.5,
+            5.0,
+            3.0,
+            0.5,
+            2.5,
+            -2.0,
+            1.0,
+            -5.0,
+            -0.0,
+            -7.0,
+            -3.5,
+            1.5,
+            -1.5,
+            -0.5,
+            -4.5,
+            -5.0,
+            -1.0,
+            0.5,
+            7.0,
+            7.0,
+            7.0,
+            -2.0,
+            3.0,
+            -1.5,
+            -5.0,
+            8.5,
+            -2.0,
+            -0.0,
+            -0.0,
+            9.5,
+            -0.0,
+            -4.0,
+            -5.0,
+            1.5,
+            -6.0,
+            5.0,
+            -5.0,
+            -3.0,
+            4.0,
+            -3.5,
+            -2.0,
+            4.0,
+            -4.0,
+            2.0,
+            -0.0
+          ],
+          "constructed_bases_total": 146,
+          "constructed_bases_without_gold": 8
+        },
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 8,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "clustered",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            94000,
+            94099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 10.345,
+          "paired_ci95_candidate_minus_baseline": [
+            8.314875000000002,
+            12.360125
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 59.79,
+            "b": 70.135
+          },
+          "average_decision_latency_ms": {
+            "a": 1.6377995503487681,
+            "b": 1.7832096804020694
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 70.135,
+            "gold_deposited": 70.135,
+            "iron_mined": 6.515,
+            "iron_deposited": 6.505,
+            "iron_spent_on_bases": 6.16,
+            "bases_built": 0.77,
+            "build_turn_sum": 44.01,
+            "no_effect_rover_turns": 0.015,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.01
+          },
+          "candidate_constructed_base_gold_per_game": 33.835,
+          "candidate_constructed_base_gold_deliveries_per_game": 10.275,
+          "candidate_map_explored_percent": 57.7777777777778,
+          "paired_gold_differences_candidate_minus_baseline": [
+            -0.0,
+            18.0,
+            28.0,
+            -8.5,
+            -0.0,
+            21.5,
+            -0.0,
+            -0.0,
+            3.5,
+            16.0,
+            25.5,
+            15.5,
+            14.5,
+            17.0,
+            15.0,
+            15.5,
+            12.5,
+            25.5,
+            -0.0,
+            11.0,
+            12.5,
+            27.5,
+            3.0,
+            6.0,
+            -0.0,
+            8.5,
+            -0.0,
+            -0.0,
+            27.0,
+            -0.0,
+            -0.0,
+            8.0,
+            4.5,
+            17.5,
+            -0.0,
+            21.0,
+            -0.0,
+            21.5,
+            28.0,
+            12.5,
+            9.5,
+            11.0,
+            7.0,
+            -0.0,
+            9.5,
+            -0.0,
+            -0.0,
+            -0.0,
+            11.5,
+            -0.0,
+            20.5,
+            22.5,
+            20.5,
+            -0.0,
+            -0.0,
+            16.5,
+            36.0,
+            13.0,
+            4.0,
+            21.5,
+            7.0,
+            -0.0,
+            7.0,
+            1.0,
+            -0.0,
+            26.0,
+            -0.0,
+            20.5,
+            1.0,
+            -0.0,
+            -0.0,
+            29.0,
+            1.0,
+            19.0,
+            21.0,
+            18.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            -0.0,
+            29.0,
+            14.0,
+            11.5,
+            14.5,
+            12.0,
+            12.0,
+            21.0,
+            -0.0,
+            31.5,
+            -0.0,
+            8.0,
+            27.5,
+            13.5,
+            -0.0,
+            8.5,
+            5.0,
+            18.5,
+            -0.0,
+            26.5,
+            -0.0
+          ],
+          "constructed_bases_total": 154,
+          "constructed_bases_without_gold": 0
+        }
+      ]
+    },
+    {
+      "id": "validation-15-long",
+      "stage": "validate",
+      "source_revision": {
+        "git_head": "c59e60c3b6e344f244dc622cf9391bff04853521",
+        "git_dirty": false
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "09e2e8eafdc7eae4c78b1c0a6ae9ec440af6ebeed8a62b4531a853d0e510f8fd",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 95000,
+      "paired_seeds_per_case": 100,
+      "cases": [
+        {
+          "config": {
+            "width": 15,
+            "height": 15,
+            "turns": 400,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 8,
+            "gold_pairs": 9,
+            "iron_pairs": 6,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            95000,
+            95099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 8.09,
+          "paired_ci95_candidate_minus_baseline": [
+            6.66,
+            9.540249999999999
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 72.355,
+            "b": 80.445
+          },
+          "average_decision_latency_ms": {
+            "a": 2.8865016755008126,
+            "b": 2.9989579504132453
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 80.445,
+            "gold_deposited": 80.445,
+            "iron_mined": 12.37,
+            "iron_deposited": 12.37,
+            "iron_spent_on_bases": 11.6,
+            "bases_built": 2.9,
+            "build_turn_sum": 230.71,
+            "no_effect_rover_turns": 729.865,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.0
+          },
+          "candidate_constructed_base_gold_per_game": 54.125,
+          "candidate_constructed_base_gold_deliveries_per_game": 20.6,
+          "candidate_map_explored_percent": 100.0,
+          "paired_gold_differences_candidate_minus_baseline": [
+            5.0,
+            8.0,
+            6.0,
+            12.0,
+            2.0,
+            -1.0,
+            7.0,
+            10.0,
+            10.0,
+            12.0,
+            11.0,
+            12.0,
+            13.0,
+            18.0,
+            5.0,
+            6.0,
+            -5.0,
+            11.0,
+            2.0,
+            13.0,
+            3.0,
+            3.0,
+            -2.0,
+            -6.0,
+            7.0,
+            19.0,
+            26.0,
+            12.0,
+            17.0,
+            15.0,
+            20.0,
+            -0.0,
+            -3.0,
+            8.0,
+            29.0,
+            6.0,
+            11.0,
+            -0.0,
+            10.0,
+            17.0,
+            21.0,
+            7.0,
+            20.0,
+            3.0,
+            12.0,
+            9.0,
+            10.0,
+            6.0,
+            -3.0,
+            8.0,
+            15.0,
+            12.0,
+            8.0,
+            13.0,
+            -2.0,
+            7.0,
+            -3.0,
+            15.0,
+            19.0,
+            2.0,
+            24.0,
+            15.0,
+            2.0,
+            7.0,
+            3.0,
+            9.0,
+            8.0,
+            11.0,
+            1.0,
+            20.0,
+            3.0,
+            20.0,
+            -3.0,
+            1.0,
+            14.0,
+            8.0,
+            -1.0,
+            2.0,
+            4.0,
+            11.0,
+            6.0,
+            5.0,
+            -6.0,
+            11.0,
+            -2.0,
+            8.0,
+            21.0,
+            9.0,
+            14.0,
+            9.0,
+            9.0,
+            4.0,
+            11.0,
+            -5.0,
+            4.0,
+            -3.0,
+            -6.0,
+            8.0,
+            11.0,
+            14.0
+          ],
+          "constructed_bases_total": 580,
+          "constructed_bases_without_gold": 24
+        }
+      ]
+    },
+    {
+      "id": "validation-50-short",
+      "stage": "validate",
+      "source_revision": {
+        "git_head": "c59e60c3b6e344f244dc622cf9391bff04853521",
+        "git_dirty": true
+      },
+      "source_sha256": {
+        "mini_mars/engine/game.py": "09e2e8eafdc7eae4c78b1c0a6ae9ec440af6ebeed8a62b4531a853d0e510f8fd",
+        "mini_mars/scenarios.py": "20776850c07f21f2ff5ccf3f5338e19bca86566d72c94cdf0b5a335ff3f7d175",
+        "mini_mars/bots/strategies.py": "4f59d8e933d68626fcbc1846346aade7b115063e0fa49446622325972a4999e7",
+        "mini_mars/bots/entry.py": "769cfa2227e1875e710572a9f84be57b23977fd0e52ce4e7d9d3fc8997817fe1",
+        "mini_mars/bots/competition_starter.py": "d9a339a38ae813849b58d68f86c3b5d4f1231106ed323da8fc61f2de285d7a08",
+        "mini_mars/bots/construction.py": "e8ab07b64a17bbf8aa748a4c84ab156c8d87b46b9a28a183fc528ae67df321f4",
+        "mini_mars/runner/construction_study.py": "4c342e3581bf5a7d19c2b8ba0500cabfdd1719c15483dffcb40a7171994633c2",
+        "mini_mars/runner/match.py": "c14390b5639ac0ce7b5d075ef28d9aa34642c90762a4d2c5cdf7b6df2e1bc8cf",
+        "mini_mars/runner/tournament.py": "89963167f3b661a43ee8f86e00962dd645c9a163daa0f530cb6b9f7a685d39f4",
+        "mini_mars/runner/metrics.py": "8d83b2106a930aea6a721b6cd6cddd8302745c6a2c774bdee34cb00dbfd27dae",
+        "mini_mars/runner/benchmark.py": "3988a2ef9c8555b9c04d13534e73a3ce4d837925680607375f41ce5bb019c359",
+        "mini_mars/runner/benchmark_v2.py": "653316be11295cf1d8c8a25af6af2b625da59772520721dd865b481119a269dd",
+        "mini_mars/runner/reliability.py": "f449252aa47a401fc696bc90ecd7f41766cf8a03f3003eccc791fa49ed61f9fe",
+        "mini_mars/runner/reliability_benchmark.py": "7e9016dd2d036b466752d1493b9abeeef71706d32231ee73f885214e10e6265c",
+        "mini_mars/runner/research_loop.py": "7404781cf413cd3140a613fd02384b4b7e320259d5b8b0d7d265b4e5811045d1",
+        "mini_mars/runner/exploration_study.py": "a3368edba16b23cf61f6fc3bd4a7c077ee61502c07461c232eecbceb557e7c1d",
+        "mini_mars/runner/frontier_value_study.py": "9b82c123881428c861dca00a947ddaeff844ad776070c626dc40380b950b699a",
+        "mini_mars/runner/final_sprint.py": "5d894772ec5ec18e684756d1eb447e4bbbc5adcdee709f51b4a3b4df0cda54aa",
+        "mini_mars/__main__.py": "65e2af855d4662839b1397b9c8b69018fdafd49d845136026d4ab42a0a4eca93"
+      },
+      "seed_start": 95000,
+      "paired_seeds_per_case": 100,
+      "cases": [
+        {
+          "config": {
+            "width": 50,
+            "height": 50,
+            "turns": 100,
+            "starting_rovers": 3,
+            "cargo_capacity": 5,
+            "mine_rate": 1,
+            "base_cost_iron": 4,
+            "vision_radius": 2,
+            "rock_pairs": 89,
+            "gold_pairs": 100,
+            "iron_pairs": 67,
+            "deposit_min": 5,
+            "deposit_max": 12,
+            "full_information": false,
+            "resource_layout": "uniform",
+            "initial_banked_iron": 0
+          },
+          "baseline": "coordinated-planned-no-build",
+          "candidate": "coordinated-planned-build",
+          "seeds": [
+            95000,
+            95099
+          ],
+          "attempted_games": 200,
+          "complete_pairs": 100,
+          "failed_pairs": 0,
+          "faulted_matches": 0,
+          "paired_gold_difference_candidate_minus_baseline": 9.42,
+          "paired_ci95_candidate_minus_baseline": [
+            8.14,
+            10.68
+          ],
+          "invalid_actions": {
+            "a": 0,
+            "b": 0
+          },
+          "timeouts": {
+            "a": 0,
+            "b": 0
+          },
+          "crashes": {
+            "a": 0,
+            "b": 0
+          },
+          "average_gold": {
+            "a": 55.1,
+            "b": 64.52
+          },
+          "average_decision_latency_ms": {
+            "a": 1.8182715907997358,
+            "b": 1.99742979774835
+          },
+          "candidate_economy_per_game": {
+            "gold_mined": 64.52,
+            "gold_deposited": 64.52,
+            "iron_mined": 8.555,
+            "iron_deposited": 8.55,
+            "iron_spent_on_bases": 7.94,
+            "bases_built": 1.985,
+            "build_turn_sum": 113.875,
+            "no_effect_rover_turns": 0.0,
+            "gold_in_cargo_at_end": 0.0,
+            "iron_in_cargo_at_end": 0.005
+          },
+          "candidate_constructed_base_gold_per_game": 40.7,
+          "candidate_constructed_base_gold_deliveries_per_game": 15.905,
+          "candidate_map_explored_percent": 6.312400000000001,
+          "paired_gold_differences_candidate_minus_baseline": [
+            12.0,
+            16.5,
+            17.5,
+            12.5,
+            3.0,
+            8.5,
+            6.0,
+            3.0,
+            0.5,
+            12.0,
+            11.0,
+            7.0,
+            4.5,
+            15.5,
+            16.0,
+            2.0,
+            -4.5,
+            8.0,
+            11.0,
+            7.5,
+            13.5,
+            2.5,
+            -3.5,
+            1.0,
+            11.0,
+            6.5,
+            -0.0,
+            13.5,
+            13.5,
+            14.0,
+            15.5,
+            15.5,
+            22.0,
+            9.5,
+            14.0,
+            2.5,
+            0.5,
+            17.5,
+            3.0,
+            4.0,
+            -4.0,
+            16.5,
+            3.5,
+            -3.5,
+            5.0,
+            27.0,
+            7.5,
+            17.5,
+            16.0,
+            11.0,
+            15.5,
+            19.0,
+            9.0,
+            24.0,
+            9.0,
+            17.5,
+            10.5,
+            0.5,
+            10.0,
+            2.0,
+            14.0,
+            6.0,
+            12.0,
+            17.5,
+            21.0,
+            5.5,
+            7.5,
+            11.0,
+            15.0,
+            6.0,
+            3.0,
+            5.0,
+            9.0,
+            11.5,
+            8.0,
+            5.0,
+            1.5,
+            14.0,
+            10.5,
+            -2.5,
+            -5.0,
+            19.0,
+            13.0,
+            7.5,
+            8.0,
+            8.0,
+            14.0,
+            9.5,
+            16.0,
+            11.0,
+            17.0,
+            6.0,
+            10.5,
+            17.5,
+            10.0,
+            7.0,
+            6.0,
+            6.0,
+            7.0,
+            14.5
+          ],
+          "constructed_bases_total": 397,
+          "constructed_bases_without_gold": 15
+        }
+      ]
+    }
+  ]
+}
