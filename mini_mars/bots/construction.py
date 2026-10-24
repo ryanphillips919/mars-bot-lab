@@ -157,8 +157,9 @@ class PlannedConstructionBot(CoordinatedGreedy):
                 options = [p for p, c in cells.items() if c["resource"] == "iron"
                            and c["quantity"] > 0 and p in distances]
                 if options:
+                    home = home_distances(bases_list, cells)
                     target = min(options, key=lambda p: (
-                        distances[p] + home_distances(bases_list, cells).get(p, inf), p))
+                        distances[p] + home.get(p, inf), p))
                     chosen = simple(rid, "MINE") if target == here else move(rid, first[target])
                 elif carried:
                     chosen = move(rid, base_move)

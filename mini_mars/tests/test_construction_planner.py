@@ -1,5 +1,7 @@
 """Focused tests for active construction planning and timing."""
 import unittest
+from unittest.mock import patch
+import mini_mars.bots.construction as construction
 from mini_mars.bots.construction import PlannedConstructionBot
 from mini_mars.engine.game import Config, make_game, observation, reveal, step
 from mini_mars.bots.strategies import StrategySettings, construction_reason, known_cells
@@ -57,6 +59,17 @@ class PlannedConstructionTests(unittest.TestCase):
         game.colonies[0].iron = 4
         game.turn = 110
         self.assertIsNone(bot._choose_plan(observation(game, 0), known_cells(observation(game, 0))))
+
+    def test_iron_search_shares_home_distance_map(self):
+        game = remote_gold_game(initial_iron=0)
+        for x in range(3, 11):
+            game.cell((x, 1)).resource = "iron"
+            game.cell((x, 1)).quantity = 10
+        reveal(game)
+        original = construction.home_distances
+        with patch.object(construction, "home_distances", wraps=original) as calls:
+            PlannedConstructionBot().decide(observation(game, 0))
+        self.assertLess(calls.call_count, 8)
 
     def test_funded_colony_selects_site_and_builds(self):
         game = remote_gold_game()
