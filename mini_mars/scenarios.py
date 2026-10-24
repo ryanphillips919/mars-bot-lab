@@ -38,3 +38,19 @@ def resolve_config(config: Config | None, scenario: str | None) -> tuple[str, Co
         if config == preset:
             return name, config
     return "custom", config
+
+def expansion_config(size: int, turns: int, base_cost: int, layout: str = "uniform",
+                     rovers: int = 3, density_mode: str = "area",
+                     initial_banked_iron: int = 0) -> Config:
+    """Generate comparable expansion conditions without changing old presets.
+
+    'area' preserves approximate deposits-per-tile while 'fixed' preserves
+    original deposit counts. Both remain seeded and rotationally symmetric.
+    """
+    if density_mode not in {"area", "fixed"}:
+        raise ValueError("density_mode must be area or fixed")
+    scale = size * size / (15 * 15) if density_mode == "area" else 1.0
+    return Config(width=size, height=size, turns=turns, starting_rovers=rovers,
+                  base_cost_iron=base_cost, rock_pairs=round(8 * scale),
+                  gold_pairs=round(9 * scale), iron_pairs=round(6 * scale),
+                  resource_layout=layout, initial_banked_iron=initial_banked_iron)

@@ -29,6 +29,8 @@ class Config:
     deposit_min: int = 5
     deposit_max: int = 12
     full_information: bool = False
+    resource_layout: str = "uniform"
+    initial_banked_iron: int = 0
 
     def __post_init__(self) -> None:
         if self.width < 7 or self.height < 7 or self.turns < 1 or self.starting_rovers < 1:
@@ -40,6 +42,10 @@ class Config:
             raise ValueError("mine rate cannot exceed rover capacity")
         if min(self.rock_pairs, self.gold_pairs, self.iron_pairs) < 0:
             raise ValueError("map feature counts cannot be negative")
+        if self.resource_layout not in {"uniform", "clustered"}:
+            raise ValueError("resource_layout must be uniform or clustered")
+        if self.initial_banked_iron < 0:
+            raise ValueError("initial_banked_iron cannot be negative")
 
     def public(self) -> dict[str, int]:
         return {key: getattr(self, key) for key in (
@@ -156,15 +162,29 @@ def make_game(seed: int, config: Config | None = None) -> Game:
     if config.gold_pairs + config.iron_pairs > len(available):
         raise ValueError("not enough open tiles for deposits")
     for kind, count in (("gold", config.gold_pairs), ("iron", config.iron_pairs)):
-        selected = rng.sample(available, count)
+        if config.resource_layout == "uniform" or count == 0:
+            # Preserve the historical default RNG and distribution exactly.
+            selected = rng.sample(available, count)
+        else:
+            # Select a handful of seeded cluster anchors. Each pair includes its
+            # 180-degree mirror, preserving identical resource geography for
+            # both players. No hidden map information goes to the bots.
+            anchor_count = min(len(available), max(1, min(3, count // 8)))
+            anchors = rng.sample(available, anchor_count)
+            def proximity(pair: tuple[Point, Point]) -> int:
+                return min(abs(p[0] - q[0]) + abs(p[1] - q[1])
+                           for p in pair for anchor in anchors for q in anchor)
+            selected = sorted(available, key=lambda pair: (proximity(pair), rng.random()))[:count]
+        chosen = set(selected)
+        available = [pair for pair in available if pair not in chosen]
         for pair in selected:
-            available.remove(pair)
             quantity = rng.randint(config.deposit_min, config.deposit_max)
             for x, y in pair:
                 cells[y][x].resource = kind
                 cells[y][x].quantity = quantity
 
-    colonies = [Colony(id=player, bases=[home]) for player, home in enumerate(homes)]
+    colonies = [Colony(id=player, bases=[home], iron=config.initial_banked_iron)
+                for player, home in enumerate(homes)]
     rovers = {f"p{player}-r{index}": Rover(f"p{player}-r{index}", player, *home)
               for player, home in enumerate(homes)
               for index in range(config.starting_rovers)}
