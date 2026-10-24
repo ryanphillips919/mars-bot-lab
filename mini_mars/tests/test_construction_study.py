@@ -23,6 +23,15 @@ class ConstructionStudyTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "no configurations"):
                 run_study("validate", output_root=Path(directory), sizes=[17])
 
+    def test_selected_bank_and_matched_control(self):
+        with tempfile.TemporaryDirectory() as directory:
+            study = run_study("screen", case_limit=1, count=1,
+                              candidates=["coordinated-planned-build"],
+                              baselines=["coordinated-planned-no-build"],
+                              banks=["0"], output_root=Path(directory))
+            self.assertEqual(len(study["cases"]), 1)
+            self.assertEqual(study["cases"][0]["config"]["initial_banked_iron"], 0)
+
     def test_paired_screen_smoke(self):
         with tempfile.TemporaryDirectory() as directory:
             study = run_study("screen", case_limit=1,

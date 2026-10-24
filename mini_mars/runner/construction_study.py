@@ -39,11 +39,14 @@ def run_study(stage: str, case_limit: int | None = None, candidates: list[str] |
               seed: int | None = None, sizes: list[int] | None = None,
               turns: list[int] | None = None, costs: list[int] | None = None,
               layouts: list[str] | None = None, rovers: int = 3,
-              baselines: list[str] | None = None) -> dict:
+              baselines: list[str] | None = None,
+              banks: list[str] | None = None) -> dict:
     if stage not in {"screen", "validate"} or rovers < 1:
         raise ValueError("invalid stage or rover count")
     if count is not None and count < 1:
         raise ValueError("matches must be positive")
+    if banks is not None and (not banks or set(banks) - {"0", "funded"}):
+        raise ValueError("banks must contain 0 or funded")
     count = count or (20 if stage == "screen" else 100)
     seed = seed if seed is not None else (SCREEN_SEED if stage == "screen" else VALIDATION_SEED)
     output_root = output_root or RESULTS / "benchmarks" / "construction-expansion-v1" / stage
@@ -68,7 +71,10 @@ def run_study(stage: str, case_limit: int | None = None, candidates: list[str] |
     rows = []
     for config in combos:
         for baseline, candidate in comparisons:
-            for bank in (0, config.base_cost_iron):
+            bank_values = [("0", 0), ("funded", config.base_cost_iron)]
+            for label, bank in bank_values:
+                if banks is not None and label not in banks:
+                    continue
                 name = case_name(config, baseline, candidate, bank)
                 current_config = expansion_config(config.width, config.turns,
                                                   config.base_cost_iron, config.resource_layout,
@@ -119,6 +125,7 @@ def main():
     parser.add_argument("--cost", action="append", type=int, choices=(4, 6, 8))
     parser.add_argument("--layout", action="append", choices=("uniform", "clustered"))
     parser.add_argument("--rovers", type=int, default=3)
+    parser.add_argument("--bank", action="append", choices=("0", "funded"))
     parser.add_argument("--matches", type=int)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--output", type=Path, required=True,
@@ -127,7 +134,7 @@ def main():
     evidence = run_study(args.stage, args.case_limit, args.candidate, args.matches,
                          seed=args.seed, sizes=args.size, turns=args.turns,
                          costs=args.cost, layouts=args.layout, rovers=args.rovers,
-                         baselines=args.baseline)
+                         baselines=args.baseline, banks=args.bank)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as stream:
         json.dump(evidence, stream, indent=2)
