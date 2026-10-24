@@ -31,6 +31,8 @@ class MatchMetrics:
         self.longest_economic_idle_streak = [0, 0]
         self.last_opportunities: dict[str, bool] = {}
         self.build_audit = [Counter(), Counter()]
+        self.base_usage = [Counter(), Counter()]
+        self.base_events = [[], []]
         self.site_audit = [Counter(), Counter()]
         self.discovered = [set(), set()]
         self._reveal()
@@ -174,6 +176,14 @@ class MatchMetrics:
                     if event["resource"] == "gold" and self.milestones[player]["first_gold_mine_turn"] is None:
                         self.milestones[player]["first_gold_mine_turn"] = observations[player]["turn"]
                 elif kind == "deposit":
+                    deposit_point = self.game.rovers[rover_id].position
+                    base_index = self.game.colonies[player].bases.index(deposit_point)
+                    self.base_usage[player][f"base_{base_index}_gold"] += event["gold"]
+                    if event["gold"]:
+                        self.base_usage[player][f"base_{base_index}_gold_deliveries"] += 1
+                        if base_index:
+                            self.base_usage[player]["constructed_base_gold"] += event["gold"]
+                            self.base_usage[player]["constructed_base_gold_deliveries"] += 1
                     for resource in ("gold", "iron"):
                         self.economy[player][f"{resource}_deposited"] += event[resource]
                     if self.milestones[player]["first_resource_deposit_turn"] is None:
@@ -181,8 +191,11 @@ class MatchMetrics:
                     if event["gold"] and self.milestones[player]["first_gold_deposit_turn"] is None:
                         self.milestones[player]["first_gold_deposit_turn"] = observations[player]["turn"]
                 else:
+                    self.base_events[player].append({"turn": observations[player]["turn"],
+                                                      "x": event["x"], "y": event["y"]})
                     self.economy[player]["iron_spent_on_bases"] += self.game.config.base_cost_iron
                     self.economy[player]["bases_built"] += 1
+                    self.economy[player]["build_turn_sum"] += observations[player]["turn"]
         for rover_id in actions:
             if rover_id not in effected:
                 self.economy[self.game.rovers[rover_id].player]["no_effect_rover_turns"] += 1
@@ -199,7 +212,7 @@ class MatchMetrics:
                                    if rover.player == player) for resource in ("gold", "iron")}
             economy = {name: self.economy[player][name] for name in (
                 "gold_mined", "gold_deposited", "iron_mined", "iron_deposited",
-                "iron_spent_on_bases", "bases_built", "no_effect_rover_turns")}
+                "iron_spent_on_bases", "bases_built", "build_turn_sum", "no_effect_rover_turns")}
             economy["gold_in_cargo_at_end"] = cargo["gold"]
             economy["iron_in_cargo_at_end"] = cargo["iron"]
             diagnostics = {name: self.economic_diagnostics[player][name] for name in (
@@ -235,6 +248,7 @@ class MatchMetrics:
                     "map_explored_percent": 100 * len(colony.known) / (self.game.config.width * self.game.config.height),
                     "resource_deposits_discovered": len(self.discovered[player]),
                 },
+                "base_usage": dict(sorted(self.base_usage[player].items())),
                 "construction_audit": dict(sorted(self.build_audit[player].items())),
                 "site_audit_ignoring_iron": dict(sorted(self.site_audit[player].items())),
             })

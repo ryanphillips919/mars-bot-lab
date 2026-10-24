@@ -32,14 +32,16 @@ ALIASES = {"random", "starter", "greedy", "greedy-no-cargo-guard", "value", "ind
            "coordinated-stable",
            "coordinated-frontier-scored", "coordinated-adaptive",
            "coordinated-nearest", "coordinated-no-endgame",
-           "coordinated-payback-build",
+           "coordinated-payback-build", "coordinated-scaling-build", "coordinated-planned-build",
+           "coordinated-planned-no-build",
            "coordinated-no-explore", "coordinated-gold-only"}
 MAX_LINE = 1_000_000
 
 
 def source_hashes() -> dict[str, str]:
     files = ("mini_mars/engine/game.py", "mini_mars/scenarios.py", "mini_mars/bots/strategies.py",
-             "mini_mars/bots/entry.py", "mini_mars/bots/competition_starter.py", "mini_mars/runner/match.py",
+             "mini_mars/bots/entry.py", "mini_mars/bots/competition_starter.py",
+             "mini_mars/bots/construction.py", "mini_mars/runner/construction_study.py", "mini_mars/runner/match.py",
              "mini_mars/runner/tournament.py", "mini_mars/runner/metrics.py",
              "mini_mars/runner/benchmark.py", "mini_mars/runner/benchmark_v2.py",
              "mini_mars/runner/reliability.py", "mini_mars/runner/reliability_benchmark.py",

@@ -92,3 +92,10 @@ make demo-lux
 | `results/` | Ignored match artifacts |
 
 Halite III's MIT source license and the four dependencies' license details are documented in the [investigation report](docs/halite-iii-investigation-20261021.md). This setup does not add or change the Mars Bot Lab Git remote.
+
+## Base-construction research branch
+
+The experimental [construction expansion study](mini_mars/docs/construction-expansion-study.md)
+adds larger seeded Mini Mars maps, clustered resource layouts, a deliberate
+base-planning bot, and reproducible paired comparison commands. It is not an
+official Lucid ruleset or a validated competition-day recommendation.

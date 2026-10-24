@@ -132,3 +132,10 @@ BFS is `O(V + E)` on known tiles (at most 225 here). Greedy runs one BFS per rov
 The tournament report records paired scores and intervals from clean, complete seed pairs. A separate reliability section counts every attempted game, faults, invalid actions, bot-reported decision errors, and exceptions, including games excluded from paired scoring. Match and tournament behavior sections distinguish submitted action types, normalized engine actions (including implicit waits), and actions that changed state. Successful mining, deposits, and builds come from engine events. An effect-free rover turn includes waits and accepted actions that did nothing; movement is counted separately and is not labeled economically productive. Optional diagnostic targets let built-in bots distinguish moves toward known gold or bases from moves toward other targets while deliverable gold is known. Decision latency includes subprocess and JSON overhead, not just algorithm time.
 
 Future comparisons that fit this platform include BFS versus A* or cached paths, but pathfinder changes should be tested separately from the allocation and exploration experiments above. Weighted Dijkstra, min-cost flow, cross-language equivalents, and parallel candidate evaluation can follow only if these simpler comparisons show value.
+
+## Expanded construction experiments (experimental)
+
+See [construction expansion study](construction-expansion-study.md) for the
+54-configuration research matrix, seeded clustered maps, a new colony-wide
+construction planner, equal-initial-iron controls, and reproduction commands.
+Historical results and the competition starter remain unchanged.

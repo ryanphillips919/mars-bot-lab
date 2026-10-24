@@ -12,13 +12,15 @@ import sys
 import time
 
 from mini_mars.bots.competition_starter import StarterBot
+from mini_mars.bots.construction import PlannedConstructionBot
 from mini_mars.bots.strategies import CoordinatedGreedy, StrategySettings
 from mini_mars.engine.game import Config, make_game, observation
 
 from .match import ROOT, source_hashes, source_revision
 
 
-FIXTURES = ((15, 3, 8, 9, 6), (25, 10, 20, 30, 15), (35, 30, 40, 60, 30))
+FIXTURES = ((15, 3, 8, 9, 6), (25, 10, 20, 30, 15), (35, 30, 40, 60, 30),
+            (50, 10, 89, 100, 67))
 
 
 def measure(repetitions: int = 30) -> dict:
@@ -36,7 +38,8 @@ def measure(repetitions: int = 30) -> dict:
                 ("coordinated-harvest-first", lambda: CoordinatedGreedy(
                     StrategySettings(gold_priority=True))),
                 ("coordinated-harvest-stable", lambda: CoordinatedGreedy(
-                    StrategySettings(gold_priority=True, stable_targets=True)))):
+                    StrategySettings(gold_priority=True, stable_targets=True))),
+                ("coordinated-planned-build", PlannedConstructionBot)):
             samples = []
             for _ in range(repetitions):
                 bot = factory()  # Identical initial persistent state each time.
