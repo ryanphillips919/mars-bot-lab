@@ -53,6 +53,9 @@ class PlannedConstructionTests(unittest.TestCase):
     def test_rejects_plan_without_payback_or_iron(self):
         bot = PlannedConstructionBot()
         game = remote_gold_game(initial_iron=0)
+        game.cell((2, 1)).quantity = 3
+        reveal(game)
+        self.assertIsNone(bot._choose_plan(observation(game, 0), known_cells(observation(game, 0))))
         game.cell((2, 1)).quantity = 0
         reveal(game)
         self.assertIsNone(bot._choose_plan(observation(game, 0), known_cells(observation(game, 0))))

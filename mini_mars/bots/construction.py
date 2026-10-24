@@ -71,7 +71,7 @@ class PlannedConstructionBot(CoordinatedGreedy):
         # Expansion requires known reachable iron unless already funded.
         iron = [(p, c) for p, c in cells.items()
                 if c["resource"] == "iron" and c["quantity"] > 0 and p in home]
-        if deficit and not iron:
+        if deficit and sum(cell["quantity"] for _, cell in iron) < deficit:
             return None
         acquisition = 0.0
         if deficit:
