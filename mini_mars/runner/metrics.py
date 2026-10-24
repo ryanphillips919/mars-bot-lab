@@ -244,7 +244,6 @@ class MatchMetrics:
                     "resource_deposits_discovered": len(self.discovered[player]),
                 },
                 "base_usage": dict(sorted(self.base_usage[player].items())),
-                "base_construction_events": self.base_events[player],
                 "construction_audit": dict(sorted(self.build_audit[player].items())),
                 "site_audit_ignoring_iron": dict(sorted(self.site_audit[player].items())),
             })
