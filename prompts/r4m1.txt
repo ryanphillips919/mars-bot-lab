@@ -1,0 +1,57 @@
+Yes—**have his ChatGPT independently challenge our strategy.** We’ve already done a lot of testing within our simulator; the bigger remaining risk is that our simulator’s assumptions don’t match tomorrow’s game.
+
+Give him the official event description and a copy of `mini_mars` with its documentation. If he only gets the event description, use the first prompt.
+
+I’d run these in separate conversations so the conclusions stay reasonably independent:
+
+**1. Find ways our preparation could mislead us — highest priority**
+
+> We are preparing for a programming competition tomorrow. The official description says: “Write code to control rovers, gather iron and gold, build bases, explore Mars, and outsmart the competition.”
+>
+> We built a practice simulator and several bots, but we do not yet have the official game API or complete rules.
+>
+> Independently analyze which unknown rules could most dramatically change the winning strategy. Consider scoring, resource depletion, cargo capacity, movement costs, fog of war, rover collisions, simultaneous actions, construction costs, base placement, rover production, opponent interaction, and match duration.
+>
+> Clearly distinguish official information, assumptions in our practice environment, and your own hypotheses. Do not treat our simulator as evidence of how the official game works.
+>
+> Produce:
+> - The ten highest-impact unknowns, ranked.
+> - For each, what we should inspect in the official rules/code and how different answers change our strategy.
+> - A practical first-15-minutes checklist for when we receive the actual game.
+> - Three simple strategies that work across a broad range of plausible rules.
+> - Preparation we should avoid spending more time on because it depends too heavily on invented rules.
+>
+> If browsing is available, search for relevant official competition materials. Cite sources and distinguish previous events from this year. Do not invent missing details. Prioritize actionable conclusions over a long report.
+
+**2. Independently audit our bot and experiments**
+
+> Review the attached Mars Bot Lab code and documentation as an independent skeptical reviewer. Our goal is to prepare for an unfamiliar rover/resource programming competition, not to maximize performance only in our own simulator.
+>
+> Look for:
+> - Bugs that could silently lose games.
+> - Simulator behavior that gives our bot an unrealistic advantage.
+> - Unfair comparisons between strategies.
+> - Overfitting to particular seeds, map sizes, resource distributions, or match lengths.
+> - Cases where exploration, mining, returning cargo, or building a base becomes counterproductive.
+> - Coordination failures between multiple rovers.
+> - Missing tests that would distinguish a sound strategy from a lucky result.
+>
+> Run tests and experiments if your environment supports execution. Use held-out seeds and matched conditions when comparing policies. Keep experiments bounded and reproducible.
+>
+> For each finding, give the file/function, concrete failure scenario, severity, and evidence. Separate demonstrated bugs from plausible concerns. Do not claim to have run anything you did not run.
+>
+> Finish with the five changes most worth making before the event, and explicitly say if leaving the code alone would be wiser than adding more complexity.
+
+**3. Build an adaptation playbook**
+
+> We will receive an unfamiliar rover game API during a time-limited programming competition. Prepare a concise Python implementation playbook for adapting quickly.
+>
+> Cover parsing observations, identifying legal actions, shortest-path navigation, persistent state if supported, assigning rovers to targets, returning cargo before the game ends, and handling invalid or failed actions.
+>
+> Start with the smallest useful bot: collect a reachable resource and deliver it safely. Then describe improvements in order of expected value and implementation risk.
+>
+> Include a checklist for discovering whether our process restarts each turn, what state persists, execution limits, coordinate conventions, movement rules, and action timing.
+>
+> Provide small reusable Python patterns where helpful, but do not invent an official API or build a large speculative framework. Finish with a one-page competition reference.
+
+**If you only run one, choose #1.** A fresh assessment of what we might be assuming incorrectly is probably worth more now than another round of tuning the same bot. Have him bring back the **top five findings and supporting evidence** tomorrow—you shouldn’t need to read three giant reports before competing.
