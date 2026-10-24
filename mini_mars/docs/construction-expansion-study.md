@@ -68,6 +68,8 @@ Those full-policy comparisons **do not isolate construction**. The planner also 
     python3 -m mini_mars.runner.construction_study validate --size 50 --turns 100 --cost 4 --layout uniform --candidate coordinated-planned-build --baseline coordinated-planned-no-build --bank 0 --matches 100 --seed 95000 --output /tmp/construction-short-large-validation.json
     python3 -m mini_mars.runner.profile_decisions --repetitions 5 --output /tmp/construction-profile.json
 
+No GitHub Actions workflows are configured for this research project; run the tests and experiments locally.
+
 The tracked evidence includes all completed screen cases, including earlier code snapshots and repeated smoke configurations. Use its source hashes when comparing them. The original 100-seed uniform validations preceded the clustered quantity fix; the uniform-map regression demonstrates their physical maps are unchanged. Repeating a command with a new output path is required because the CLI will not overwrite a report.
 
 **Strategic guidance for this invented economy:** build when a reachable, sufficiently rich remote region can support repeated deliveries before the deadline and iron can be acquired without consuming most of that payoff. A long horizon on a large map made repeated expansion exceptionally productive. On short uniform maps with eight-iron bases and no starting iron, the gain was indistinguishable from zero; prioritize bankable gold instead. Clustered placement and free initial iron shifted that boundary toward construction. These are tested Mini Mars conditions and hypotheses to check against official rules, not a recommendation to port this planner before a legal Lucid scoring match exists.
