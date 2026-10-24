@@ -8,6 +8,7 @@ import sys
 
 from .strategies import CoordinatedGreedy, GreedyMiner, RandomBot, StrategySettings, ValueGreedy
 from .competition_starter import StarterBot
+from .construction import PlannedConstructionBot
 
 
 BOT_NAMES = ("random", "starter", "greedy", "greedy-no-cargo-guard", "value", "independent", "coordinated",
@@ -18,7 +19,7 @@ BOT_NAMES = ("random", "starter", "greedy", "greedy-no-cargo-guard", "value", "i
              "coordinated-stable",
              "coordinated-frontier-scored", "coordinated-adaptive",
              "coordinated-nearest", "coordinated-no-endgame",
-             "coordinated-payback-build",
+             "coordinated-payback-build", "coordinated-scaling-build", "coordinated-planned-build",
              "coordinated-no-explore", "coordinated-gold-only")
 
 
@@ -53,6 +54,9 @@ def main() -> None:
         "coordinated-nearest": lambda: CoordinatedGreedy(StrategySettings(frontier_policy="nearest")),
         "coordinated-no-endgame": lambda: CoordinatedGreedy(StrategySettings(endgame_enabled=False)),
         "coordinated-payback-build": lambda: CoordinatedGreedy(StrategySettings(build_policy="payback")),
+        "coordinated-scaling-build": lambda: CoordinatedGreedy(StrategySettings(
+            build_policy="payback", horizon_scaled=True)),
+        "coordinated-planned-build": PlannedConstructionBot,
         "coordinated-no-explore": lambda: CoordinatedGreedy(StrategySettings(exploration_weight=0)),
         "coordinated-gold-only": lambda: CoordinatedGreedy(StrategySettings(iron_enabled=False,
                                                                             build_enabled=False)),

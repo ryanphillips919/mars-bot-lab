@@ -271,6 +271,7 @@ class StrategySettings:
     adaptive_exploration: bool = False
     stable_targets: bool = False
     marginal_cargo_return: bool = False
+    horizon_scaled: bool = False
 
 
 def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
@@ -297,7 +298,7 @@ def task_candidates(observation: dict, rover: dict, cells: dict[Point, dict],
             resource_weight = 1.0
         elif not settings.iron_enabled:
             continue
-        elif observation["bank"]["iron"] < observation["constants"]["base_cost_iron"] and observation["turn"] < 60:
+        elif observation["bank"]["iron"] < observation["constants"]["base_cost_iron"] and observation["turn"] < (0.6 * observation["constants"]["turns"] if settings.horizon_scaled else 60):
             resource_weight = settings.early_iron_weight
         else:
             resource_weight = settings.late_iron_weight
@@ -341,7 +342,7 @@ def construction_reason(observation: dict, rover: dict, cells: dict[Point, dict]
         return "disabled"
     if not ignore_bank and observation["bank"]["iron"] < observation["constants"]["base_cost_iron"]:
         return "insufficient_iron"
-    if settings.build_policy == "heuristic" and observation["turn"] > 65:
+    if settings.build_policy == "heuristic" and observation["turn"] > (0.65 * observation["constants"]["turns"] if settings.horizon_scaled else 65):
         return "turn_cutoff"
     point = (rover["x"], rover["y"])
     bases = [(base["x"], base["y"]) for base in observation["bases"]]
